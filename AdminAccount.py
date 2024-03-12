@@ -7,10 +7,12 @@ class AdminAccount(BaseUser):
         self.__password = password
         self.__phone_number = phone_number
 
-    def create_tariff(self, cost_one_gb, cost_one_minute, price, gb, minute):
-        pass
+    @staticmethod
+    def create_tariff(self, cost_one_gb: int, cost_one_minute: int,
+                      price: int, gb: int, minute: int) -> Tariff:
+        return Tariff(cost_one_gb, cost_one_minute, price, gb, minute)
 
     @staticmethod
-    def change_tariff(self, old_tariff: Tariff, cost_one_gb, cost_one_minute, price, gb, minute) -> None:
+    def change_tariff(self, old_tariff: Tariff, cost_one_gb: int,
+                      cost_one_minute: int, price: int, gb: int, minute: int) -> None:
         old_tariff.change_tariff(cost_one_gb, cost_one_minute, price, gb, minute)
-        pass
