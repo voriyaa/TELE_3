@@ -1,11 +1,29 @@
+from hashlib import sha256
+from BaseUser import BaseUser, Column, String, Integer
+from sqlalchemy.orm import relationship
+from Tariff import Tariff
+
+
+def sha256_str(item):
+    return sha256(str(item).encode()).hexdigest()
+
+
 class UserAccount(BaseUser):
+    __tablename__ = 'user_account'
+
+    __user_name = Column(String(50), unique=True)
+    __password = Column(String(50), unique=False)
+    __phone_number = Column(String(15), unique=True)
+    __gb = Column(Integer, unique=False, nullable=True)
+    __balance = Column(Integer, unique=False, nullable=True)
+    __main_tariff = relationship(Tariff)
 
     def __init__(self, first_name: str, last_name: str, birth_date: str,
                  passport_id: int, sex: str, username: str, password: str,
                  phone_number: str, main_tariff: Tariff = None) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.__username = username
-        self.__password = password
+        self.__password = sha256_str(password)
         self.__phone_number = phone_number
         self.__gb = 0
         self.__minutes = 0

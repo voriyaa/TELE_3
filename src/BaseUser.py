@@ -1,4 +1,18 @@
-class BaseUser:
+from sqlalchemy import Column, String, Integer, BigInteger
+from sqlalchemy.orm import declarative_base
+Base = declarative_base()
+
+
+class BaseUser(Base):
+    __abstract__ = True
+
+    id = Column(Integer, primary_key=True)
+
+    __first_name = Column(String(50), unique=False)
+    __last_name = Column(String(50), unique=False)
+    __birth_date = Column(String(15), unique=False)
+    __passport_id = Column(BigInteger, unique=True, nullable=False)
+    __sex = Column(String(1), unique=False)
 
     def __init__(self, first_name: str, last_name: str,
                  birth_date: str, passport_id: int, sex: str) -> None:

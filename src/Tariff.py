@@ -1,7 +1,17 @@
+from sqlalchemy import Column, String, Integer
+
+
 class Tariff:
+    __tablename__ = 'tariffs'
+
+    __cost_gb = Column(Integer, unique=False, nullable=True)
+    __cost_one_minute = Column(Integer, unique=False, nullable=True)
+    __gb = Column(Integer, unique=False, nullable=True)
+    __minute = Column(Integer, unique=False, nullable=True)
+    __price = Column(Integer, unique=False, nullable=True)
 
     def __init__(self, cost_one_gb: int, cost_one_minute: int,
-                 price: int, gb: int = 0, minute: int = 0,) -> None:
+                 price: int, gb: int = 0, minute: int = 0, ) -> None:
         self.__cost_one_gb = cost_one_gb
         self.__cost_one_minute = cost_one_minute
         self.__gb = gb
@@ -30,4 +40,3 @@ class Tariff:
 
     def get_price(self):
         return self.__price
-

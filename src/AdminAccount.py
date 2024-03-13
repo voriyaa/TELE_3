@@ -1,4 +1,14 @@
+from BaseUser import BaseUser, Column, String, Integer
+from sqlalchemy.orm import relationship
+from Tariff import Tariff
+
+
 class AdminAccount(BaseUser):
+    __tablename__ = 'admin_account'
+
+    __user_name = Column(String(50), unique=True)
+    __password = Column(String(50), unique=False)
+    __phone_number = Column(String(15), unique=True)
 
     def __init__(self, first_name, last_name, birth_date, passport_id, sex,
                  username: str, password: str, phone_number: str) -> None:

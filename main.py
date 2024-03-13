@@ -1,2 +1,3 @@
+from
 if __name__ == "main":
-    pass
+    App.Run()
