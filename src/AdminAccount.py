@@ -1,6 +1,11 @@
 from BaseUser import BaseUser, Column, String, Integer
 from sqlalchemy.orm import relationship
 from Tariff import Tariff
+from hashlib import sha256
+
+
+def sha256_str(item):
+    return sha256(str(item).encode()).hexdigest()
 
 
 class AdminAccount(BaseUser):
@@ -14,7 +19,7 @@ class AdminAccount(BaseUser):
                  username: str, password: str, phone_number: str) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.__username = username
-        self.__password = password
+        self.__password = sha256_str(password)
         self.__phone_number = phone_number
 
     @staticmethod
@@ -26,3 +31,9 @@ class AdminAccount(BaseUser):
     def change_tariff(self, old_tariff: Tariff, cost_one_gb: int,
                       cost_one_minute: int, price: int, gb: int, minute: int) -> None:
         old_tariff.change_tariff(cost_one_gb, cost_one_minute, price, gb, minute)
+
+    def get_username(self) -> str:
+        return self.__username
+
+    def get_password(self) -> str:
+        return self.__password

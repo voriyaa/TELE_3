@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, BigInteger
 from sqlalchemy.orm import declarative_base
+
 Base = declarative_base()
 
 
@@ -36,10 +37,3 @@ class BaseUser(Base):
 
     def get_sex(self) -> str:
         return self.__sex
-
-
-
-
-
-
-
