@@ -1,10 +1,11 @@
 from sqlalchemy import Column, String, Integer
+from BaseUser import Base
 
 
-class Tariff:
-    __tablename__ = 'tariffs'
-
-    __cost_gb = Column(Integer, unique=False, nullable=True)
+class Tariff(Base):
+    __tablename__ = 'tariff'
+    id = Column(Integer, primary_key=True)
+    __cost_one_gb = Column(Integer, unique=False, nullable=True)
     __cost_one_minute = Column(Integer, unique=False, nullable=True)
     __gb = Column(Integer, unique=False, nullable=True)
     __minute = Column(Integer, unique=False, nullable=True)
