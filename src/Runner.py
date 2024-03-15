@@ -24,11 +24,11 @@ class App:
 
     @staticmethod
     def run():
-        print(f"Привет, вы кто?:\n")
-        variant = int(input(f"1. Админ\n 2. Пользователь\n [1/2]?: "))
+        print(f"Привет, вы кто?")
+        variant = int(input(f"1. Админ\n2. Пользователь\n[1/2]?: "))
         while True:
             if int(variant) not in [1, 2]:
-                variant = int(input(f"Выберите правильный вариант\n [1/2]?: "))
+                variant = int(input(f"Выберите правильный вариант\n[1/2]?: "))
                 continue
             break
 
@@ -38,10 +38,10 @@ class App:
             while key != '12345':
                 key = input("Неверный код доступа, введите еще раз: ")
 
-            variant = int(input(f"1. Зарегистрироваться\n 2. Войти в аккаунт\n [1/2]?: "))
+            variant = int(input(f"1. Зарегистрироваться\n2. Войти в аккаунт\n[1/2]?: "))
             while True:
                 if int(variant) not in [1, 2]:
-                    variant = int(input(f"Выберите правильный вариант\n [1/2]?: "))
+                    variant = int(input(f"Выберите правильный вариант\n[1/2]?: "))
                     continue
                 break
 
@@ -57,7 +57,6 @@ class App:
 
                 Admin = AdminAccount(first_name, last_name, birth_date, passport_id, sex,
                                      username, password, phone_number)
-                print("voris")
                 s.add(Admin)
                 s.commit()
             else:
@@ -66,7 +65,7 @@ class App:
                 result = s.query(AdminAccount).filter(
                     AdminAccount._AdminAccount__username == username and AdminAccount._AdminAccount__password == password).all()
                 while len(result) == 0:
-                    print("Вы ввели неправильный пароль или логин, попробуйте еще раз\n")
+                    print("Вы ввели неправильный пароль или логин, попробуйте еще раз")
                     username = input(f"Введите логин: ")
                     password = sha256_str(input(f"Введите пароль: "))
                     result = s.query(AdminAccount).filter(
@@ -74,11 +73,11 @@ class App:
                 Admin = result[0]
             while True:
                 variant = int(
-                    input("Выбери что вы хотите сделать\n 1. Создать Тариф\n 2. Поменять Тариф\n [1/2]?:"))
+                    input("Выбери что вы хотите сделать\n 1. Создать Тариф\n 2. Поменять Тариф\n 3. Список Тарифов\n[1/2/3]?:"))
                 while True:
-                    if variant not in [1, 2]:
+                    if variant not in [1, 2, 3]:
                         variant = int(
-                            input("Выбери правильный вариант\n 1. Создать Тариф\n 2. Поменять Тариф\n [1/2]?:"))
+                            input("Выбери правильный вариант\n 1. Создать Тариф\n 2. Поменять Тариф\n 3. Список Тарифов\n[1/2/3]?:"))
                         continue
                     break
                 if variant == 1:
@@ -87,17 +86,41 @@ class App:
                     gb = int(input("Объем гигайбайтов в тарифе: "))
                     minute = int(input("Объем минут в тарифе: "))
                     price = int(input("Задайте цену тарифа: "))
-                    print(type(Admin))
                     new_tariff = Admin.create_tariff(cost_one_gb, cost_one_minute, gb, minute, price)
                     s.add(new_tariff)
                     s.commit()
+                elif variant == 2:
+                    list_of_tariff = s.query(Tariff)
+                    print(f"Список услуг:")
+                    for elem in list_of_tariff:
+                        print(
+                            f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. | {elem.get_cost_one_gb()}руб/гб. "
+                            f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+                    option = int(input("Выберите опцию(номер услуги): "))
+                    while not (list_of_tariff).id <= option <= (list_of_tariff[list_of_tariff.count() - 1]).id:
+                        option = int(input("Выберите правильную опцию(номер услуги из предлогаемых): "))
+                    cost_one_gb = int(input("Задайте новую цену одного гигибайта: "))
+                    cost_one_minute = int(input("Задайте новую цену одного мегабайта: "))
+                    gb = int(input("Новый объем гигайбайтов в тарифе: "))
+                    minute = int(input("Новый объем минут в тарифе: "))
+                    price = int(input("Задайте новую цену тарифа: "))
+                    tariff = s.query(Tariff).filter(Tariff.id == option).all()[0];
+                    Admin.change_tariff(tariff, cost_one_gb, cost_one_minute, price, gb, minute)
+                    s.add(tariff)
+                    s.commit()
                 else:
-                    print("Эта функция еще недоступна")
+                    list_of_tariff = s.query(Tariff)
+                    print(f"Список услуг:")
+                    for elem in list_of_tariff:
+                        print(
+                            f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. | {elem.get_cost_one_gb()}руб/гб. "
+                            f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+
         else:
-            variant = int(input(f"1. Зарегистрироваться\n 2. Войти в аккаунт\n [1/2]?: "))
+            variant = int(input(f"1. Зарегистрироваться\n2. Войти в аккаунт\n[1/2]?: "))
             while True:
                 if int(variant) not in [1, 2]:
-                    variant = int(input(f"Выберите правильный вариант\n [1/2]?: "))
+                    variant = int(input(f"Выберите правильный вариант\n[1/2]?: "))
                     continue
                 break
 
@@ -131,7 +154,7 @@ class App:
                 result = s.query(UserAccount).filter(
                     UserAccount._UserAccount__username == username and UserAccount._UserAccount__password == password).all()
                 while len(result) == 0:
-                    print("Вы ввели неправильный пароль или логин, попробуйте еще раз\n")
+                    print("Вы ввели неправильный пароль или логин, попробуйте еще раз")
                     username = input(f"Введите логин: ")
                     password = sha256_str(input(f"Введите пароль: "))
                     result = s.query(UserAccount).filter_by(
@@ -139,9 +162,9 @@ class App:
                 User = result[0]
             while True:
                 while (variant := int(
-                        input(f"Выберите что вы хотите сделать\n 1. Мой профиль \n 2. Поделится гигабайтами \n"
-                              f" 3. Поделится минутами \n 4. Пополнить баланс \n 5. Поменять тариф \n"
-                              f" 6. Купить гигабайты \n 7. Купить минуты\n [1,...,8]?: "))) not in [1, 2, 3, 4, 5, 6,
+                        input(f"Выберите что вы хотите сделать\n 1. Мой профиль\n 2. Поделится гигабайтами\n"
+                              f" 3. Поделится минутами\n 4. Пополнить баланс\n 5. Поменять тариф\n"
+                              f" 6. Купить гигабайты\n 7. Купить минуты\n 8. Оплатить тариф \n[1,...,8]?: "))) not in [1, 2, 3, 4, 5, 6,
                                                                                                     7, 8]:
                     continue
                 match variant:
@@ -183,8 +206,9 @@ class App:
                                 sum = int(input("Введите корректную сумму: "))
                                 continue
                             break
+                        print(type(User))
                         User.deposit(sum)
-                        s.add(result)
+                        s.add(User)
                         s.commit()
                     case 5:
                         list_of_tariff = s.query(Tariff)
@@ -197,6 +221,25 @@ class App:
                         User.set_tariff(tariff)
                         s.add(User)
                         s.commit()
-
+                    case 6:
+                        value = int(
+                            input(f"Сколько гб хотите приобрести по стоимости: {User.get_tariff().get_cost_one_gb()}руб/гб.?: "))
+                        while value <= 0:
+                            value = int(input(f"Введите корректное число: "))
+                        print(User.buy_gb(value))
+                        s.add(User)
+                        s.commit()
+                    case 7:
+                        value = int(
+                            input(f"Сколько минут хотите приобрести по стоимости: {User.get_tariff().get_cost_one_minute()}руб/мин.?: "))
+                        while value <= 0:
+                            value = int(input(f"Введите корректное число: "))
+                        print(User.buy_minute(value))
+                        s.add(User)
+                        s.commit()
+                    case 8:
+                        print(User.pay_tariff())
+                        s.add(User)
+                        s.commit()
 
 App.run()

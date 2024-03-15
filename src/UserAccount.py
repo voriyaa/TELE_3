@@ -64,7 +64,7 @@ class UserAccount(BaseUser):
         if self.get_gb() >= value:
             other.set_gb(other.get_gb() + value)
             self.set_gb(self.get_gb() - value)
-            return "Успешно"
+            return "Успешно!"
         else:
             return "Недостаточно гигабайтов на балансе"
 
@@ -72,7 +72,7 @@ class UserAccount(BaseUser):
         if self.get_minutes() >= value:
             other.set_minutes(other.get_minutes() + value)
             self.set_minutes(self.get_minutes() - value)
-            return "Успешно"
+            return "Успешно!"
         else:
             return "Недостаточно минут на балансе"
 
@@ -81,6 +81,14 @@ class UserAccount(BaseUser):
 
     def get_tariff(self) -> Tariff:
         return self.__main_tariff
+
+    def pay_tariff(self):
+        if self.get_tariff().get_price() >= self.get_balance():
+            return "Недостаточно денег на балансе, пополните пожалуйста ваш баланс"
+        self.set_gb(self.get_gb() + self.get_tariff().get_gb())
+        self.set_minutes(self.get_minutes() + self.get_tariff().get_minutes())
+        self.set_balance(self.get_balance() - self.get_tariff().get_price())
+        return "Успешно!"
 
     def set_tariff(self, new_tariff: Tariff) -> None:
         self.__main_tariff = new_tariff
