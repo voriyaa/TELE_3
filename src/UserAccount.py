@@ -1,4 +1,7 @@
 from hashlib import sha256
+
+from sqlalchemy import ForeignKey
+
 from BaseUser import BaseUser, Column, String, Integer
 from sqlalchemy.orm import relationship
 from Tariff import Tariff
@@ -17,7 +20,9 @@ class UserAccount(BaseUser):
     __phone_number = Column(String(15), unique=True)
     __gb = Column(Integer, unique=False, nullable=True)
     __minutes = Column(Integer, unique=False, nullable=True)
+    tariff_id = Column(Integer, ForeignKey('tariff.id'))
     __balance = Column(Integer, unique=False, nullable=True)
+    __main_tariff = relationship("Tariff")
 
     def __init__(self, first_name: str, last_name: str, birth_date: str,
                  passport_id: int, sex: str, username: str, password: str,

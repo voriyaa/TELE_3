@@ -142,7 +142,7 @@ class App:
                         input(f"Выберите что вы хотите сделать\n 1. Мой профиль \n 2. Поделится гигабайтами \n"
                               f" 3. Поделится минутами \n 4. Пополнить баланс \n 5. Поменять тариф \n"
                               f" 6. Купить гигабайты \n 7. Купить минуты\n [1,...,8]?: "))) not in [1, 2, 3, 4, 5, 6,
-                                                                                                   7, 8]:
+                                                                                                    7, 8]:
                     continue
                 match variant:
                     case 1:
@@ -185,6 +185,17 @@ class App:
                             break
                         User.deposit(sum)
                         s.add(result)
+                        s.commit()
+                    case 5:
+                        list_of_tariff = s.query(Tariff)
+                        print(f"Список услуг:")
+                        for elem in list_of_tariff:
+                            print(f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. | {elem.get_cost_one_gb()}руб/гб. "
+                                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+                        id = int(input("Выберите нужный тарифф из списка: "))
+                        tariff = s.query(Tariff).filter(Tariff.id == id).all()[0]
+                        User.set_tariff(tariff)
+                        s.add(User)
                         s.commit()
 
 

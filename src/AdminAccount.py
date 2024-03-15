@@ -1,5 +1,4 @@
 from BaseUser import BaseUser, Column, String, Integer
-from sqlalchemy.orm import relationship
 from Tariff import Tariff
 from hashlib import sha256
 
