@@ -9,17 +9,18 @@ from UserAccount import UserAccount
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
 
+# DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
+db_file = 'example.db'
 
-DATABASE_URL = "postgresql://postgres:123@192.168.0.105/test"
+DATABASE_URL = f'sqlite:///{db_file}'
 
 engine = create_engine(DATABASE_URL)
 
 Base.metadata.create_all(engine)
-
 session = sessionmaker(bind=engine)
 s = session()
 
-
+2
 class App:
 
     @staticmethod
