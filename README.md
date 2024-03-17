@@ -19,4 +19,4 @@
     pip install sqlalchemy
 ### Запуск
     python main.py
-
+### Версия питона 3.14
