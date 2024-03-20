@@ -74,13 +74,11 @@ class App:
                     AdminAccount._AdminAccount__password == password).all()
                 while len(result) == 0:
                     print(Constant.INCORRECT_LOGIN_PASSWORD)
-
-                username = input(Constant.ENTER_USERNAME)
-                password = sha256_str(input(Constant.ENTER_PASSWORD))
-
-                result = s.query(AdminAccount).filter(
-                    AdminAccount._AdminAccount__username == username and
-                    AdminAccount._AdminAccount__password == password).all()
+                    username = input(Constant.ENTER_USERNAME)
+                    password = sha256_str(input(Constant.ENTER_PASSWORD))
+                    result = s.query(AdminAccount).filter(
+                        AdminAccount._AdminAccount__username == username and
+                        AdminAccount._AdminAccount__password == password).all()
 
                 Admin = result[0]
 
