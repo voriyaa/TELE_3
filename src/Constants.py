@@ -1,7 +1,7 @@
 class Constant:
 
     HI_TO_USER = "Привет, вы кто?"
-    CHOOSE_STATUS = f"1. Админ\n2. Пользователь\n[1/2]?: "
+    CHOOSE_STATUS = f" 1. Админ\n 2. Пользователь\n[1/2]?: "
     CHOOSE_OPTION_1 = f"Выберите правильный вариант\n[1/2]?: "
     ENTER_SECRET_KEY = "Введите код доступа: "
     SECRET_KEY = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
