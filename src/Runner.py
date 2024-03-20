@@ -214,35 +214,32 @@ class App:
                     case 2:
 
                         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-                        owner_of_number = s.query(UserAccount).filter_by(
+                        owner_of_number = s.query(UserAccount).filter(
                             UserAccount._UserAccount__phone_number == phone_number).all()
                         while len(owner_of_number) == 0:
                             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-                            owner_of_number = s.query(UserAccount).filter_by(
+                            owner_of_number = s.query(UserAccount).filter(
                                 UserAccount._UserAccount__phone_number == phone_number).all()
-
                         how_many_gb = int(input(Constant.ENTER_SEND_GB_))
-                        User.share_gb(owner_of_number[0], how_many_gb)
+                        print(User.share_gb(owner_of_number[0], how_many_gb))
 
-                        s.add(owner_of_number)
-                        s.add(result)
+                        s.add(owner_of_number[0])
                         s.commit()
 
                     case 3:
 
                         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-                        owner_of_number = s.query(UserAccount).filter_by(
+                        owner_of_number = s.query(UserAccount).filter(
                             UserAccount._UserAccount__phone_number == phone_number).all()
                         while len(owner_of_number) == 0:
                             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-                            owner_of_number = s.query(UserAccount).filter_by(
+                            owner_of_number = s.query(UserAccount).filter(
                                 UserAccount._UserAccount__phone_number == phone_number).all()
 
                         how_many_minute = int(input(Constant.ENTER_SEND_MINUTE))
                         User.share_minute(owner_of_number[0], how_many_minute)
 
-                        s.add(owner_of_number)
-                        s.add(result)
+                        s.add(owner_of_number[0])
                         s.commit()
 
                     case 4:
