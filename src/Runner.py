@@ -119,7 +119,7 @@ class App:
                     option = int(input(Constant.CHOOSE_OPTION_4))
 
                     while not (
-                            (list_of_tariff).id <= option <= (list_of_tariff[list_of_tariff.count() - 1]).id):
+                            (list_of_tariff[0]).id <= option <= (list_of_tariff[list_of_tariff.count() - 1]).id):
                         option = int(input(Constant.CHOOSE_CORRECT_OPTION_2))
 
                     cost_one_gb = int(input(Constant.ENTER_NEW_COST_GB_TARIFF))
