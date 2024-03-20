@@ -51,9 +51,11 @@ class App:
         price = int(input(Constant.ENTER_PRICE_TARIFF))
 
         new_tariff = admin.create_tariff(cost_one_gb, cost_one_minute, gb, minute, price)
+
         s.add(new_tariff)
         s.commit()
-        print("Тариф успешно создан!")
+
+        print(Constant.SUCCESSFUL_NEW_TARIFF)
 
     @staticmethod
     def update_existing_tariff(admin):
@@ -75,9 +77,11 @@ class App:
 
         tariff = s.query(Tariff).filter(Tariff.id == option).all()[0]
         admin.change_tariff(tariff, cost_one_gb, cost_one_minute, price, gb, minute)
+
         s.add(tariff)
         s.commit()
-        print("Тариф успешно обновлен!")
+
+        print(Constant.SUCCESSFUL_UPDATE_TARIFF)
 
     @staticmethod
     def view_tariffs():
@@ -95,7 +99,10 @@ class App:
         App.verify_secret_key()
 
         variant = App.choose_admin_option()
-        if variant == 1:
+        if variant == 0:
+            App.run()
+            return
+        elif variant == 1:
             admin = App.create_admin_account()
         else:
             admin = App.admin_login()
@@ -105,7 +112,7 @@ class App:
     @staticmethod
     def choose_admin_option():
         variant = int(input(Constant.CHOOSE_OPTION_2))
-        while variant not in [1, 2]:
+        while variant not in [0, 1, 2]:
             variant = int(input(Constant.CHOOSE_CORRECT_OPTION))
         return variant
 
@@ -157,9 +164,11 @@ class App:
     def handle_admin_action(admin):
         while True:
             action = int(input(Constant.CHOOSE_OPTION_3))
-            while action not in [1, 2, 3]:
+            while action not in [0, 1, 2, 3]:
                 action = int(input(Constant.CHOOSE_OPTION_3))
 
+            if action == 0:
+                break
             if action == 1:
                 App.create_new_tariff(admin)
             elif action == 2:
@@ -167,11 +176,16 @@ class App:
             elif action == 3:
                 App.view_tariffs()
 
+        App.admin_workflow()
+
     @staticmethod
     def user_workflow():
         variant = App.choose_user_option()
 
-        if variant == 1:
+        if variant == 0:
+            App.run()
+            return
+        elif variant == 1:
             user = App.create_user_account()
         else:
             user = App.user_login()
@@ -181,7 +195,7 @@ class App:
     @staticmethod
     def choose_user_option():
         variant = int(input(Constant.CHOOSE_OPTION_2))
-        while variant not in [1, 2]:
+        while variant not in [0, 1, 2]:
             variant = int(input(Constant.CHOOSE_OPTION_1))
         return variant
 
@@ -251,10 +265,14 @@ class App:
     def handle_user_actions(user):
         while True:
             variant = int(input(Constant.CHOOSE_OPTION_5))
-            while variant not in [1, 2, 3, 4, 5, 6, 7, 8]:
+            while variant not in [0, 1, 2, 3, 4, 5, 6, 7, 8]:
+                print(Constant.CHOOSE_CORRECT_OPTION)
                 variant = int(input(Constant.CHOOSE_OPTION_5))
 
             match variant:
+                case 0:
+                    App.user_workflow()
+                    break
                 case 1:
                     App.show_user_details(user)
                 case 2:
