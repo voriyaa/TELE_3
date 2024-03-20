@@ -3,13 +3,8 @@ from BaseUser import Base
 
 
 class Tariff(Base):
-    __tablename__ = 'tariff'
+
     id = Column(Integer, primary_key=True)
-    __cost_one_gb = Column(Integer, unique=False, nullable=True)
-    __cost_one_minute = Column(Integer, unique=False, nullable=True)
-    __gb = Column(Integer, unique=False, nullable=True)
-    __minute = Column(Integer, unique=False, nullable=True)
-    __price = Column(Integer, unique=False, nullable=True)
 
     def __init__(self, cost_one_gb: int, cost_one_minute: int,
                  price: int, gb: int = 0, minute: int = 0, ) -> None:
@@ -41,3 +36,11 @@ class Tariff(Base):
 
     def get_price(self):
         return self.__price
+
+    __tablename__ = 'tariff'
+    __cost_one_gb = Column(Integer, unique=False, nullable=True)
+    __cost_one_minute = Column(Integer, unique=False, nullable=True)
+    __gb = Column(Integer, unique=False, nullable=True)
+    __minute = Column(Integer, unique=False, nullable=True)
+    __price = Column(Integer, unique=False, nullable=True)
+

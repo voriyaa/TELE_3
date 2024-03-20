@@ -12,17 +12,9 @@ def sha256_str(item):
 
 
 class UserAccount(BaseUser):
-    __tablename__ = 'user_account'
 
     id = Column(Integer, primary_key=True)
-    __username = Column(String(1000), unique=True)
-    __password = Column(String(1000), unique=False)
-    __phone_number = Column(String(15), unique=True)
-    __gb = Column(Integer, unique=False, nullable=True)
-    __minutes = Column(Integer, unique=False, nullable=True)
     tariff_id = Column(Integer, ForeignKey('tariff.id'))
-    __balance = Column(Integer, unique=False, nullable=True)
-    __main_tariff = relationship("Tariff")
 
     def __init__(self, first_name: str, last_name: str, birth_date: str,
                  passport_id: int, sex: str, username: str, password: str,
@@ -111,3 +103,13 @@ class UserAccount(BaseUser):
 
     def change_number(self, new_number: str) -> None:
         self.__phone_number = new_number
+
+    __username = Column(String(1000), unique=True)
+    __password = Column(String(1000), unique=False)
+    __phone_number = Column(String(15), unique=True)
+    __gb = Column(Integer, unique=False, nullable=True)
+    __minutes = Column(Integer, unique=False, nullable=True)
+    __balance = Column(Integer, unique=False, nullable=True)
+    __main_tariff = relationship("Tariff")
+    __tablename__ = 'user_account'
+
