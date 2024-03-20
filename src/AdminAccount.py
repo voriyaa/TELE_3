@@ -8,12 +8,8 @@ def sha256_str(item):
 
 
 class AdminAccount(BaseUser):
-    __tablename__ = 'admin_account'
 
     id = Column(Integer, primary_key=True)
-    __username = Column(String(1000), unique=True)
-    __password = Column(String(1000), unique=False)
-    __phone_number = Column(String(1000), unique=True)
 
     def __init__(self, first_name, last_name, birth_date, passport_id, sex,
                  username: str, password: str, phone_number: str) -> None:
@@ -37,3 +33,9 @@ class AdminAccount(BaseUser):
 
     def get_password(self) -> str:
         return self.__password
+
+    __tablename__ = 'admin_account'
+    __username = Column(String(1000), unique=True)
+    __password = Column(String(1000), unique=False)
+    __phone_number = Column(String(1000), unique=True)
+
