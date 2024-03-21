@@ -43,47 +43,6 @@ class App:
         return variant
 
     @staticmethod
-    def create_new_tariff(admin):
-        cost_one_gb = int(input(Constant.ENTER_COST_GB_TARIFF))
-        cost_one_minute = int(input(Constant.ENTER_COST_MINUTE_TARIFF))
-        gb = int(input(Constant.ENTER_GB_TARIFF))
-        minute = int(input(Constant.ENTER_MINUTE_TARIFF))
-        price = int(input(Constant.ENTER_PRICE_TARIFF))
-
-        new_tariff = admin.create_tariff(cost_one_gb, cost_one_minute, gb, minute, price)
-
-        s.add(new_tariff)
-        s.commit()
-
-        print(Constant.SUCCESSFUL_NEW_TARIFF)
-
-    @staticmethod
-    def update_existing_tariff(admin):
-        list_of_tariff = s.query(Tariff)
-
-        App.view_tariffs()
-
-        option = int(input(Constant.CHOOSE_OPTION_4))
-
-        while not (
-                list_of_tariff[0].id <= option <= list_of_tariff[list_of_tariff.count() - 1].id):
-            option = int(input(Constant.CHOOSE_CORRECT_OPTION_2))
-
-        cost_one_gb = int(input(Constant.ENTER_NEW_COST_GB_TARIFF))
-        cost_one_minute = int(input(Constant.ENTER_NEW_COST_MINUTE_TARIFF))
-        gb = int(input(Constant.ENTER_NEW_GB_TARIFF))
-        minute = int(input(Constant.ENTER_NEW_MINUTE_TARIFF))
-        price = int(input(Constant.ENTER_NEW_PRICE_TARIFF))
-
-        tariff = s.query(Tariff).filter(Tariff.id == option).all()[0]
-        admin.change_tariff(tariff, cost_one_gb, cost_one_minute, price, gb, minute)
-
-        s.add(tariff)
-        s.commit()
-
-        print(Constant.SUCCESSFUL_UPDATE_TARIFF)
-
-    @staticmethod
     def view_tariffs():
         list_of_tariff = s.query(Tariff)
 
@@ -107,7 +66,7 @@ class App:
         else:
             admin = App.admin_login()
 
-        App.handle_admin_action(admin)
+        admin.handle_admin_action()
 
     @staticmethod
     def choose_admin_option():
@@ -161,24 +120,6 @@ class App:
         return result[0]
 
     @staticmethod
-    def handle_admin_action(admin):
-        while True:
-            action = int(input(Constant.CHOOSE_OPTION_3))
-            while action not in [0, 1, 2, 3]:
-                action = int(input(Constant.CHOOSE_OPTION_3))
-
-            if action == 0:
-                break
-            if action == 1:
-                App.create_new_tariff(admin)
-            elif action == 2:
-                App.update_existing_tariff(admin)
-            elif action == 3:
-                App.view_tariffs()
-
-        App.admin_workflow()
-
-    @staticmethod
     def user_workflow():
         variant = App.choose_user_option()
 
@@ -190,7 +131,7 @@ class App:
         else:
             user = App.user_login()
 
-        App.handle_user_actions(user)
+        user.handle_user_actions()
 
     @staticmethod
     def choose_user_option():
@@ -261,112 +202,5 @@ class App:
         user = result[0]
         return user
 
-    @staticmethod
-    def handle_user_actions(user):
-        while True:
-            variant = int(input(Constant.CHOOSE_OPTION_5))
-            while variant not in [0, 1, 2, 3, 4, 5, 6, 7, 8]:
-                print(Constant.CHOOSE_CORRECT_OPTION)
-                variant = int(input(Constant.CHOOSE_OPTION_5))
-
-            match variant:
-                case 0:
-                    App.user_workflow()
-                    break
-                case 1:
-                    App.show_user_details(user)
-                case 2:
-                    App.share_gb_with_friend(user)
-                case 3:
-                    App.share_minute_with_friend(user)
-                case 4:
-                    App.deposit_money(user)
-                case 5:
-                    App.change_tariff(user)
-                case 6:
-                    App.buy_gb(user)
-                case 7:
-                    App.buy_minute(user)
-                case 8:
-                    App.pay_tariff(user)
-
-    @staticmethod
-    def show_user_details(user):
-        print(f"Остаток: {user.get_gb()}ГБ. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"
-              f"Ваш Тариф: {user.get_tariff().get_gb()} ГБ | {user.get_tariff().get_minutes()}мин. |"
-              f" {user.get_tariff().get_cost_one_gb()}руб/гб. | {user.get_tariff().get_cost_one_minute()}руб/мин.")
-
-    @staticmethod
-    def share_gb_with_friend(user):
-        phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        owner_of_number = s.query(UserAccount).filter(
-            UserAccount._UserAccount__phone_number == phone_number).all()
-        while len(owner_of_number) == 0:
-            phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-            owner_of_number = s.query(UserAccount).filter(
-                UserAccount._UserAccount__phone_number == phone_number).all()
-        how_many_gb = int(input(Constant.ENTER_SEND_GB_))
-        print(user.share_gb(owner_of_number[0], how_many_gb))
-        s.add(owner_of_number[0])
-        s.commit()
-
-    @staticmethod
-    def share_minute_with_friend(user):
-        phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        owner_of_number = s.query(UserAccount).filter(
-            UserAccount._UserAccount__phone_number == phone_number).all()
-        while len(owner_of_number) == 0:
-            phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-            owner_of_number = s.query(UserAccount).filter(
-                UserAccount._UserAccount__phone_number == phone_number).all()
-        how_many_minute = int(input(Constant.ENTER_SEND_MINUTE))
-        user.share_minute(owner_of_number[0], how_many_minute)
-        s.add(owner_of_number[0])
-        s.commit()
-
-    @staticmethod
-    def deposit_money(user):
-        amount = int(input(Constant.ENTER_AMOUNT))
-        while not (0 < amount < 10000):
-            amount = int(input(Constant.ENTER_CORRECT_AMOUNT))
-        user.deposit(amount)
-        s.add(user)
-        s.commit()
-
-    @staticmethod
-    def change_tariff(user):
-        list_of_tariff = s.query(Tariff)
-        App.display_tariffs(list_of_tariff)
-        id = int(input(Constant.CHOOSE_OPTION_6))
-        tariff = s.query(Tariff).filter(Tariff.id == id).all()[0]
-        user.set_tariff(tariff)
-        s.add(user)
-        s.commit()
-
-    @staticmethod
-    def buy_gb(user):
-        value = int(input(f"{Constant.ENTER_VALUE_GB}"
-                          f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: "))
-        while value <= 0:
-            value = int(input(Constant.ENTER_CORRECT_VALUE))
-        print(user.buy_gb(value))
-        s.add(user)
-        s.commit()
-
-    @staticmethod
-    def buy_minute(user):
-        value = int(input(f"{Constant.ENTER_VALUE_MINUTE}"
-                          f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: "))
-        while value <= 0:
-            value = int(input(Constant.ENTER_CORRECT_VALUE))
-        print(user.buy_minute(value))
-        s.add(user)
-        s.commit()
-
-    @staticmethod
-    def pay_tariff(user):
-        print(user.pay_tariff())
-        s.add(user)
-        s.commit()
 
 App.run()

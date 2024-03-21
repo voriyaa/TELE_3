@@ -37,6 +37,7 @@ class Tariff(Base):
     def get_price(self):
         return self.__price
 
+
     __tablename__ = 'tariff'
     __cost_one_gb = Column(Integer, unique=False, nullable=True)
     __cost_one_minute = Column(Integer, unique=False, nullable=True)

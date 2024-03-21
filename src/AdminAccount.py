@@ -1,7 +1,8 @@
 from BaseUser import BaseUser, Column, String, Integer
 from Tariff import Tariff
 from hashlib import sha256
-
+from Constants import Constant
+from Runner import App
 
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
@@ -33,6 +34,7 @@ class AdminAccount(BaseUser):
 
     def get_password(self) -> str:
         return self.__password
+
 
     __tablename__ = 'admin_account'
     __username = Column(String(1000), unique=True)

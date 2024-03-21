@@ -5,7 +5,8 @@ from sqlalchemy import ForeignKey
 from BaseUser import BaseUser, Column, String, Integer
 from sqlalchemy.orm import relationship
 from Tariff import Tariff
-
+from Constants import Constant
+from Runner import App
 
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
@@ -103,6 +104,7 @@ class UserAccount(BaseUser):
 
     def change_number(self, new_number: str) -> None:
         self.__phone_number = new_number
+
 
     __username = Column(String(1000), unique=True)
     __password = Column(String(1000), unique=False)
