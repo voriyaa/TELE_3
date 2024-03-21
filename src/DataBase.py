@@ -27,6 +27,10 @@ class DataBase:
     def insert(self, obj):
         self.__session.add(obj)
         self.__session.commit()
-    def delete(self, obj):
 
+    def delete(self, model, expressions):
+        obj = self.__session.query(model).filter(expressions).get(1)
+        self.__session.delete(obj)
 
+    def update(self, model, expressions):
+        obj = self.__session.query(model).filter(expressions).get(1)
