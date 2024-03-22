@@ -47,8 +47,7 @@ class DataBase:
 
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
-db_file = 'example.db'
-DATABASE_URL = f'sqlite:///{db_file}'
-database = DataBase(db_file)
+
+database = DataBase("sqlite:///example.db")
 database.create_tables()
 database.creat_session()
