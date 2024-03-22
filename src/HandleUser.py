@@ -1,12 +1,13 @@
 from UserAccount import UserAccount
 from Constants import Constant
 from Runner import database
-from AdminAccount import Tariff
+from UserAccount import Tariff
 
 
 class HandleUser(UserAccount):
 
-    def handle_user_actions(self):
+    @staticmethod
+    def handle_user_actions(user):
         while True:
             variant = int(input(Constant.CHOOSE_OPTION_5))
             while variant not in [0, 1, 2, 3, 4, 5, 6, 7, 8]:
@@ -17,83 +18,90 @@ class HandleUser(UserAccount):
                 case 0:
                     return
                 case 1:
-                    self.show_user_details()
+                    HandleUser.show_user_details(user)
                 case 2:
-                    self.share_gb_with_friend()
+                    HandleUser.share_gb_with_friend(user)
                 case 3:
-                    self.share_minute_with_friend()
+                    HandleUser.share_minute_with_friend(user)
                 case 4:
-                    self.deposit_money()
+                    HandleUser.deposit_money(user)
                 case 5:
-                    self.change_tariff()
+                    HandleUser.change_tariff(user)
                 case 6:
-                    self.handle_buy_gb()
+                    HandleUser.handle_buy_gb(user)
                 case 7:
-                    self.handle_buy_minute()
+                    HandleUser.handle_buy_minute(user)
                 case 8:
-                    self.pay_tariff()
-
-    def show_user_details(self):
-        print(f"�������: {self.get_gb()}��. | {self.get_minutes()}���. | {self.get_balance()}���.\n"
-              f"��� �����: {self.get_tariff().get_gb()} �� | {self.get_tariff().get_minutes()}���. |"
-              f" {self.get_tariff().get_cost_one_gb()}���/��. | {self.get_tariff().get_cost_one_minute()}���/���.")
-
-    def share_gb_with_friend(self):
+                    HandleUser.user_pay_tariff(user)
+    
+    @staticmethod
+    def show_user_details(user):
+        print(f"�������: {user.get_gb()}��. | {user.get_minutes()}���. | {user.get_balance()}���.\n"
+              f"��� �����: {user.get_tariff().get_gb()} �� | {user.get_tariff().get_minutes()}���. |"
+              f" {user.get_tariff().get_cost_one_gb()}���/��. | {user.get_tariff().get_cost_one_minute()}���/���.")
+    
+    @staticmethod
+    def share_gb_with_friend(user):
         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         while database.find(UserAccount, phone_number, UserAccount._UserAccount__phone_number == phone_number):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
                 UserAccount._UserAccount__phone_number == phone_number))
         how_many_gb = int(input(Constant.ENTER_SEND_GB_))
-        print(self.share_gb(owner_of_number, how_many_gb))
+        print(user.share_gb(owner_of_number, how_many_gb))
         database.insert(owner_of_number)
 
-
-    def share_minute_with_friend(self):
+    @staticmethod
+    def share_minute_with_friend(user):
         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         while database.find(UserAccount, phone_number, UserAccount._UserAccount__phone_number == phone_number):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
                 UserAccount._UserAccount__phone_number == phone_number))
         how_many_minute = int(input(Constant.ENTER_SEND_MINUTE))
-        self.share_minute(owner_of_number, how_many_minute)
+        user.share_minute(owner_of_number, how_many_minute)
 
         database.insert(owner_of_number)
-
-    def deposit_money(self):
+    
+    @staticmethod
+    def deposit_money(user):
         amount = int(input(Constant.ENTER_AMOUNT))
         while not (0 < amount < 10000):
             amount = int(input(Constant.ENTER_CORRECT_AMOUNT))
-        self.deposit(amount)
-        database.insert(self)
-
-    def change_tariff(self):
+        user.deposit(amount)
+        database.insert(user)
+    
+    @staticmethod
+    def change_tariff(user):
         list_of_tariff = database.query(Tariff)
         HandleUser.display_tariffs(list_of_tariff)
         id = int(input(Constant.CHOOSE_OPTION_6))
         tariff = database.get_object(Tariff, (Tariff.id == id))
-        self.set_tariff(tariff)
-        database.insert(self)
+        user.set_tariff(tariff)
+        database.insert(user)
 
-    def handle_buy_gb(self):
+    @staticmethod
+    def handle_buy_gb(user):
         value = int(input(f"{Constant.ENTER_VALUE_GB}"
-                          f" {self.get_tariff().get_cost_one_gb()}���/��.?: "))
+                          f" {user.get_tariff().get_cost_one_gb()}���/��.?: "))
         while value <= 0:
             value = int(input(Constant.ENTER_CORRECT_VALUE))
-        print(self.buy_gb(value))
-        database.insert(self)
+        print(user.buy_gb(value))
+        database.insert(user)
 
-    def handle_buy_minute(self):
+    @staticmethod
+    def handle_buy_minute(user):
         value = int(input(f"{Constant.ENTER_VALUE_MINUTE}"
-                          f" {self.get_tariff().get_cost_one_minute()}���/���.?: "))
+                          f" {user.get_tariff().get_cost_one_minute()}���/���.?: "))
         while value <= 0:
             value = int(input(Constant.ENTER_CORRECT_VALUE))
-        print(self.buy_minute(value))
-        database.insert(self)
+        print(user.buy_minute(value))
+        database.insert(user)
 
-    def pay_tariff(self):
-        print(self.pay_tariff())
-        database.insert(self)
+    @staticmethod
+    def user_pay_tariff(user):
+        print(user.pay_tariff())
+        database.insert(user)
 
     @staticmethod
     def display_tariffs(tariffs):

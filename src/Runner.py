@@ -30,9 +30,9 @@ class Authorization:
         variant = Authorization.get_variant()
 
         if variant == 1:
-            return (Authorization.admin_workflow())
+            return Authorization.admin_workflow()
         else:
-            return (Authorization.user_workflow())
+            return Authorization.user_workflow()
 
     @staticmethod
     def get_variant():
