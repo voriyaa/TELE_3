@@ -84,7 +84,7 @@ class HandleUser(UserAccount):
     @staticmethod
     def handle_buy_gb(user):
         value = int(input(f"{Constant.ENTER_VALUE_GB}"
-                          f" {user.get_tariff().get_cost_one_gb()}���/��.?: "))
+                          f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: "))
         while value <= 0:
             value = int(input(Constant.ENTER_CORRECT_VALUE))
         print(user.buy_gb(value))
@@ -93,7 +93,7 @@ class HandleUser(UserAccount):
     @staticmethod
     def handle_buy_minute(user):
         value = int(input(f"{Constant.ENTER_VALUE_MINUTE}"
-                          f" {user.get_tariff().get_cost_one_minute()}���/���.?: "))
+                          f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: "))
         while value <= 0:
             value = int(input(Constant.ENTER_CORRECT_VALUE))
         print(user.buy_minute(value))
