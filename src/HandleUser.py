@@ -15,8 +15,7 @@ class HandleUser(UserAccount):
 
             match variant:
                 case 0:
-                    App.user_workflow()
-                    break
+                    return
                 case 1:
                     self.show_user_details()
                 case 2:
@@ -70,7 +69,7 @@ class HandleUser(UserAccount):
 
     def change_tariff(self):
         list_of_tariff = database.query(Tariff)
-        App.display_tariffs(list_of_tariff)
+        HandleUser.display_tariffs(list_of_tariff)
         id = int(input(Constant.CHOOSE_OPTION_6))
         tariff = database.get_object(Tariff, (Tariff.id == id))
         self.set_tariff(tariff)
@@ -95,3 +94,12 @@ class HandleUser(UserAccount):
     def pay_tariff(self):
         print(self.pay_tariff())
         database.insert(self)
+
+    @staticmethod
+    def display_tariffs(tariffs):
+        print(Constant.LIST_SERVICES)
+        for i, elem in enumerate(tariffs):
+            print(
+                f"{i + 1}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"
+                f" {elem.get_cost_one_gb()}руб/гб. "
+                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
