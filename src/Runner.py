@@ -42,17 +42,6 @@ class Authorization:
         return variant
 
     @staticmethod
-    def view_tariffs():
-        list_of_tariff = database.query(Tariff)
-
-        print(Constant.LIST_SERVICES)
-        for elem in list_of_tariff:
-            print(
-                f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"
-                f" {elem.get_cost_one_gb()}руб/гб. "
-                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
-
-    @staticmethod
     def admin_workflow():
         Authorization.verify_secret_key()
 
@@ -107,7 +96,7 @@ class Authorization:
             password = sha256_str(input(Constant.ENTER_PASSWORD))
         result = database.get_object(AdminAccount, (AdminAccount._AdminAccount__username == username and
                                                     AdminAccount._AdminAccount__password == password))
-        return result
+        return result[0]
 
     @staticmethod
     def user_workflow():

@@ -1,9 +1,27 @@
+# -*- coding: utf-8 -*-
 from AdminAccount import AdminAccount, Tariff
 from Constants import Constant
-from Runner import Authorization, database
+from Runner import database
 
 
 class HandleAdmin(AdminAccount):
+
+    @staticmethod
+    def handle_admin_actions(admin):
+        print(type(admin))
+        while True:
+            action = int(input(Constant.CHOOSE_OPTION_3))
+            while action not in [0, 1, 2, 3]:
+                action = int(input(Constant.CHOOSE_OPTION_3))
+
+            if action == 0:
+                return
+            if action == 1:
+                HandleAdmin.create_new_tariff(admin)
+            elif action == 2:
+                HandleAdmin.update_existing_tariff(admin)
+            elif action == 3:
+                HandleAdmin.view_tariffs()
 
     @staticmethod
     def create_new_tariff(admin):
@@ -23,7 +41,7 @@ class HandleAdmin(AdminAccount):
     def update_existing_tariff(admin):
         list_of_tariff = database.query(Tariff)
 
-        Authorization.view_tariffs()
+        HandleAdmin.view_tariffs()
 
         option = int(input(Constant.CHOOSE_OPTION_4))
 
@@ -45,18 +63,12 @@ class HandleAdmin(AdminAccount):
         print(Constant.SUCCESSFUL_UPDATE_TARIFF)
 
     @staticmethod
-    def handle_admin_actions(admin):
-        print(type(admin))
-        while True:
-            action = int(input(Constant.CHOOSE_OPTION_3))
-            while action not in [0, 1, 2, 3]:
-                action = int(input(Constant.CHOOSE_OPTION_3))
+    def view_tariffs():
+        list_of_tariff = database.query(Tariff)
 
-            if action == 0:
-                return
-            if action == 1:
-                HandleAdmin.create_new_tariff(admin)
-            elif action == 2:
-                HandleAdmin.update_existing_tariff(admin)
-            elif action == 3:
-                HandleAdmin.view_tariffs(admin)
+        print(Constant.LIST_SERVICES)
+        for elem in list_of_tariff:
+            print(
+                f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"
+                f" {elem.get_cost_one_gb()}руб/гб. "
+                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
