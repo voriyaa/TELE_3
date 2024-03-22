@@ -55,7 +55,7 @@ class HandleUser(UserAccount):
     @staticmethod
     def share_minute_with_friend(user):
         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, phone_number, UserAccount._UserAccount__phone_number == phone_number):
+        while not database.find(UserAccount, UserAccount._UserAccount__phone_number == phone_number):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
                 UserAccount._UserAccount__phone_number == phone_number))
