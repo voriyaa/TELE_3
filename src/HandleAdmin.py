@@ -1,6 +1,6 @@
 from AdminAccount import AdminAccount, Tariff
 from Constants import Constant
-from Runner import App, database
+from Runner import Authorization, database
 
 
 class HandleAdmin(AdminAccount):
@@ -20,7 +20,7 @@ class HandleAdmin(AdminAccount):
     def update_existing_tariff(self):
         list_of_tariff = database.query(Tariff)
 
-        App.view_tariffs()
+        Authorization.view_tariffs()
 
         option = int(input(Constant.CHOOSE_OPTION_4))
 
@@ -41,18 +41,17 @@ class HandleAdmin(AdminAccount):
 
         print(Constant.SUCCESSFUL_UPDATE_TARIFF)
 
-    def handle_admin_action(self):
+    def handle_admin_actions(self):
         while True:
             action = int(input(Constant.CHOOSE_OPTION_3))
             while action not in [0, 1, 2, 3]:
                 action = int(input(Constant.CHOOSE_OPTION_3))
 
             if action == 0:
-                break
+                return
             if action == 1:
                 AdminAccount.create_new_tariff(self)
             elif action == 2:
                 AdminAccount.update_existing_tariff(self)
             elif action == 3:
-                App.view_tariffs()
-        App.admin_workflow()
+                Authorization.view_tariffs()

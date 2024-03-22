@@ -1,8 +1,7 @@
 from UserAccount import UserAccount
 from Constants import Constant
-from Runner import App, database
+from Runner import database
 from AdminAccount import Tariff
-
 
 
 class HandleUser(UserAccount):

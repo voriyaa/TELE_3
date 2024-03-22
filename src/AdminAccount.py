@@ -1,8 +1,6 @@
 from BaseUser import BaseUser, Column, String, Integer
 from Tariff import Tariff
 from hashlib import sha256
-from Constants import Constant
-from Runner import App
 
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
@@ -16,8 +14,17 @@ class AdminAccount(BaseUser):
                  username: str, password: str, phone_number: str) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.__username = username
-        self.__password = sha256_str(password)
+        self.__password = password
         self.__phone_number = phone_number
+
+    def get_username(self) -> str:
+        return self.__username
+
+    def get_password(self) -> str:
+        return self.__password
+
+    def get_phone_number(self) -> str:
+        return self.__phone_number
 
     @staticmethod
     def create_tariff(cost_one_gb: int, cost_one_minute: int,

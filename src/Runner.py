@@ -25,17 +25,17 @@ s = session()
 """
 
 
-class App:
+class Authorization:
 
     @staticmethod
     def run():
         print(Constant.HI_TO_USER)
-        variant = App.get_variant()
+        variant = Authorization.get_variant()
 
         if variant == 1:
-            App.admin_workflow()
+            return (Authorization.admin_workflow())
         else:
-            App.user_workflow()
+            return (Authorization.user_workflow())
 
     @staticmethod
     def get_variant():
@@ -57,18 +57,16 @@ class App:
 
     @staticmethod
     def admin_workflow():
-        App.verify_secret_key()
+        Authorization.verify_secret_key()
 
-        variant = App.choose_admin_option()
+        variant = Authorization.choose_admin_option()
         if variant == 0:
-            App.run()
+            Authorization.run()
             return
         elif variant == 1:
-            admin = App.create_admin_account()
+            return Authorization.create_admin_account()
         else:
-            admin = App.admin_login()
-
-        admin.handle_admin_action()
+            return Authorization.admin_login()
 
     @staticmethod
     def choose_admin_option():
@@ -116,17 +114,15 @@ class App:
 
     @staticmethod
     def user_workflow():
-        variant = App.choose_user_option()
+        variant = Authorization.choose_user_option()
 
         if variant == 0:
-            App.run()
+            Authorization.run()
             return
         elif variant == 1:
-            user = App.create_user_account()
+            return Authorization.create_user_account()
         else:
-            user = App.user_login()
-
-        user.handle_user_actions()
+            return Authorization.user_login()
 
     @staticmethod
     def choose_user_option():
@@ -147,9 +143,9 @@ class App:
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
         list_of_tariff = database.query(Tariff)
-        App.display_tariffs(list_of_tariff)
+        Authorization.display_tariffs(list_of_tariff)
 
-        option = App.choose_tariff_option(list_of_tariff)
+        option = Authorization.choose_tariff_option(list_of_tariff)
 
         user = UserAccount(first_name, last_name, birth_date, passport_id, sex,
                            username, password, phone_number,
@@ -188,6 +184,3 @@ class App:
         user = database.get(UserAccount, (UserAccount._UserAccount__username == username and
                                           UserAccount._UserAccount__password == password))
         return user
-
-
-App.run()

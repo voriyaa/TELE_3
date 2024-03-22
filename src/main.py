@@ -1,4 +1,4 @@
-from Runner import App
+from Control import Control
 
 if __name__ == "__main__":
-    App.run()
+    Control.control_in_out()
