@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 class DataBase:
     def __init__(self, db_url):
-        self.__engine = create_engine(db_url, echo=False)
+        self.__engine = create_engine(db_url, echo=True)
         self.__session = None
 
     def create_tables(self):
@@ -26,6 +26,7 @@ class DataBase:
 
     def insert(self, obj):
         self.__session.add(obj)
+        self.__session.commit()
 
     def delete(self, model, expressions):
         if self.find(model, expressions):
