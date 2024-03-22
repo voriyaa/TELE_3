@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 class DataBase:
     def __init__(self, db_url):
-        self.__engine = create_engine(db_url, echo=True)
+        self.__engine = create_engine(db_url, echo=False)
         self.__session = None
 
     def create_tables(self):
