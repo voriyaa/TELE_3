@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from UserAccount import UserAccount
 from Constants import Constant
 from Runner import database
