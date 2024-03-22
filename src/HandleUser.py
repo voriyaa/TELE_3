@@ -36,9 +36,9 @@ class HandleUser(UserAccount):
     
     @staticmethod
     def show_user_details(user):
-        print(f"�������: {user.get_gb()}��. | {user.get_minutes()}���. | {user.get_balance()}���.\n"
-              f"��� �����: {user.get_tariff().get_gb()} �� | {user.get_tariff().get_minutes()}���. |"
-              f" {user.get_tariff().get_cost_one_gb()}���/��. | {user.get_tariff().get_cost_one_minute()}���/���.")
+        print(f"Остаток: {user.get_gb()}гб. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"
+              f"Мой тариф: {user.get_tariff().get_gb()}гб. | {user.get_tariff().get_minutes()}мин. |"
+              f" {user.get_tariff().get_cost_one_gb()}руб/гб. | {user.get_tariff().get_cost_one_minute()}руб/мин.")
     
     @staticmethod
     def share_gb_with_friend(user):
