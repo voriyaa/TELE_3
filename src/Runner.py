@@ -89,14 +89,14 @@ class Authorization:
         username = input(Constant.ENTER_USERNAME)
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        while database.find(AdminAccount, (AdminAccount._AdminAccount__username == username and
-                                           AdminAccount._AdminAccount__password == password)):
+        while not database.find(AdminAccount, AdminAccount._AdminAccount__username == username and
+                                           AdminAccount._AdminAccount__password == password):
             print(Constant.INCORRECT_LOGIN_PASSWORD)
             username = input(Constant.ENTER_USERNAME)
             password = sha256_str(input(Constant.ENTER_PASSWORD))
         result = database.get_object(AdminAccount, (AdminAccount._AdminAccount__username == username and
                                                     AdminAccount._AdminAccount__password == password))
-        return result[0]
+        return result
 
     @staticmethod
     def user_workflow():
@@ -161,7 +161,7 @@ class Authorization:
         username = input(Constant.ENTER_USERNAME)
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        while database.find(UserAccount, (UserAccount._UserAccount__username == username and
+        while not database.find(UserAccount, (UserAccount._UserAccount__username == username and
                                           UserAccount._UserAccount__password == password)):
             print(Constant.INCORRECT_LOGIN_PASSWORD)
             username = input(Constant.ENTER_USERNAME)
