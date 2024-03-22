@@ -5,6 +5,7 @@ from BaseUser import Base
 from AdminAccount import AdminAccount, Tariff
 from UserAccount import UserAccount
 from Constants import Constant
+from DataBase import database
 
 
 def sha256_str(item):
@@ -12,7 +13,7 @@ def sha256_str(item):
 
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
-db_file = 'example.db'
+"""db_file = 'example.db'
 
 DATABASE_URL = f'sqlite:///{db_file}'
 
@@ -21,6 +22,7 @@ engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
 session = sessionmaker(bind=engine)
 s = session()
+"""
 
 
 class App:
@@ -44,7 +46,7 @@ class App:
 
     @staticmethod
     def view_tariffs():
-        list_of_tariff = s.query(Tariff)
+        list_of_tariff = database.query(Tariff)
 
         print(Constant.LIST_SERVICES)
         for elem in list_of_tariff:
@@ -95,9 +97,7 @@ class App:
         admin = AdminAccount(first_name, last_name, birth_date, passport_id, sex,
                              username, password, phone_number)
 
-        s.add(admin)
-        s.commit()
-
+        database.insert(admin)
         return admin
 
     @staticmethod
@@ -105,19 +105,14 @@ class App:
         username = input(Constant.ENTER_USERNAME)
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        result = s.query(AdminAccount).filter(
-            AdminAccount._AdminAccount__username == username and
-            AdminAccount._AdminAccount__password == password).all()
-
-        while len(result) == 0:
+        while database.find(AdminAccount, (AdminAccount._AdminAccount__username == username and
+                                           AdminAccount._AdminAccount__password == password)):
             print(Constant.INCORRECT_LOGIN_PASSWORD)
             username = input(Constant.ENTER_USERNAME)
             password = sha256_str(input(Constant.ENTER_PASSWORD))
-            result = s.query(AdminAccount).filter(
-                AdminAccount._AdminAccount__username == username and
-                AdminAccount._AdminAccount__password == password).all()
-
-        return result[0]
+        result = database.get_object(AdminAccount, (AdminAccount._AdminAccount__username == username and
+                                                    AdminAccount._AdminAccount__password == password))
+        return result
 
     @staticmethod
     def user_workflow():
@@ -151,7 +146,7 @@ class App:
         username = input(Constant.ENTER_USERNAME)
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        list_of_tariff = s.query(Tariff)
+        list_of_tariff = database.query(Tariff)
         App.display_tariffs(list_of_tariff)
 
         option = App.choose_tariff_option(list_of_tariff)
@@ -159,10 +154,7 @@ class App:
         user = UserAccount(first_name, last_name, birth_date, passport_id, sex,
                            username, password, phone_number,
                            list_of_tariff[option - 1])
-
-        s.add(user)
-        s.commit()
-
+        database.insert(user)
         return user
 
     @staticmethod
@@ -187,19 +179,14 @@ class App:
         username = input(Constant.ENTER_USERNAME)
         password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        result = s.query(UserAccount).filter(
-            UserAccount._UserAccount__username == username and
-            UserAccount._UserAccount__password == password).all()
-
-        while len(result) == 0:
+        while database.find(UserAccount, (UserAccount._UserAccount__username == username and
+                                          UserAccount._UserAccount__password == password)):
             print(Constant.INCORRECT_LOGIN_PASSWORD)
             username = input(Constant.ENTER_USERNAME)
             password = sha256_str(input(Constant.ENTER_PASSWORD))
-            result = s.query(UserAccount).filter(
-                UserAccount._UserAccount__username == username and
-                UserAccount._UserAccount__password == password).all()
 
-        user = result[0]
+        user = database.get(UserAccount, (UserAccount._UserAccount__username == username and
+                                          UserAccount._UserAccount__password == password))
         return user
 
 

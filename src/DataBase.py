@@ -26,12 +26,12 @@ class DataBase:
 
     def insert(self, obj):
         self.__session.add(obj)
-        self.__session.commit()
 
     def delete(self, model, expressions):
         if self.find(model, expressions):
             obj = self.__session.query(model).filter(expressions).all()[0]
             self.__session.delete(obj)
+            self.__session.commit()
             return
         print("THERE IS NO SUCH OBJECT IN THE DATABASE")
 
@@ -44,3 +44,11 @@ class DataBase:
 
     def commit(self):
         self.__session.commit()
+
+
+# DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
+db_file = 'example.db'
+DATABASE_URL = f'sqlite:///{db_file}'
+database = DataBase(db_file)
+database.create_tables()
+database.creat_session()

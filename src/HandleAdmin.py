@@ -1,6 +1,6 @@
 from AdminAccount import AdminAccount, Tariff
 from Constants import Constant
-from Runner import App
+from Runner import App, database
 
 
 class HandleAdmin(AdminAccount):
@@ -13,13 +13,12 @@ class HandleAdmin(AdminAccount):
 
         new_tariff = self.create_tariff(cost_one_gb, cost_one_minute, gb, minute, price)
 
-        s.add(new_tariff)
-        s.commit()
+        database.insert(new_tariff)
 
         print(Constant.SUCCESSFUL_NEW_TARIFF)
 
     def update_existing_tariff(self):
-        list_of_tariff = s.query(Tariff)
+        list_of_tariff = database.query(Tariff)
 
         App.view_tariffs()
 
@@ -35,11 +34,10 @@ class HandleAdmin(AdminAccount):
         minute = int(input(Constant.ENTER_NEW_MINUTE_TARIFF))
         price = int(input(Constant.ENTER_NEW_PRICE_TARIFF))
 
-        tariff = s.query(Tariff).filter(Tariff.id == option).all()[0]
+        tariff = database.get_object(Tariff, (Tariff.id == option))
         self.change_tariff(tariff, cost_one_gb, cost_one_minute, price, gb, minute)
 
-        s.add(tariff)
-        s.commit()
+        database.insert(self)
 
         print(Constant.SUCCESSFUL_UPDATE_TARIFF)
 
