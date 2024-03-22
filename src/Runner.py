@@ -167,6 +167,6 @@ class Authorization:
             username = input(Constant.ENTER_USERNAME)
             password = sha256_str(input(Constant.ENTER_PASSWORD))
 
-        user = database.get(UserAccount, (UserAccount._UserAccount__username == username and
+        user = database.get_object(UserAccount, (UserAccount._UserAccount__username == username and
                                           UserAccount._UserAccount__password == password))
         return user
