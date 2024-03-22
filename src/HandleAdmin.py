@@ -8,7 +8,6 @@ class HandleAdmin(AdminAccount):
 
     @staticmethod
     def handle_admin_actions(admin):
-        print(type(admin))
         while True:
             action = int(input(Constant.CHOOSE_OPTION_3))
             while action not in [0, 1, 2, 3]:
