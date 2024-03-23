@@ -2,6 +2,7 @@ from BaseUser import BaseUser, Column, String, Integer
 from Tariff import Tariff
 from hashlib import sha256
 
+
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
 

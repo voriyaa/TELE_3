@@ -1,12 +1,12 @@
 import os
 
+
 class Constant:
 
     HI_TO_USER = "Привет, вы кто?"
     CHOOSE_STATUS = f" 1. Админ\n 2. Пользователь\n[1/2]?: "
     CHOOSE_OPTION = f"Выберите правильный вариант\n[0/1/2]?: " # CHOOSE_OPTION_1
     ENTER_SECRET_KEY = "Введите код доступа: "
-    SECRET_KEY = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
     WRONG_KEY = "Неверный код доступа, введите еще раз: "
     CHOOSE_ACTIONS = f" 0. Назад\n 1. Зарегистрироваться\n 2. Войти в аккаунт\n[0/1/2]?: " # CHOOSE_OPTION_2
     CHOOSE_CORRECT_OPTION = f"Выберите правильный вариант\n[0/1/2]?: "
@@ -47,6 +47,3 @@ class Constant:
     ENTER_VALUE_MINUTE = "Сколько минут хотите приобрести по стоимости:"
     SUCCESSFUL_NEW_TARIFF = "Тариф успешно создан!"
     SUCCESSFUL_UPDATE_TARIFF = "Тариф успешно обновлен!"
-
-
-

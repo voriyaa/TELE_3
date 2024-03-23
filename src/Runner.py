@@ -3,11 +3,13 @@ from AdminAccount import AdminAccount, Tariff
 from UserAccount import UserAccount
 from Constants import Constant
 from DataBase import database
-
+from dotenv import load_dotenv
+import os
 
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
 
+load_dotenv()
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
 """db_file = 'example.db'
@@ -64,7 +66,7 @@ class Authorization:
     @staticmethod
     def verify_secret_key():
         key = input(Constant.ENTER_SECRET_KEY)
-        while sha256_str(key) != Constant.SECRET_KEY:
+        while sha256_str(key) != os.getenv("SECRET_KEY"):
             key = input(Constant.WRONG_KEY)
 
     @staticmethod
