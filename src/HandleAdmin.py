@@ -9,9 +9,9 @@ class HandleAdmin(AdminAccount):
     @staticmethod
     def handle_admin_actions(admin):
         while True:
-            action = int(input(Constant.CHOOSE_OPTION_3))
+            action = int(input(Constant.SELECT_OPTION))
             while action not in [0, 1, 2, 3]:
-                action = int(input(Constant.CHOOSE_OPTION_3))
+                action = int(input(Constant.SELECT_OPTION))
 
             if action == 0:
                 return
@@ -42,11 +42,10 @@ class HandleAdmin(AdminAccount):
 
         HandleAdmin.view_tariffs()
 
-        option = int(input(Constant.CHOOSE_OPTION_4))
+        option = int(input(Constant.SELECT_SERVICE))
 
-        while not (
-                list_of_tariff[0].id <= option <= list_of_tariff[list_of_tariff.count() - 1].id):
-            option = int(input(Constant.CHOOSE_CORRECT_OPTION_2))
+        while not (list_of_tariff[0].id <= option <= list_of_tariff[list_of_tariff.count() - 1].id):
+            option = int(input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES))
 
         cost_one_gb = int(input(Constant.ENTER_NEW_COST_GB_TARIFF))
         cost_one_minute = int(input(Constant.ENTER_NEW_COST_MINUTE_TARIFF))

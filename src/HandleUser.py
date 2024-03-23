@@ -10,10 +10,10 @@ class HandleUser(UserAccount):
     @staticmethod
     def handle_user_actions(user):
         while True:
-            variant = int(input(Constant.CHOOSE_OPTION_5))
+            variant = int(input(Constant.SELECT_OPTION_OF_USER))
             while variant not in [0, 1, 2, 3, 4, 5, 6, 7, 8]:
                 print(Constant.CHOOSE_CORRECT_OPTION)
-                variant = int(input(Constant.CHOOSE_OPTION_5))
+                variant = int(input(Constant.SELECT_OPTION_OF_USER))
 
             match variant:
                 case 0:
@@ -76,7 +76,7 @@ class HandleUser(UserAccount):
     def change_tariff(user):
         list_of_tariff = database.query(Tariff)
         HandleUser.display_tariffs(list_of_tariff)
-        id = int(input(Constant.CHOOSE_OPTION_6))
+        id = int(input(Constant.SELECT_TARIFF))
         tariff = database.get_object(Tariff, (Tariff.id == id))
         user.set_tariff(tariff)
         database.insert(user)

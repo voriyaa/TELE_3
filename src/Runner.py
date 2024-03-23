@@ -38,7 +38,7 @@ class Authorization:
     def get_variant():
         variant = int(input(Constant.CHOOSE_STATUS))
         while variant not in [1, 2]:
-            variant = int(input(Constant.CHOOSE_OPTION_1))
+            variant = int(input(Constant.CHOOSE_OPTION))
         return variant
 
     @staticmethod
@@ -56,7 +56,7 @@ class Authorization:
 
     @staticmethod
     def choose_admin_option():
-        variant = int(input(Constant.CHOOSE_OPTION_2))
+        variant = int(input(Constant.CHOOSE_ACTIONS))
         while variant not in [0, 1, 2]:
             variant = int(input(Constant.CHOOSE_CORRECT_OPTION))
         return variant
@@ -112,9 +112,9 @@ class Authorization:
 
     @staticmethod
     def choose_user_option():
-        variant = int(input(Constant.CHOOSE_OPTION_2))
+        variant = int(input(Constant.CHOOSE_ACTIONS))
         while variant not in [0, 1, 2]:
-            variant = int(input(Constant.CHOOSE_OPTION_1))
+            variant = int(input(Constant.CHOOSE_OPTION))
         return variant
 
     @staticmethod
@@ -150,10 +150,10 @@ class Authorization:
 
     @staticmethod
     def choose_tariff_option(tariffs):
-        option = int(input(Constant.CHOOSE_OPTION_4))
+        option = int(input(Constant.SELECT_SERVICE))
         while not (
                 (tariffs[0]).id <= option <= (tariffs[tariffs.count() - 1]).id):
-            option = int(input(Constant.CHOOSE_CORRECT_OPTION_2))
+            option = int(input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES))
         return option
 
     @staticmethod
