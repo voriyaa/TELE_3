@@ -18,8 +18,11 @@
     
     source myenv/bin/activate
      
-    pip install requirements.txt
+    pip install -r requirements.txt
     
+    echo SECRET_KEY = "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5" > .env
+     
+    cd src
 ### Запуск
     python main.py
 
