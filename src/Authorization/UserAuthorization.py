@@ -51,7 +51,7 @@ class UserAuthorization:
             print(
                 f"{i + 1}: {elem.get_gb()}гб. | {elem.get_minutes()}мин. |"
                 f" {elem.get_cost_one_gb()}руб/гб. "
-                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+                f"| {elem.get_cost_one_minute()}руб/мин. | {elem.get_price()}руб.")
 
     @staticmethod
     def choose_tariff_option(tariffs):
