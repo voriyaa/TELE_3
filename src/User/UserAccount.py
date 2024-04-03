@@ -1,5 +1,3 @@
-from hashlib import sha256
-
 from sqlalchemy import ForeignKey
 
 from src.BaseUser.BaseUser import BaseUser, Column, String, Integer
