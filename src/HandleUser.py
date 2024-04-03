@@ -13,7 +13,7 @@ class HandleUser(UserAccount):
             variant = input(Constant.SELECT_OPTION_OF_USER)
             while variant not in ['0', '1', '2', '3', '4', '5', '6', '7', '8']:
                 print(Constant.CHOOSE_CORRECT_OPTION)
-                variant = int(input(Constant.SELECT_OPTION_OF_USER))
+                variant = input(Constant.SELECT_OPTION_OF_USER)
 
             match variant:
                 case '0':
