@@ -159,8 +159,6 @@ class Authorization:
                 (tariffs[0]).id <= int(option) <= (tariffs[tariffs.count() - 1]).id
         ):
             option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
-            while not option.isdigit():
-                option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
         return int(option)
 
     @staticmethod
