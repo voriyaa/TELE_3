@@ -3,6 +3,7 @@ from AdminAccount import AdminAccount, Tariff
 from Constants import Constant
 from Runner import database
 from GetInfo import GetInfo
+from GetCorrectValue import GetCorrectValue
 
 
 class HandleAdmin(AdminAccount):
@@ -10,17 +11,17 @@ class HandleAdmin(AdminAccount):
     @staticmethod
     def handle_admin_actions(admin):
         while True:
-            action = input(Constant.SELECT_OPTION)
-            while action not in ['0', '1', '2', '3']:
-                action = input(Constant.SELECT_OPTION)
-
-            if action == '0':
+            action = GetCorrectValue.get_number(min_value=0,
+                                                max_value=3,
+                                                first_out=Constant.SELECT_OPTION,
+                                                second_out=Constant.SELECT_CORRECT_OPTION)
+            if action == 0:
                 return
-            if action == '1':
+            if action == 1:
                 HandleAdmin.create_new_tariff(admin)
-            elif action == '2':
+            elif action == 2:
                 HandleAdmin.update_existing_tariff(admin)
-            elif action == '3':
+            elif action == 3:
                 HandleAdmin.view_tariffs()
 
     @staticmethod

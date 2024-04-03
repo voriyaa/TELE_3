@@ -14,7 +14,7 @@ class UserAccount(BaseUser):
 
     def __init__(self, first_name: str, last_name: str, birth_date: str,
                  passport_id: int, sex: str, username: str, password: str,
-                 phone_number: str, main_tariff: Tariff = None) -> None:
+                 phone_number: str, main_tariff: Tariff) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.__username = username
         self.__password = password
@@ -88,7 +88,7 @@ class UserAccount(BaseUser):
         if self.get_balance() >= self.get_tariff().get_cost_one_gb() * value:
             self.set_gb(self.get_gb() + value)
             self.set_balance(self.get_balance() - self.get_tariff().get_cost_one_gb() * value)
-            return "Успешно"
+            return "Успешно!"
         else:
             return "Недостаточно денег на балансе"
 
@@ -96,7 +96,7 @@ class UserAccount(BaseUser):
         if self.get_balance() >= self.get_tariff().get_cost_one_minute() * value:
             self.set_minutes(self.get_minutes() + value)
             self.set_balance(self.get_balance() - self.get_tariff().get_cost_one_minute() * value)
-            return "Успешно"
+            return "Успешно!"
         else:
             return "Недостаточно денег на балансе"
 

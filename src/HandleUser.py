@@ -3,36 +3,35 @@ from UserAccount import UserAccount
 from Constants import Constant
 from Runner import database
 from UserAccount import Tariff
-
+from GetCorrectValue import GetCorrectValue
 
 class HandleUser(UserAccount):
 
     @staticmethod
     def handle_user_actions(user):
         while True:
-            variant = input(Constant.SELECT_OPTION_OF_USER)
-            while variant not in ['0', '1', '2', '3', '4', '5', '6', '7', '8']:
-                print(Constant.CHOOSE_CORRECT_OPTION)
-                variant = input(Constant.SELECT_OPTION_OF_USER)
-
+            variant = GetCorrectValue.get_number(min_value=0,
+                                                 max_value=8,
+                                                 first_out=Constant.SELECT_OPTION_OF_USER,
+                                                 second_out=Constant.SELECT_CORRECT_OPTION_OF_USER)
             match variant:
-                case '0':
+                case 0:
                     return
-                case '1':
+                case 1:
                     HandleUser.show_user_details(user)
-                case '2':
+                case 2:
                     HandleUser.share_gb_with_friend(user)
-                case '3':
+                case 3:
                     HandleUser.share_minute_with_friend(user)
-                case '4':
+                case 4:
                     HandleUser.deposit_money(user)
-                case '5':
+                case 5:
                     HandleUser.change_tariff(user)
-                case '6':
+                case 6:
                     HandleUser.handle_buy_gb(user)
-                case '7':
+                case 7:
                     HandleUser.handle_buy_minute(user)
-                case '8':
+                case 8:
                     HandleUser.user_pay_tariff(user)
     
     @staticmethod
@@ -49,12 +48,12 @@ class HandleUser(UserAccount):
         owner_of_number = database.get_object(UserAccount, (
                 UserAccount._UserAccount__phone_number == phone_number))
 
-        how_many_gb = input(Constant.ENTER_SEND_GB_)
-        if not how_many_gb.isdigit():
-            print("Ошибка!")
-            return
+        how_many_gb = GetCorrectValue.get_number(min_value=0,
+                                                 max_value=99999,
+                                                 first_out=Constant.ENTER_SEND_GB,
+                                                 second_out=Constant.ERROR)
 
-        print(user.share_gb(owner_of_number, int(how_many_gb)))
+        print(user.share_gb(owner_of_number, how_many_gb))
         database.insert(owner_of_number)
 
     @staticmethod
@@ -64,21 +63,22 @@ class HandleUser(UserAccount):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
                 UserAccount._UserAccount__phone_number == phone_number))
-        how_many_minute = input(Constant.ENTER_SEND_MINUTE)
-        if not how_many_minute.isdigit():
-            print("Ошибка!")
-            return
 
-        user.share_minute(owner_of_number, int(how_many_minute))
+        how_many_minute = GetCorrectValue.get_number(min_value=0,
+                                                     max_value=99999,
+                                                     first_out=Constant.ENTER_SEND_MINUTE,
+                                                     second_out=Constant.ERROR)
+
+        user.share_minute(owner_of_number, how_many_minute)
         database.insert(owner_of_number)
     
     @staticmethod
     def deposit_money(user):
-        amount = input(Constant.ENTER_AMOUNT)
-        while not (amount.isdigit() and 0 < int(amount) < 10000):
-            amount = input(Constant.ENTER_CORRECT_AMOUNT)
-
-        user.deposit(int(amount))
+        amount = GetCorrectValue.get_number(min_value=1,
+                                            max_value=10000,
+                                            first_out=Constant.ENTER_AMOUNT,
+                                            second_out=Constant.ENTER_CORRECT_AMOUNT)
+        user.deposit(amount)
         database.insert(user)
     
     @staticmethod
@@ -86,9 +86,9 @@ class HandleUser(UserAccount):
         list_of_tariff = database.query(Tariff)
         HandleUser.display_tariffs(list_of_tariff)
 
-        get_id = input(Constant.SELECT_TARIFF)
-        while not get_id.isdigit():
-            get_id = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+        get_id = GetCorrectValue.get_number(max_value=10000,
+                                            first_out=Constant.SELECT_TARIFF,
+                                            second_out=Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
 
         tariff = database.get_object(Tariff, (Tariff.id == get_id))
         user.set_tariff(tariff)
@@ -96,20 +96,18 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def handle_buy_gb(user):
-        value = input(f"{Constant.ENTER_VALUE_GB}"
-                          f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: ")
-        while not value.isdigit():
-            value = input(Constant.ENTER_CORRECT_VALUE)
-        print(user.buy_gb(int(value)))
+        value = GetCorrectValue.get_number(first_out=f"{Constant.ENTER_VALUE_GB}"
+                                                     f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: ",
+                                           second_out=Constant.ENTER_CORRECT_VALUE)
+        print(user.buy_gb(value))
         database.insert(user)
 
     @staticmethod
     def handle_buy_minute(user):
-        value = input(f"{Constant.ENTER_VALUE_MINUTE}"
-                          f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: ")
-        while not value.isdigit():
-            value = input(Constant.ENTER_CORRECT_VALUE)
-        print(user.buy_minute(int(value)))
+        value = GetCorrectValue.get_number(first_out=f"{Constant.ENTER_VALUE_MINUTE}"
+                                                     f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: ",
+                                           second_out=Constant.ENTER_CORRECT_VALUE)
+        print(user.buy_minute(value))
         database.insert(user)
 
     @staticmethod

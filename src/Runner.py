@@ -5,6 +5,7 @@ from Constants import Constant
 from DataBase import database
 from dotenv import load_dotenv
 from GetInfo import GetInfo
+from GetCorrectValue import GetCorrectValue
 import os
 
 
@@ -32,39 +33,32 @@ class Authorization:
     @staticmethod
     def run():
         print(Constant.HI_TO_USER)
-        variant = Authorization.get_variant()
 
-        if variant == '1':
+        variant = GetCorrectValue.get_number(min_value=1,
+                                             max_value=2,
+                                             first_out=Constant.CHOOSE_STATUS,
+                                             second_out=Constant.CHOOSE_OPTION)
+
+        if variant == 1:
             return Authorization.admin_workflow()
         else:
             return Authorization.user_workflow()
 
     @staticmethod
-    def get_variant():
-        variant = input(Constant.CHOOSE_STATUS)
-        while variant not in ['1', '2']:
-            variant = input(Constant.CHOOSE_OPTION)
-        return variant
-
-    @staticmethod
     def admin_workflow():
         Authorization.verify_secret_key()
 
-        variant = Authorization.choose_admin_option()
-        if variant == '0':
+        variant = GetCorrectValue.get_number(min_value=0,
+                                             max_value=2,
+                                             first_out=Constant.CHOOSE_ACTIONS,
+                                             second_out=Constant.CHOOSE_CORRECT_OPTION)
+        if variant == 0:
             Authorization.run()
             return
-        elif variant == '1':
+        elif variant == 1:
             return Authorization.create_admin_account()
         else:
             return Authorization.admin_login()
-
-    @staticmethod
-    def choose_admin_option():
-        variant = input(Constant.CHOOSE_ACTIONS)
-        while variant not in ['0', '1', '2']:
-            variant = input(Constant.CHOOSE_CORRECT_OPTION)
-        return variant
 
     @staticmethod
     def verify_secret_key():
@@ -76,9 +70,11 @@ class Authorization:
     def create_admin_account():
         info = GetInfo.preregistration()
 
-        admin = AdminAccount(info['first_name'], info['last_name'], info['birth_date'], info['passport_id'],
-                             info['sex'],
-                             info['username'], info['password'], info['phone_number'])
+        admin = AdminAccount(
+                             info['first_name'], info['last_name'],
+                             info['birth_date'],info['passport_id'], info['sex'],
+                             info['username'], info['password'], info['phone_number']
+                             )
         database.insert(admin)
         return admin
 
@@ -97,22 +93,17 @@ class Authorization:
 
     @staticmethod
     def user_workflow():
-        variant = Authorization.choose_user_option()
-
-        if variant == '0':
+        variant = GetCorrectValue.get_number(min_value=0,
+                                             max_value=2,
+                                             first_out=Constant.CHOOSE_ACTIONS,
+                                             second_out=Constant.CHOOSE_CORRECT_OPTION)
+        if variant == 0:
             Authorization.run()
             return
-        elif variant == '1':
+        elif variant == 1:
             return Authorization.create_user_account()
         else:
             return Authorization.user_login()
-
-    @staticmethod
-    def choose_user_option():
-        variant = input(Constant.CHOOSE_ACTIONS)
-        while variant not in ['0', '1', '2']:
-            variant = input(Constant.CHOOSE_OPTION)
-        return variant
 
     @staticmethod
     def create_user_account():
@@ -123,9 +114,12 @@ class Authorization:
 
         option = Authorization.choose_tariff_option(list_of_tariff)
 
-        user = UserAccount(info['first_name'], info['last_name'], info['birth_date'], info['passport_id'], info['sex'],
-                           info['username'], info['password'], info['phone_number'],
-                           list_of_tariff[option - 1])
+        user = UserAccount(
+                           info['first_name'], info['last_name'], info['birth_date'],
+                           info['passport_id'], info['sex'], info['username'],
+                           info['password'], info['phone_number'],
+                           list_of_tariff[option - 1]
+                           )
         database.insert(user)
         return user
 
