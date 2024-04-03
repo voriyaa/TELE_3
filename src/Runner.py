@@ -31,16 +31,16 @@ class Authorization:
         print(Constant.HI_TO_USER)
         variant = Authorization.get_variant()
 
-        if variant == 1:
+        if variant == '1':
             return Authorization.admin_workflow()
         else:
             return Authorization.user_workflow()
 
     @staticmethod
     def get_variant():
-        variant = int(input(Constant.CHOOSE_STATUS))
-        while variant not in [1, 2]:
-            variant = int(input(Constant.CHOOSE_OPTION))
+        variant = input(Constant.CHOOSE_STATUS)
+        while variant not in ['1', '2']:
+            variant = input(Constant.CHOOSE_OPTION)
         return variant
 
     @staticmethod
@@ -48,19 +48,19 @@ class Authorization:
         Authorization.verify_secret_key()
 
         variant = Authorization.choose_admin_option()
-        if variant == 0:
+        if variant == '0':
             Authorization.run()
             return
-        elif variant == 1:
+        elif variant == '1':
             return Authorization.create_admin_account()
         else:
             return Authorization.admin_login()
 
     @staticmethod
     def choose_admin_option():
-        variant = int(input(Constant.CHOOSE_ACTIONS))
-        while variant not in [0, 1, 2]:
-            variant = int(input(Constant.CHOOSE_CORRECT_OPTION))
+        variant = input(Constant.CHOOSE_ACTIONS)
+        while variant not in ['0', '1', '2']:
+            variant = input(Constant.CHOOSE_CORRECT_OPTION)
         return variant
 
     @staticmethod
@@ -104,19 +104,19 @@ class Authorization:
     def user_workflow():
         variant = Authorization.choose_user_option()
 
-        if variant == 0:
+        if variant == '0':
             Authorization.run()
             return
-        elif variant == 1:
+        elif variant == '1':
             return Authorization.create_user_account()
         else:
             return Authorization.user_login()
 
     @staticmethod
     def choose_user_option():
-        variant = int(input(Constant.CHOOSE_ACTIONS))
-        while variant not in [0, 1, 2]:
-            variant = int(input(Constant.CHOOSE_OPTION))
+        variant = input(Constant.CHOOSE_ACTIONS)
+        while variant not in ['0', '1', '2']:
+            variant = input(Constant.CHOOSE_OPTION)
         return variant
 
     @staticmethod
@@ -152,11 +152,16 @@ class Authorization:
 
     @staticmethod
     def choose_tariff_option(tariffs):
-        option = int(input(Constant.SELECT_SERVICE))
+        option = input(Constant.SELECT_SERVICE)
+
         while not (
-                (tariffs[0]).id <= option <= (tariffs[tariffs.count() - 1]).id):
-            option = int(input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES))
-        return option
+                option.isdigit() and
+                (tariffs[0]).id <= int(option) <= (tariffs[tariffs.count() - 1]).id
+        ):
+            option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+            while not option.isdigit():
+                option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+        return int(option)
 
     @staticmethod
     def user_login():

@@ -48,10 +48,17 @@ class Constant:
     SUCCESSFUL_NEW_TARIFF = "Тариф успешно создан!"
     SUCCESSFUL_UPDATE_TARIFF = "Тариф успешно обновлен!"
 
+
 class AdminConstants:
+    pass
+
 
 class UserConstants:
+    pass
 
 class TariffConstants:
+    pass
+
 
 class AuthorizationConstants:
+    pass
