@@ -54,7 +54,7 @@ class HandleUser(UserAccount):
             print("Ошибка!")
             return
 
-        print(user.share_gb(owner_of_number, how_many_gb))
+        print(user.share_gb(owner_of_number, int(how_many_gb)))
         database.insert(owner_of_number)
 
     @staticmethod
@@ -69,7 +69,7 @@ class HandleUser(UserAccount):
             print("Ошибка!")
             return
 
-        user.share_minute(owner_of_number, how_many_minute)
+        user.share_minute(owner_of_number, int(how_many_minute))
         database.insert(owner_of_number)
     
     @staticmethod

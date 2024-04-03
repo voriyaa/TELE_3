@@ -2,6 +2,7 @@
 from AdminAccount import AdminAccount, Tariff
 from Constants import Constant
 from Runner import database
+from GetInfo import GetInfo
 
 
 class HandleAdmin(AdminAccount):
@@ -24,13 +25,9 @@ class HandleAdmin(AdminAccount):
 
     @staticmethod
     def create_new_tariff(admin):
-        cost_one_gb = int(input(Constant.ENTER_COST_GB_TARIFF))
-        cost_one_minute = int(input(Constant.ENTER_COST_MINUTE_TARIFF))
-        gb = int(input(Constant.ENTER_GB_TARIFF))
-        minute = int(input(Constant.ENTER_MINUTE_TARIFF))
-        price = int(input(Constant.ENTER_PRICE_TARIFF))
+        info = GetInfo.info_tariff()
 
-        new_tariff = admin.create_tariff(cost_one_gb, cost_one_minute, gb, minute, price)
+        new_tariff = admin.create_tariff(info['cost_one_gb'], info['cost_one_minute'], info['gb'], info['minute'], info['price'])
 
         database.insert(new_tariff)
 
@@ -50,14 +47,11 @@ class HandleAdmin(AdminAccount):
             option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
         option = int(option)
 
-        cost_one_gb = int(input(Constant.ENTER_NEW_COST_GB_TARIFF))
-        cost_one_minute = int(input(Constant.ENTER_NEW_COST_MINUTE_TARIFF))
-        gb = int(input(Constant.ENTER_NEW_GB_TARIFF))
-        minute = int(input(Constant.ENTER_NEW_MINUTE_TARIFF))
-        price = int(input(Constant.ENTER_NEW_PRICE_TARIFF))
+        info = GetInfo.info_tariff()
 
         tariff = database.get_object(Tariff, (Tariff.id == option))
-        admin.change_tariff(tariff, cost_one_gb, cost_one_minute, price, gb, minute)
+        admin.change_tariff(tariff, info['gb'], info['minute'],
+                            info['cost_one_gb'], info['cost_one_minute'], info['price'])
 
         database.insert(admin)
 
