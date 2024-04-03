@@ -37,12 +37,6 @@ class AdminAccount(BaseUser):
                       cost_one_minute: int, price: int, gb: int, minute: int) -> None:
         old_tariff.change_tariff(cost_one_gb, cost_one_minute, price, gb, minute)
 
-    def get_username(self) -> str:
-        return self.__username
-
-    def get_password(self) -> str:
-        return self.__password
-
 
     __tablename__ = 'admin_account'
     __username = Column(String(1000), unique=True)
