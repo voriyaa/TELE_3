@@ -28,6 +28,7 @@ class HandleUser(UserAccount):
             if variant == 0:
                 return
             actions[variant]()
+
     @staticmethod
     def show_user_details(user):
         print(f"Остаток: {user.get_gb()}гб. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"
@@ -40,7 +41,7 @@ class HandleUser(UserAccount):
         while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
-                UserAccount.get_phone_number(UserAccount) == phone_number, True))
+            UserAccount.get_phone_number(UserAccount) == phone_number, True))
 
         how_many_gb = GetCorrectValue.get_number(min_value=0,
                                                  max_value=99999,
@@ -65,8 +66,7 @@ class HandleUser(UserAccount):
 
         user.share_minute(owner_of_number, how_many_minute)
         database.insert(owner_of_number) \
-
-
+ \
     @staticmethod
     def deposit_money(user):
         amount = GetCorrectValue.get_number(min_value=1,
