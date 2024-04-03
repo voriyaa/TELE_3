@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from src.User.UserAccount import UserAccount
 from src.Constants.Constants import Constant
-from src.Authorization.AdminAuthorization import database
+from src.Authorization.Authorization import database
 from src.User.UserAccount import Tariff
 from src.Tools.GetCorrectValue import GetCorrectValue
 
