@@ -15,26 +15,19 @@ class HandleUser(UserAccount):
                                                  max_value=8,
                                                  first_out=Constant.SELECT_OPTION_OF_USER,
                                                  second_out=Constant.SELECT_CORRECT_OPTION_OF_USER)
-            match variant:
-                case 0:
-                    return
-                case 1:
-                    HandleUser.show_user_details(user)
-                case 2:
-                    HandleUser.share_gb_with_friend(user)
-                case 3:
-                    HandleUser.share_minute_with_friend(user)
-                case 4:
-                    HandleUser.deposit_money(user)
-                case 5:
-                    HandleUser.change_tariff(user)
-                case 6:
-                    HandleUser.handle_buy_gb(user)
-                case 7:
-                    HandleUser.handle_buy_minute(user)
-                case 8:
-                    HandleUser.user_pay_tariff(user)
-
+            actions = {
+                1: lambda: HandleUser.show_user_details(user),
+                2: lambda: HandleUser.share_gb_with_friend(user),
+                3: lambda: HandleUser.share_minute_with_friend(user),
+                4: lambda: HandleUser.deposit_money(user),
+                5: lambda: HandleUser.change_tariff(user),
+                6: lambda: HandleUser.handle_buy_gb(user),
+                7: lambda: HandleUser.handle_buy_minute(user),
+                8: lambda: HandleUser.user_pay_tariff(user),
+            }
+            if variant == 0:
+                return
+            actions[variant]()
     @staticmethod
     def show_user_details(user):
         print(f"Остаток: {user.get_gb()}гб. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"

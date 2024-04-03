@@ -11,18 +11,18 @@ class HandleAdmin(AdminAccount):
     @staticmethod
     def handle_admin_actions(admin):
         while True:
-            action = GetCorrectValue.get_number(min_value=0,
-                                                max_value=3,
-                                                first_out=Constant.SELECT_OPTION,
-                                                second_out=Constant.SELECT_CORRECT_OPTION)
-            if action == 0:
-                return
-            if action == 1:
-                HandleAdmin.create_new_tariff(admin)
-            elif action == 2:
-                HandleAdmin.update_existing_tariff(admin)
-            elif action == 3:
-                HandleAdmin.view_tariffs()
+            variant = GetCorrectValue.get_number(min_value=0,
+                                                 max_value=3,
+                                                 first_out=Constant.SELECT_OPTION,
+                                                 second_out=Constant.SELECT_CORRECT_OPTION)
+            actions = {
+                1: lambda: HandleAdmin.create_new_tariff(admin),
+                2: lambda: HandleAdmin.update_existing_tariff(admin),
+                3: lambda: HandleAdmin.view_tariffs()
+            }
+            if variant == 0:
+                return None
+            actions[variant]()
 
     @staticmethod
     def create_new_tariff(admin):
