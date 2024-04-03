@@ -47,3 +47,11 @@ class Constant:
     ENTER_VALUE_MINUTE = "Сколько минут хотите приобрести по стоимости:"
     SUCCESSFUL_NEW_TARIFF = "Тариф успешно создан!"
     SUCCESSFUL_UPDATE_TARIFF = "Тариф успешно обновлен!"
+
+class AdminConstants:
+
+class UserConstants:
+
+class TariffConstants:
+
+class AuthorizationConstants:

@@ -3,7 +3,7 @@ from BaseUser import Base
 from sqlalchemy.orm import sessionmaker
 
 
-class DataBase:
+class ControlDataBase:
     def __init__(self, db_url):
         self.__engine = create_engine(db_url, echo=False)
         self.__session = None
@@ -49,6 +49,6 @@ class DataBase:
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
 
-database = DataBase("sqlite:///example.db")
+database = ControlDataBase("sqlite:///example.db")
 database.create_tables()
 database.creat_session()
