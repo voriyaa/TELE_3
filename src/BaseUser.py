@@ -9,7 +9,7 @@ class BaseUser(Base):
     id = Column(Integer, primary_key=True)
 
     def __init__(self, first_name: str, last_name: str,
-                 birth_date: str, passport_id: int, sex: str) -> None:
+                 birth_date: str, passport_id: str, sex: str) -> None:
         self.__first_name = first_name
         self.__last_name = last_name
         self.__birth_date = birth_date
@@ -25,7 +25,7 @@ class BaseUser(Base):
     def get_birth_data(self) -> str:
         return self.__birth_date
 
-    def get_passport_id(self) -> int:
+    def get_passport_id(self) -> str:
         return self.__passport_id
 
     def get_sex(self) -> str:
@@ -35,5 +35,5 @@ class BaseUser(Base):
     __first_name = Column(String(50), unique=False)
     __last_name = Column(String(50), unique=False)
     __birth_date = Column(String(15), unique=False)
-    __passport_id = Column(BigInteger, unique=True, nullable=False)
+    __passport_id = Column(String(15), unique=True, nullable=False)
     __sex = Column(String(1), unique=False)

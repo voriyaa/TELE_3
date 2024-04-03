@@ -28,7 +28,8 @@ class HandleAdmin(AdminAccount):
     def create_new_tariff(admin):
         info = GetInfo.info_tariff()
 
-        new_tariff = admin.create_tariff(info['cost_one_gb'], info['cost_one_minute'], info['gb'], info['minute'], info['price'])
+        new_tariff = admin.create_tariff(info['cost_one_gb'], info['cost_one_minute'],
+                                         info['gb'], info['minute'], info['price'])
 
         database.insert(new_tariff)
 

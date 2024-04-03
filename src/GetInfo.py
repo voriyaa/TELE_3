@@ -16,7 +16,7 @@ class GetInfo:
         info['last_name'] = input(Constant.ENTER_SURNAME)
         info['birth_date'] = input(Constant.ENTER_BIRTH_DATE)
         info['sex'] = input(Constant.ENTER_YOUR_SEX)
-        info['passport_id'] = int(input(Constant.ENTER_PASSPORT_ID))
+        info['passport_id'] = input(Constant.ENTER_PASSPORT_ID)
         info['phone_number'] = input(Constant.ENTER_PHONE_NUMBER)
         info['username'] = input(Constant.ENTER_USERNAME)
         info['password'] = input(Constant.ENTER_PASSWORD)
