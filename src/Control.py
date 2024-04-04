@@ -10,6 +10,8 @@ class Control:
     def control_in_out():
         while True:
             user_admin = Authorization.run()
+            while user_admin is None:
+                user_admin = Authorization.run()
             if isinstance(user_admin, UserAccount):
                 HandleUser.handle_user_actions(user_admin)
             else:

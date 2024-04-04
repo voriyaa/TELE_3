@@ -52,7 +52,6 @@ class Authorization:
                                              first_out=Constant.CHOOSE_ACTIONS,
                                              second_out=Constant.CHOOSE_CORRECT_OPTION)
         if variant == 0:
-            Authorization.run()
             return
         elif variant == 1:
             return Authorization.create_admin_account()
@@ -98,7 +97,6 @@ class Authorization:
                                              first_out=Constant.CHOOSE_ACTIONS,
                                              second_out=Constant.CHOOSE_CORRECT_OPTION)
         if variant == 0:
-            Authorization.run()
             return
         elif variant == 1:
             return Authorization.create_user_account()
