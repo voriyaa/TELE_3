@@ -8,7 +8,6 @@ from GetInfo import GetInfo
 from GetCorrectValue import GetCorrectValue
 import os
 
-
 def sha256_str(item):
     return sha256(str(item).encode()).hexdigest()
 
@@ -71,10 +70,10 @@ class Authorization:
         info = GetInfo.preregistration()
 
         admin = AdminAccount(
-                             info['first_name'], info['last_name'],
-                             info['birth_date'],info['passport_id'], info['sex'],
-                             info['username'], info['password'], info['phone_number']
-                             )
+            info['first_name'], info['last_name'],
+            info['birth_date'], info['passport_id'], info['sex'],
+            info['username'], info['password'], info['phone_number']
+        )
         database.insert(admin)
         return admin
 
@@ -82,13 +81,14 @@ class Authorization:
     def admin_login():
         info_account = GetInfo.info_account()
 
-        while not database.find(AdminAccount, AdminAccount._AdminAccount__username == info_account['username'] and
-                                              AdminAccount._AdminAccount__password == info_account['password']):
+        while not database.find(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
+                                               AdminAccount.get_password(AdminAccount) == info_account['password'])):
             print(Constant.INCORRECT_LOGIN_PASSWORD)
             info_account = GetInfo.info_account()
 
-        result = database.get_object(AdminAccount, (AdminAccount._AdminAccount__username == info_account['username'] and
-                                                    AdminAccount._AdminAccount__password == info_account['password']))
+        result = database.get_object(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
+                                                    AdminAccount.get_password(AdminAccount) == info_account[
+                                                        'password']))
         return result
 
     @staticmethod
@@ -115,11 +115,11 @@ class Authorization:
         option = Authorization.choose_tariff_option(list_of_tariff)
 
         user = UserAccount(
-                           info['first_name'], info['last_name'], info['birth_date'],
-                           info['passport_id'], info['sex'], info['username'],
-                           info['password'], info['phone_number'],
-                           list_of_tariff[option - 1]
-                           )
+            info['first_name'], info['last_name'], info['birth_date'],
+            info['passport_id'], info['sex'], info['username'],
+            info['password'], info['phone_number'],
+            list_of_tariff[option - 1]
+        )
         database.insert(user)
         return user
 
@@ -147,10 +147,10 @@ class Authorization:
     def user_login():
         info_account = GetInfo.info_account()
 
-        while not database.find(UserAccount, (UserAccount._UserAccount__username == info_account['username'] and
-                                              UserAccount._UserAccount__password == info_account['password'])):
+        while not database.find(UserAccount, (UserAccount.get_username(UserAccount) == info_account['username'],
+                                              UserAccount.get_password(UserAccount) == info_account['password'])):
             info_account = GetInfo.info_account()
 
-        user = database.get_object(UserAccount, (UserAccount._UserAccount__username == info_account['username'] and
-                                                 UserAccount._UserAccount__password == info_account['password']))
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == info_account['username'],
+                                                 UserAccount.get_password(UserAccount) == info_account['password']))
         return user

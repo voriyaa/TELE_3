@@ -51,7 +51,7 @@ class HandleAdmin(AdminAccount):
 
         info = GetInfo.info_tariff()
 
-        tariff = database.get_object(Tariff, (Tariff.id == option))
+        tariff = database.get_object(Tariff, (Tariff.id == option, True))
         admin.change_tariff(tariff, info['gb'], info['minute'],
                             info['cost_one_gb'], info['cost_one_minute'], info['price'])
 

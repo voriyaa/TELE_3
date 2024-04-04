@@ -19,7 +19,7 @@ class GetInfo:
         info['passport_id'] = input(Constant.ENTER_PASSPORT_ID)
         info['phone_number'] = input(Constant.ENTER_PHONE_NUMBER)
         info['username'] = input(Constant.ENTER_USERNAME)
-        info['password'] = input(Constant.ENTER_PASSWORD)
+        info['password'] = sha256_str(input(Constant.ENTER_PASSWORD))
 
         return info
 

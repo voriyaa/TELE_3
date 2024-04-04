@@ -5,6 +5,7 @@ from Runner import database
 from UserAccount import Tariff
 from GetCorrectValue import GetCorrectValue
 
+
 class HandleUser(UserAccount):
 
     @staticmethod
@@ -33,20 +34,20 @@ class HandleUser(UserAccount):
                     HandleUser.handle_buy_minute(user)
                 case 8:
                     HandleUser.user_pay_tariff(user)
-    
+
     @staticmethod
     def show_user_details(user):
         print(f"Остаток: {user.get_gb()}гб. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"
               f"Мой тариф: {user.get_tariff().get_gb()}гб. | {user.get_tariff().get_minutes()}мин. |"
               f" {user.get_tariff().get_cost_one_gb()}руб/гб. | {user.get_tariff().get_cost_one_minute()}руб/мин.")
-    
+
     @staticmethod
     def share_gb_with_friend(user):
         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, UserAccount._UserAccount__phone_number == phone_number):
+        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
-                UserAccount._UserAccount__phone_number == phone_number))
+                UserAccount.get_phone_number(UserAccount) == phone_number, True))
 
         how_many_gb = GetCorrectValue.get_number(min_value=0,
                                                  max_value=99999,
@@ -59,10 +60,10 @@ class HandleUser(UserAccount):
     @staticmethod
     def share_minute_with_friend(user):
         phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, UserAccount._UserAccount__phone_number == phone_number):
+        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
             phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
         owner_of_number = database.get_object(UserAccount, (
-                UserAccount._UserAccount__phone_number == phone_number))
+            UserAccount.get_phone_number(UserAccount) == phone_number, True))
 
         how_many_minute = GetCorrectValue.get_number(min_value=0,
                                                      max_value=99999,
@@ -70,8 +71,9 @@ class HandleUser(UserAccount):
                                                      second_out=Constant.ERROR)
 
         user.share_minute(owner_of_number, how_many_minute)
-        database.insert(owner_of_number)
-    
+        database.insert(owner_of_number) \
+
+
     @staticmethod
     def deposit_money(user):
         amount = GetCorrectValue.get_number(min_value=1,
@@ -80,7 +82,7 @@ class HandleUser(UserAccount):
                                             second_out=Constant.ENTER_CORRECT_AMOUNT)
         user.deposit(amount)
         database.insert(user)
-    
+
     @staticmethod
     def change_tariff(user):
         list_of_tariff = database.query(Tariff)
@@ -90,7 +92,7 @@ class HandleUser(UserAccount):
                                             first_out=Constant.SELECT_TARIFF,
                                             second_out=Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
 
-        tariff = database.get_object(Tariff, (Tariff.id == get_id))
+        tariff = database.get_object(Tariff, (Tariff.id == get_id, True))
         user.set_tariff(tariff)
         database.insert(user)
 
