@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, and_
 from BaseUser import Base
 from sqlalchemy.orm import sessionmaker
 
@@ -22,7 +22,7 @@ class ControlDataBase:
         return self.__session.query(model)
 
     def find(self, model, expressions):
-        return len(self.__session.query(model).filter(expressions).all()) != 0
+        return len(self.__session.query(model).filter(and_(*expressions)).all()) != 0
 
     def insert(self, obj):
         self.__session.add(obj)
@@ -30,7 +30,7 @@ class ControlDataBase:
 
     def delete(self, model, expressions):
         if self.find(model, expressions):
-            obj = self.__session.query(model).filter(expressions).all()[0]
+            obj = self.__session.query(model).filter(and_(*expressions)).all()[0]
             self.__session.delete(obj)
             self.__session.commit()
             return
@@ -38,7 +38,7 @@ class ControlDataBase:
 
     def get_object(self, model, expressions):
         if self.find(model, expressions):
-            obj = self.__session.query(model).filter(expressions).all()[0]
+            obj = self.__session.query(model).filter(and_(*expressions)).all()[0]
             return obj
         print("THERE IS NO SUCH OBJECT IN THE DATABASE")
         return None
