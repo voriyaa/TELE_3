@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, and_
-from BaseUser import Base
+from src.BaseUser.BaseUser import Base
 from sqlalchemy.orm import sessionmaker
 
 

@@ -2,9 +2,9 @@ from hashlib import sha256
 
 from sqlalchemy import ForeignKey
 
-from BaseUser import BaseUser, Column, String, Integer
+from src.BaseUser.BaseUser import BaseUser, Column, String, Integer
 from sqlalchemy.orm import relationship
-from Tariff import Tariff
+from src.Tariffs.Tariff import Tariff
 
 
 class UserAccount(BaseUser):

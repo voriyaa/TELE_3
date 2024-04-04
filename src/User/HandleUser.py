@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from UserAccount import UserAccount
-from Constants import Constant
-from Runner import database
-from UserAccount import Tariff
-from GetCorrectValue import GetCorrectValue
+from src.User.UserAccount import UserAccount
+from src.Constants.Constants import Constant
+from src.Authorization.Authorization import database
+from src.User.UserAccount import Tariff
+from src.Tools.GetCorrectValue import GetCorrectValue
 
 
 class HandleUser(UserAccount):

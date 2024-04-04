@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from AdminAccount import AdminAccount, Tariff
-from Constants import Constant
-from Runner import database
-from GetInfo import GetInfo
-from GetCorrectValue import GetCorrectValue
+from src.Admin.AdminAccount import AdminAccount, Tariff
+from src.Constants.Constants import Constant
+from src.Authorization.Authorization import database
+from src.Tools.GetInfo import GetInfo
+from src.Tools.GetCorrectValue import GetCorrectValue
 
 
 class HandleAdmin(AdminAccount):

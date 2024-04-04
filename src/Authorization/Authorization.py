@@ -1,11 +1,11 @@
 from hashlib import sha256
-from AdminAccount import AdminAccount, Tariff
-from UserAccount import UserAccount
-from Constants import Constant
-from DataBase import database
+from src.Admin.AdminAccount import AdminAccount, Tariff
+from src.User.UserAccount import UserAccount
+from src.Constants.Constants import Constant
+from src.Tools.DataBase import database
 from dotenv import load_dotenv
-from GetInfo import GetInfo
-from GetCorrectValue import GetCorrectValue
+from src.Tools.GetInfo import GetInfo
+from src.Tools.GetCorrectValue import GetCorrectValue
 import os
 
 def sha256_str(item):

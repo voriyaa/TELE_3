@@ -1,4 +1,4 @@
-from Constants import Constant
+from src.Constants.Constants import Constant
 from hashlib import sha256
 
 

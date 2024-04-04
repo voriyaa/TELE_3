@@ -1,7 +1,7 @@
-from Runner import Authorization
-from UserAccount import UserAccount
-from HandleUser import HandleUser
-from HandleAdmin import HandleAdmin
+from src.Authorization.Authorization import Authorization
+from src.User.UserAccount import UserAccount
+from src.User.HandleUser import HandleUser
+from src.Admin.HandleAdmin import HandleAdmin
 
 
 class Control:
