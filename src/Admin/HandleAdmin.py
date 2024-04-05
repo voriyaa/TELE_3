@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from src.Admin.AdminAccount import AdminAccount, Tariff
-from src.Constants.Constants import Constant
+from src.Constants.Constants import AdminConstants
 from src.Authorization.Authorization import database
 from src.Tools.GetInfo import GetInfo
 from src.Tools.GetCorrectValue import GetCorrectValue
@@ -13,8 +13,8 @@ class HandleAdmin(AdminAccount):
         while True:
             variant = GetCorrectValue.get_number(min_value=0,
                                                  max_value=3,
-                                                 first_out=Constant.SELECT_OPTION,
-                                                 second_out=Constant.SELECT_CORRECT_OPTION)
+                                                 first_out=AdminConstants.SELECT_OPTION,
+                                                 second_out=AdminConstants.SELECT_CORRECT_OPTION)
             actions = {
                 1: lambda: HandleAdmin.create_new_tariff(admin),
                 2: lambda: HandleAdmin.update_existing_tariff(admin),
@@ -33,7 +33,7 @@ class HandleAdmin(AdminAccount):
 
         database.insert(new_tariff)
 
-        print(Constant.SUCCESSFUL_NEW_TARIFF)
+        print(AdminConstants.SUCCESSFUL_NEW_TARIFF)
 
     @staticmethod
     def update_existing_tariff(admin):
@@ -41,12 +41,12 @@ class HandleAdmin(AdminAccount):
 
         HandleAdmin.view_tariffs()
 
-        option = input(Constant.SELECT_SERVICE)
+        option = input(AdminConstants.SELECT_SERVICE)
         while not (
                 option.isdigit() and
                 list_of_tariff[0].id <= int(option) <= list_of_tariff[list_of_tariff.count() - 1].id
         ):
-            option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+            option = input(AdminConstants.CHOOSE_CORRECT_OPTION_OF_SERVICES)
         option = int(option)
 
         info = GetInfo.info_tariff()
@@ -57,13 +57,13 @@ class HandleAdmin(AdminAccount):
 
         database.insert(admin)
 
-        print(Constant.SUCCESSFUL_UPDATE_TARIFF)
+        print(AdminConstants.SUCCESSFUL_UPDATE_TARIFF)
 
     @staticmethod
     def view_tariffs():
         list_of_tariff = database.query(Tariff)
 
-        print(Constant.LIST_SERVICES)
+        print(AdminConstants.LIST_SERVICES)
         for elem in list_of_tariff:
             print(
                 f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"

@@ -2,7 +2,7 @@
 from hashlib import sha256
 from src.User.UserAccount import UserAccount
 from src.Admin.AdminAccount import AdminAccount, Tariff
-from src.Constants.Constants import Constant
+from src.Constants.Constants import AuthorizationConstants
 from src.Tools.DataBase import database
 from dotenv import load_dotenv
 from src.Tools.GetCorrectValue import GetCorrectValue
@@ -33,12 +33,12 @@ class Authorization:
 
     @staticmethod
     def run():
-        print(Constant.HI_TO_USER)
+        print(AuthorizationConstants.HI_TO_USER)
 
         variant = GetCorrectValue.get_number(min_value=1,
                                              max_value=2,
-                                             first_out=Constant.CHOOSE_STATUS,
-                                             second_out=Constant.CHOOSE_OPTION)
+                                             first_out=AuthorizationConstants.CHOOSE_STATUS,
+                                             second_out=AuthorizationConstants.CHOOSE_OPTION)
 
         if variant == 1:
             return Authorization.admin_workflow()
@@ -49,8 +49,8 @@ class Authorization:
     def user_workflow():
         variant = GetCorrectValue.get_number(min_value=0,
                                              max_value=2,
-                                             first_out=Constant.CHOOSE_ACTIONS,
-                                             second_out=Constant.CHOOSE_CORRECT_OPTION)
+                                             first_out=AuthorizationConstants.CHOOSE_ACTIONS,
+                                             second_out=AuthorizationConstants.CHOOSE_CORRECT_OPTION)
         if variant == 0:
             return
         elif variant == 1:
@@ -64,8 +64,8 @@ class Authorization:
 
         variant = GetCorrectValue.get_number(min_value=0,
                                              max_value=2,
-                                             first_out=Constant.CHOOSE_ACTIONS,
-                                             second_out=Constant.CHOOSE_CORRECT_OPTION)
+                                             first_out=AuthorizationConstants.CHOOSE_ACTIONS,
+                                             second_out=AuthorizationConstants.CHOOSE_CORRECT_OPTION)
         if variant == 0:
             return
         elif variant == 1:
@@ -75,9 +75,9 @@ class Authorization:
 
     @staticmethod
     def verify_secret_key():
-        key = input(Constant.ENTER_SECRET_KEY)
-        while sha256_str(key) != os.getenv("SECRET_KEY"):
-            key = input(Constant.WRONG_KEY)
+        key = input(AuthorizationConstants.ENTER_SECRET_KEY)
+        while sha256_str(key) != "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5":
+            key = input(AuthorizationConstants.WRONG_KEY)
 
     @staticmethod
     def create_admin_account():
@@ -98,7 +98,7 @@ class Authorization:
         while not database.find(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
                                                AdminAccount.get_password(AdminAccount) == info_account[
                                                    'password'])):
-            print(Constant.INCORRECT_LOGIN_PASSWORD)
+            print(AuthorizationConstants.INCORRECT_LOGIN_PASSWORD)
             info_account = GetInfo.info_account()
 
         result = database.get_object(AdminAccount,
@@ -127,7 +127,7 @@ class Authorization:
 
     @staticmethod
     def display_tariffs(tariffs):
-        print(Constant.LIST_SERVICES)
+        print(AuthorizationConstants.LIST_SERVICES)
         for i, elem in enumerate(tariffs):
             print(
                 f"{i + 1}: {elem.get_gb()}гб. | {elem.get_minutes()}мин. |"
@@ -136,13 +136,13 @@ class Authorization:
 
     @staticmethod
     def choose_tariff_option(tariffs):
-        option = input(Constant.SELECT_SERVICE)
+        option = input(AuthorizationConstants.SELECT_SERVICE)
 
         while not (
                 option.isdigit() and
                 (tariffs[0]).id <= int(option) <= (tariffs[tariffs.count() - 1]).id
         ):
-            option = input(Constant.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+            option = input(AuthorizationConstants.CHOOSE_CORRECT_OPTION_OF_SERVICES)
         return int(option)
 
     @staticmethod
