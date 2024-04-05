@@ -76,7 +76,7 @@ class Authorization:
     @staticmethod
     def verify_secret_key():
         key = input(AuthorizationConstants.ENTER_SECRET_KEY)
-        while sha256_str(key) != "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5":
+        while sha256_str(key) != os.getenv("SECRET_KEY"):
             key = input(AuthorizationConstants.WRONG_KEY)
 
     @staticmethod
