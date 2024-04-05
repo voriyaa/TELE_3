@@ -33,7 +33,7 @@ class Authorization:
 
     @staticmethod
     def run():
-        print(AuthorizationConstants.HI_TO_USER)
+        print(AuthorizationConstants.GREET_USER)
 
         variant = GetCorrectValue.get_number(min_value=1,
                                              max_value=2,
@@ -50,7 +50,7 @@ class Authorization:
         variant = GetCorrectValue.get_number(min_value=0,
                                              max_value=2,
                                              first_out=AuthorizationConstants.CHOOSE_ACTIONS,
-                                             second_out=AuthorizationConstants.CHOOSE_CORRECT_OPTION)
+                                             second_out=AuthorizationConstants.CHOOSE_VALID_OPTION)
         if variant == 0:
             return
         elif variant == 1:
@@ -65,7 +65,7 @@ class Authorization:
         variant = GetCorrectValue.get_number(min_value=0,
                                              max_value=2,
                                              first_out=AuthorizationConstants.CHOOSE_ACTIONS,
-                                             second_out=AuthorizationConstants.CHOOSE_CORRECT_OPTION)
+                                             second_out=AuthorizationConstants.CHOOSE_VALID_OPTION)
         if variant == 0:
             return
         elif variant == 1:
@@ -98,7 +98,7 @@ class Authorization:
         while not database.find(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
                                                AdminAccount.get_password(AdminAccount) == info_account[
                                                    'password'])):
-            print(AuthorizationConstants.INCORRECT_LOGIN_PASSWORD)
+            print(AuthorizationConstants.INVALID_LOGIN_PASSWORD)
             info_account = GetInfo.info_account()
 
         result = database.get_object(AdminAccount,
@@ -142,7 +142,7 @@ class Authorization:
                 option.isdigit() and
                 (tariffs[0]).id <= int(option) <= (tariffs[tariffs.count() - 1]).id
         ):
-            option = input(AuthorizationConstants.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+            option = input(AuthorizationConstants.CHOOSE_VALID_OPTION_OF_SERVICES)
         return int(option)
 
     @staticmethod

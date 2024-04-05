@@ -14,7 +14,7 @@ class HandleAdmin(AdminAccount):
             variant = GetCorrectValue.get_number(min_value=0,
                                                  max_value=3,
                                                  first_out=AdminConstants.SELECT_OPTION,
-                                                 second_out=AdminConstants.SELECT_CORRECT_OPTION)
+                                                 second_out=AdminConstants.SELECT_VALID_OPTION)
             actions = {
                 1: lambda: HandleAdmin.create_new_tariff(admin),
                 2: lambda: HandleAdmin.update_existing_tariff(admin),
@@ -46,7 +46,7 @@ class HandleAdmin(AdminAccount):
                 option.isdigit() and
                 list_of_tariff[0].id <= int(option) <= list_of_tariff[list_of_tariff.count() - 1].id
         ):
-            option = input(AdminConstants.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+            option = input(AdminConstants.CHOOSE_VALID_OPTION_OF_SERVICES)
         option = int(option)
 
         info = GetInfo.info_tariff()

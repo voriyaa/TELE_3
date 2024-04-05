@@ -14,7 +14,7 @@ class HandleUser(UserAccount):
             variant = GetCorrectValue.get_number(min_value=0,
                                                  max_value=8,
                                                  first_out=UserConstants.SELECT_OPTION_OF_USER,
-                                                 second_out=UserConstants.SELECT_CORRECT_OPTION_OF_USER)
+                                                 second_out=UserConstants.SELECT_VALID_OPTION_OF_USER)
             actions = {
                 1: lambda: HandleUser.show_user_details(user),
                 2: lambda: HandleUser.share_gb_with_friend(user),
@@ -72,7 +72,7 @@ class HandleUser(UserAccount):
         amount = GetCorrectValue.get_number(min_value=1,
                                             max_value=10000,
                                             first_out=UserConstants.ENTER_AMOUNT,
-                                            second_out=UserConstants.ENTER_CORRECT_AMOUNT)
+                                            second_out=UserConstants.ENTER_VALID_AMOUNT)
         user.deposit(amount)
         database.insert(user)
 
@@ -83,7 +83,7 @@ class HandleUser(UserAccount):
 
         get_id = GetCorrectValue.get_number(max_value=10000,
                                             first_out=UserConstants.SELECT_TARIFF,
-                                            second_out=UserConstants.CHOOSE_CORRECT_OPTION_OF_SERVICES)
+                                            second_out=UserConstants.CHOOSE_VALID_OPTION_OF_SERVICES)
 
         tariff = database.get_object(Tariff, (Tariff.id == get_id, True))
         user.set_tariff(tariff)
@@ -93,7 +93,7 @@ class HandleUser(UserAccount):
     def handle_buy_gb(user):
         value = GetCorrectValue.get_number(first_out=f"{UserConstants.ENTER_VALUE_GB}"
                                                      f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: ",
-                                           second_out=UserConstants.ENTER_CORRECT_VALUE)
+                                           second_out=UserConstants.ENTER_VALID_VALUE)
         print(user.buy_gb(value))
         database.insert(user)
 
@@ -101,7 +101,7 @@ class HandleUser(UserAccount):
     def handle_buy_minute(user):
         value = GetCorrectValue.get_number(first_out=f"{UserConstants.ENTER_VALUE_MINUTE}"
                                                      f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: ",
-                                           second_out=UserConstants.ENTER_CORRECT_VALUE)
+                                           second_out=UserConstants.ENTER_VALID_VALUE)
         print(user.buy_minute(value))
         database.insert(user)
 
