@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from src.User.UserAccount import UserAccount
 from src.Constants.Constants import Constant
 from src.Authorization.Authorization import database
@@ -37,36 +36,12 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def share_gb_with_friend(user):
-        phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
-            phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        owner_of_number = database.get_object(UserAccount, (
-            UserAccount.get_phone_number(UserAccount) == phone_number, True))
-
-        how_many_gb = GetCorrectValue.get_number(min_value=0,
-                                                 max_value=99999,
-                                                 first_out=Constant.ENTER_SEND_GB,
-                                                 second_out=Constant.ERROR)
-
-        print(user.share_gb(owner_of_number, how_many_gb))
-        database.insert(owner_of_number)
+        HandleUser.__share_with_friend(user.share_gb, Constant.ENTER_SEND_GB)
 
     @staticmethod
     def share_minute_with_friend(user):
-        phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
-            phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
-        owner_of_number = database.get_object(UserAccount, (
-            UserAccount.get_phone_number(UserAccount) == phone_number, True))
+        HandleUser.__share_with_friend(user.share_minute, Constant.ENTER_SEND_MINUTE)
 
-        how_many_minute = GetCorrectValue.get_number(min_value=0,
-                                                     max_value=99999,
-                                                     first_out=Constant.ENTER_SEND_MINUTE,
-                                                     second_out=Constant.ERROR)
-
-        user.share_minute(owner_of_number, how_many_minute)
-        database.insert(owner_of_number) \
- \
     @staticmethod
     def deposit_money(user):
         amount = GetCorrectValue.get_number(min_value=1,
@@ -91,19 +66,11 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def handle_buy_gb(user):
-        value = GetCorrectValue.get_number(first_out=f"{Constant.ENTER_VALUE_GB}"
-                                                     f" {user.get_tariff().get_cost_one_gb()}руб/гб.?: ",
-                                           second_out=Constant.ENTER_CORRECT_VALUE)
-        print(user.buy_gb(value))
-        database.insert(user)
+        HandleUser.__handle_buy_traffic(user, user.buy_gb, Constant.ENTER_VALUE_GB, "руб/гб")
 
     @staticmethod
     def handle_buy_minute(user):
-        value = GetCorrectValue.get_number(first_out=f"{Constant.ENTER_VALUE_MINUTE}"
-                                                     f" {user.get_tariff().get_cost_one_minute()}руб/мин.?: ",
-                                           second_out=Constant.ENTER_CORRECT_VALUE)
-        print(user.buy_minute(value))
-        database.insert(user)
+        HandleUser.__handle_buy_traffic(user, user.buy_minute, Constant.ENTER_VALUE_MINUTE, "руб/мин")
 
     @staticmethod
     def user_pay_tariff(user):
@@ -118,3 +85,27 @@ class HandleUser(UserAccount):
                 f"{i + 1}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"
                 f" {elem.get_cost_one_gb()}руб/гб. "
                 f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+
+    @staticmethod
+    def __share_with_friend(share_function, message):
+        phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
+        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
+            phone_number = input(Constant.ENTER_FRIEND_PHONE_NUMBER)
+        owner_of_number = database.get_object(UserAccount, (
+            UserAccount.get_phone_number(UserAccount) == phone_number, True))
+
+        value = GetCorrectValue.get_number(min_value=0,
+                                           max_value=99999,
+                                           first_out=message,
+                                           second_out=Constant.ERROR)
+
+        share_function(owner_of_number, value)
+        database.insert(owner_of_number)
+
+    @staticmethod
+    def __handle_buy_traffic(user, buy_fucntion, input_message, output_message):
+        value = GetCorrectValue.get_number(first_out=f"{input_message}"
+                                                     f" {user.get_tariff().get_cost_one_gb()}{output_message}.?: ",
+                                           second_out=Constant.ENTER_CORRECT_VALUE)
+        print(buy_fucntion(value))
+        database.insert(user)
