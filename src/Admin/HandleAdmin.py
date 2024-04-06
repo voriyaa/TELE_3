@@ -55,7 +55,7 @@ class HandleAdmin(AdminAccount):
         admin.change_tariff(tariff, info['gb'], info['minute'],
                             info['cost_one_gb'], info['cost_one_minute'], info['price'])
 
-        database.insert(admin)
+        database.insert(tariff)
 
         print(AdminConstants.SUCCESSFUL_UPDATE_TARIFF)
 
