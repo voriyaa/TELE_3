@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация администратора</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_register_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
     <div class="container">
@@ -29,6 +31,16 @@
             <input type="password" id="password" name="password"><br>
             <button type="submit">Зарегистрироваться</button>
         </form>
+        <!-- Добавляем кнопку "Назад" -->
+        <button class="back-button" onclick="goToLoginPage()">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
+
     </div>
+    <script>
+        function goToLoginPage() {
+            window.location.href = "/admin/login";
+        }
+    </script>
 </body>
 </html>

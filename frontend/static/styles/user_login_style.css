@@ -78,3 +78,23 @@ button:hover {
         transform: scale(1);
     }
 }
+
+.back-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #999;
+}
+
+.back-button i {
+    margin-right: 5px;
+}
+
+

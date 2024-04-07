@@ -16,7 +16,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
-    width: 300px; /* Ширина контейнера */
+    width: 300px;
 }
 
 h1 {
