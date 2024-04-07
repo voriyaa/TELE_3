@@ -15,18 +15,26 @@ body {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 48px;
     color: #333;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 button {
-    font-size: 18px;
-    padding: 10px 20px;
-    margin: 10px;
+    font-size: 24px;
+    padding: 15px 30px;
+    margin: 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
 }

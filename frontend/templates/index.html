@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выберите роль</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Привет, кто вы?</h1>
-        <form action="/admin" method="GET">
-            <button type="submit">Админ</button>
-        </form>
-        <form action="/user/login" method="GET">
-            <button type="submit">Пользователь</button>
-        </form>
+        <h1 class="animate__animated animate__fadeInDown">Привет, кто вы?</h1>
+        <div class="buttons animate__animated animate__fadeInUp">
+            <form action="/admin" method="GET">
+                <button type="submit">Я администратор</button>
+            </form>
+            <form action="/user/login" method="GET">
+                <button type="submit">Я пользователь</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
