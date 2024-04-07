@@ -28,7 +28,7 @@ input[type="text"],
 input[type="password"],
 input[type="date"],
 select {
-    width: 100%;
+    width: calc(100% - 22px); /* Изменено */
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -41,7 +41,7 @@ button[type="submit"] {
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -65,4 +65,24 @@ button:hover {
     100% {
         transform: scale(1);
     }
+}
+
+/* Стили для кнопки "Назад" */
+.back-button {
+    background-color: #ccc;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Отступ от формы */
+}
+
+.back-button:hover {
+    background-color: #999;
+}
+
+.back-button i {
+    margin-right: 5px;
 }

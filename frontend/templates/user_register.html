@@ -7,32 +7,44 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/user_register_style.css') }}">
 </head>
 <body>
-    <h1>Регистрация</h1>
-    <form action="/user/register" method="POST">
-        <label for="first_name">Имя:</label>
-        <input type="text" id="first_name" name="first_name"><br>
-        <label for="last_name">Фамилия:</label>
-        <input type="text" id="last_name" name="last_name"><br>
-        <label for="dob">Дата Рождения:</label>
-        <input type="date" id="dob" name="dob"><br>
-        <label for="passport_number">Номер паспорта:</label>
-        <input type="text" id="passport_number" name="passport_number"><br>
-        <label for="gender">Пол:</label>
-        <select id="gender" name="gender">
-            <option value="male">Мужчина</option>
-            <option value="female">Женщина</option>
-        </select><br>
-        <label for="username">Логин:</label>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password"><br>
-        <label for="tariff">Выберите тариф:</label>
-        <select id="tariff" name="tariff">
-            {% for tariff in tariffs %}
-            <option value="{{ tariff.id }}">{{ tariff.name }} - {{ tariff.price }}</option>
-            {% endfor %}
-        </select><br>
-        <button type="submit">Зарегистрироваться</button>
-    </form>
+    <div class="container">
+        <h1>Регистрация</h1>
+        <form action="/user/register" method="POST">
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name"><br>
+            <label for="last_name">Фамилия:</label>
+            <input type="text" id="last_name" name="last_name"><br>
+            <label for="dob">Дата Рождения:</label>
+            <input type="date" id="dob" name="dob"><br>
+            <label for="passport_number">Номер паспорта:</label>
+            <input type="text" id="passport_number" name="passport_number"><br>
+            <label for="gender">Пол:</label>
+            <select id="gender" name="gender">
+                <option value="male">Мужчина</option>
+                <option value="female">Женщина</option>
+            </select><br>
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password"><br>
+            <label for="tariff">Выберите тариф:</label>
+            <select id="tariff" name="tariff">
+                {% for tariff in tariffs %}
+                <option value="{{ tariff.id }}">{{ tariff.name }} - {{ tariff.price }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <!-- Кнопка "Назад" -->
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = "/user/login"
+        }
+    </script>
 </body>
 </html>
