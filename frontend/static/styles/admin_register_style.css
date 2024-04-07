@@ -56,28 +56,40 @@ button[type="submit"] {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button[type="submit"]:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .back-button {
-    background-color: #ccc;
+    background-color: #ccc; /* Серый цвет */
     color: #333;
     padding: 8px 15px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
 }
 
 .back-button:hover {
-    background-color: #999;
-}
-
-.back-button i {
-    margin-right: 5px;
+    background-color: #999; /* Серый цвет при наведении */
+    transform: scale(1.05);
+    animation: pulse 1s infinite;
 }
