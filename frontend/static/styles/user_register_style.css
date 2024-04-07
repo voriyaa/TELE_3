@@ -28,7 +28,7 @@ input[type="text"],
 input[type="password"],
 input[type="date"],
 select {
-    width: calc(100% - 22px); /* Изменено */
+    width: calc(100% - 22px);
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -50,7 +50,6 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* Анимация для кнопок */
 button:hover {
     animation: pulse 1s infinite;
 }
@@ -67,7 +66,6 @@ button:hover {
     }
 }
 
-/* Стили для кнопки "Назад" */
 .back-button {
     background-color: #ccc;
     color: #333;
@@ -76,7 +74,7 @@ button:hover {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px; /* Отступ от формы */
+    margin-top: 20px; /
 }
 
 .back-button:hover {

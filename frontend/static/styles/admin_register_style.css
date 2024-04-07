@@ -78,7 +78,7 @@ button[type="submit"]:hover {
 }
 
 .back-button {
-    background-color: #ccc; /* Серый цвет */
+    background-color: #ccc;
     color: #333;
     padding: 8px 15px;
     border: none;
@@ -89,7 +89,7 @@ button[type="submit"]:hover {
 }
 
 .back-button:hover {
-    background-color: #999; /* Серый цвет при наведении */
+    background-color: #999;
     transform: scale(1.05);
     animation: pulse 1s infinite;
 }

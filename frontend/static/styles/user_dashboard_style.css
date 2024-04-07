@@ -24,16 +24,36 @@ li {
     margin-bottom: 10px;
 }
 
-a {
+a,
+button[type="submit"] {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #007bff;
     color: #fff;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 25px;
     transition: background-color 0.3s ease;
+    font-size: 18px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-a:hover {
+a:hover,
+button[type="submit"]:hover {
     background-color: #0056b3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+form button.logout-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+form button.logout-button:hover {
+    background-color: #c82333;
+}
+
