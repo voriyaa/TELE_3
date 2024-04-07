@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход для администратора</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_login_style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Вход для администратора</h1>
+        <form action="{{ url_for('admin_login') }}" method="POST">
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password"><br>
+            <button type="submit">Войти</button>
+        </form>
+        <p>Нет аккаунта? <a href="/admin/register">Зарегистрироваться</a></p>
+    </div>
+</body>
+</html>

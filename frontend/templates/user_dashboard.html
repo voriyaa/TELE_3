@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/user_dashboard_style.css') }}">
+</head>
+<body>
+    <h1>Добрый день, {{ username }}</h1>
+    <ul>
+        <li><a href="#">Мой профиль</a></li>
+        <li><a href="#">Поделиться ГБ</a></li>
+        <li><a href="#">Поделиться минутами</a></li>
+        <li><a href="#">Пополнить баланс</a></li>
+        <li><a href="#">Поменять тариф</a></li>
+        <li><a href="#">Купить ГБ</a></li>
+        <li><a href="#">Купить минуты</a></li>
+        <li><a href="#">Оплатить тариф</a></li>
+    </ul>
+</body>
+</html>

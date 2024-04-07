@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ввод кода доступа</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin_access_style.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Введите код доступа</h1>
+        <form action="{{ url_for('admin_access') }}" method="POST">
+            <label for="access_code">Код доступа:</label>
+            <input type="password" id="access_code" name="access_code"><br>
+            <button type="submit">Войти</button>
+        </form>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
