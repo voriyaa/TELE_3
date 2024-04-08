@@ -23,6 +23,7 @@ tariffs = [
     {"name": "Тариф 3", "price": 300}
 ]
 
+
 def extract_jwt_from_query_param():
     jwt_token = request.args.get('jwt')
     if jwt_token:
@@ -30,7 +31,7 @@ def extract_jwt_from_query_param():
     return None
 
 
-def jwt_required_from_query_param(fn):
+def jwt_required_from_query_param_admins(fn):
     @wraps(fn)
     def decorated(*args, **kwargs):
         token = extract_jwt_from_query_param()
@@ -41,13 +42,9 @@ def jwt_required_from_query_param(fn):
             decoded_token = decode_token(token)  # Декодируем токен
             jwt_identity = decoded_token.get('sub')  # Получаем идентификатор пользователя из токена
             jwt_role = decoded_token.get('role')  # Получаем роль пользователя из токена
-            print(jwt_role)
-            print(kwargs['username'])
-            print("ti", kwargs["role"])
-            print(jwt_identity)
             if jwt_identity != kwargs['username']:
                 return jsonify({"msg": "Invalid user for this token"}), 401
-            if jwt_role != kwargs['role']:
+            if jwt_role != 'admin':  # Используем kwargs['role'] для проверки роли
                 return jsonify({"msg": "Insufficient role"}), 403
         except Exception as e:
             return jsonify({"msg": str(e)}), 401
@@ -56,6 +53,28 @@ def jwt_required_from_query_param(fn):
 
     return decorated
 
+
+def jwt_required_from_query_param_users(fn):
+    @wraps(fn)
+    def decorated(*args, **kwargs):
+        token = extract_jwt_from_query_param()
+        if not token:
+            return jsonify({"msg": "Missing JWT in query parameter"}), 401
+
+        try:
+            decoded_token = decode_token(token)  # Декодируем токен
+            jwt_identity = decoded_token.get('sub')  # Получаем идентификатор пользователя из токена
+            jwt_role = decoded_token.get('role')  # Получаем роль пользователя из токена
+            if jwt_identity != kwargs['username']:
+                return jsonify({"msg": "Invalid user for this token"}), 401
+            if jwt_role != 'user':  # Используем kwargs['role'] для проверки роли
+                return jsonify({"msg": "Insufficient role"}), 403
+        except Exception as e:
+            return jsonify({"msg": str(e)}), 401
+
+        return fn(*args, **kwargs)
+
+    return decorated
 
 @app.route("/")
 def index():
@@ -106,7 +125,7 @@ def user_register():
 
 
 @app.route("/user/<username>/dashboard", methods=["POST", "GET"])
-@jwt_required_from_query_param
+@jwt_required_from_query_param_users
 def user_dashboard(username):
     if request.method == "GET":
         return render_template('user_dashboard.html', username=username)
@@ -135,14 +154,14 @@ def admin_register():
         password = request.form.get("password")
 
         access_token = create_access_token(identity=username, additional_claims={"role": "admin"})
-
-        return redirect(url_for('admin_dashboard', username=username, jwt=access_token, role="admin"))
+        role = "admin"
+        return redirect(url_for('admin_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('admin_register.html')
 
 
 @app.route("/admin/<username>/dashboard", methods=["POST", "GET"])
-@jwt_required_from_query_param
+@jwt_required_from_query_param_admins
 def admin_dashboard(username):
     if request.method == "GET":
         return render_template('admin_dashboard.html', username=username)
