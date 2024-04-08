@@ -101,7 +101,6 @@ class UserAccount(BaseUser):
     def change_number(self, new_number: str) -> None:
         self.__phone_number = new_number
 
-
     __username = Column(String(1000), unique=True)
     __password = Column(String(1000), unique=False)
     __phone_number = Column(String(15), unique=True)

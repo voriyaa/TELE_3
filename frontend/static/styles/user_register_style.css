@@ -50,22 +50,6 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-button:hover {
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
 .back-button {
     background-color: #ccc;
     color: #333;
@@ -74,7 +58,7 @@ button:hover {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px; /
+    margin-top: 20px;
 }
 
 .back-button:hover {

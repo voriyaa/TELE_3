@@ -32,56 +32,8 @@ s = session()
 class Authorization:
 
     @staticmethod
-    def run():
-        print(AuthorizationConstants.GREET_USER)
-
-        variant = GetCorrectValue.get_number(min_value=1,
-                                             max_value=2,
-                                             first_out=AuthorizationConstants.CHOOSE_STATUS,
-                                             second_out=AuthorizationConstants.CHOOSE_OPTION)
-
-        if variant == 1:
-            return Authorization.admin_workflow()
-        else:
-            return Authorization.user_workflow()
-
-    @staticmethod
-    def user_workflow():
-        variant = GetCorrectValue.get_number(min_value=0,
-                                             max_value=2,
-                                             first_out=AuthorizationConstants.CHOOSE_ACTIONS,
-                                             second_out=AuthorizationConstants.CHOOSE_VALID_OPTION)
-        if variant == 0:
-            return
-        elif variant == 1:
-            return Authorization.create_user_account()
-        else:
-            return Authorization.user_login()
-
-    @staticmethod
-    def admin_workflow():
-        Authorization.verify_secret_key()
-
-        variant = GetCorrectValue.get_number(min_value=0,
-                                             max_value=2,
-                                             first_out=AuthorizationConstants.CHOOSE_ACTIONS,
-                                             second_out=AuthorizationConstants.CHOOSE_VALID_OPTION)
-        if variant == 0:
-            return
-        elif variant == 1:
-            return Authorization.create_admin_account()
-        else:
-            return Authorization.admin_login()
-
-    @staticmethod
-    def verify_secret_key():
-        key = input(AuthorizationConstants.ENTER_SECRET_KEY)
-        while sha256_str(key) != os.getenv("SECRET_KEY"):
-            key = input(AuthorizationConstants.WRONG_KEY)
-
-    @staticmethod
     def create_admin_account():
-        info = GetInfo.preregistration()
+        info = GetInfo.preregistration() #TODO получать инфу от js
 
         admin = AdminAccount(
             info['first_name'], info['last_name'],
@@ -89,23 +41,22 @@ class Authorization:
             info['username'], info['password'], info['phone_number']
         )
         database.insert(admin)
-        return admin
+        return admin #TODO отправить класс AdminAccount js-у
 
     @staticmethod
     def admin_login():
-        info_account = GetInfo.info_account()
+        info_account = GetInfo.info_account() #TODO получаем инфу от js. надо менять
 
-        while not database.find(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
+        if not database.find(AdminAccount, (AdminAccount.get_username(AdminAccount) == info_account['username'],
                                                AdminAccount.get_password(AdminAccount) == info_account[
                                                    'password'])):
-            print(AuthorizationConstants.INVALID_LOGIN_PASSWORD)
-            info_account = GetInfo.info_account()
+            pass #TODO отправить js-у что нет такого пользователя с таким логином или паролем
 
         result = database.get_object(AdminAccount,
                                      (AdminAccount.get_username(AdminAccount) == info_account['username'],
                                       AdminAccount.get_password(AdminAccount) == info_account[
                                           'password']))
-        return result
+        return result #TODO нужно отправить профиль этого пользователя js-у
 
     @staticmethod
     def create_user_account():

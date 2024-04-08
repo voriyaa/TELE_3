@@ -1,28 +1,11 @@
 # -*- coding: utf-8 -*-
 from src.Admin.AdminAccount import AdminAccount, Tariff
-from src.Constants.Constants import AdminConstants
 from src.Authorization.Authorization import database
 from src.Tools.GetInfo import GetInfo
 from src.Tools.GetCorrectValue import GetCorrectValue
 
 
 class HandleAdmin(AdminAccount):
-
-    @staticmethod
-    def handle_admin_actions(admin):
-        while True:
-            variant = GetCorrectValue.get_number(min_value=0,
-                                                 max_value=3,
-                                                 first_out=AdminConstants.SELECT_OPTION,
-                                                 second_out=AdminConstants.SELECT_VALID_OPTION)
-            actions = {
-                1: lambda: HandleAdmin.create_new_tariff(admin),
-                2: lambda: HandleAdmin.update_existing_tariff(admin),
-                3: lambda: HandleAdmin.view_tariffs()
-            }
-            if variant == 0:
-                return None
-            actions[variant]()
 
     @staticmethod
     def create_new_tariff(admin):
@@ -33,13 +16,9 @@ class HandleAdmin(AdminAccount):
 
         database.insert(new_tariff)
 
-        print(AdminConstants.SUCCESSFUL_NEW_TARIFF)
-
     @staticmethod
     def update_existing_tariff(admin):
         list_of_tariff = database.query(Tariff)
-
-        HandleAdmin.view_tariffs()
 
         option = input(AdminConstants.SELECT_SERVICE)
         while not (
@@ -57,7 +36,6 @@ class HandleAdmin(AdminAccount):
 
         database.insert(tariff)
 
-        print(AdminConstants.SUCCESSFUL_UPDATE_TARIFF)
 
     @staticmethod
     def view_tariffs():

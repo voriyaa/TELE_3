@@ -1,0 +1,2 @@
+class CheckValue:
+    pass
