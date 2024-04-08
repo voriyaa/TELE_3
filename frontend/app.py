@@ -76,6 +76,7 @@ def jwt_required_from_query_param_users(fn):
 
     return decorated
 
+
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -87,7 +88,7 @@ def admin_access():
     if request.method == "POST":
         access_code = request.form.get("access_code")
         if access_code == ACCESS_CODE:
-            return redirect(url_for('admin_login'))  # Перенаправляем на страницу входа администратора
+            return redirect(url_for('admin_login'))
         else:
             error = "Неверный код доступа"
     return render_template('admin_key.html', error=error)
@@ -96,11 +97,13 @@ def admin_access():
 @app.route("/user/login", methods=["GET", "POST"])
 def user_login():
     if request.method == "POST":
-        # Обработка отправленной формы входа пользователя
+
         username = request.form.get("username")
         password = request.form.get("password")
-        # Здесь может быть логика проверки учетных данных пользователя
-        return redirect(url_for('user_dashboard', username=username))
+
+        access_token = create_access_token(identity=username, additional_claims={"role": "user"})
+        role = "user"
+        return redirect(url_for('user_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('user_login.html')
 
@@ -118,8 +121,8 @@ def user_register():
         password = request.form.get("password")
 
         access_token = create_access_token(identity=username, additional_claims={"role": "user"})
-
-        return redirect(url_for('user_dashboard', username=username, jwt=access_token))
+        role = "user"
+        return redirect(url_for('user_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('user_register.html', tariffs=tariffs)
 
@@ -136,7 +139,9 @@ def admin_login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        return redirect(url_for('admin_dashboard', username=username))
+        access_token = create_access_token(identity=username, additional_claims={"role": "admin"})
+        role = "admin"
+        return redirect(url_for('admin_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('admin_login.html')
 

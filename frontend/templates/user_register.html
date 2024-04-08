@@ -11,24 +11,24 @@
         <h1>Регистрация</h1>
         <form action="/user/register" method="POST">
             <label for="first_name">Имя:</label>
-            <input type="text" id="first_name" name="first_name"><br>
+            <input type="text" id="first_name" name="first_name" required><br>
             <label for="last_name">Фамилия:</label>
-            <input type="text" id="last_name" name="last_name"><br>
+            <input type="text" id="last_name" name="last_name" required><br>
             <label for="dob">Дата Рождения:</label>
-            <input type="date" id="dob" name="dob"><br>
+            <input type="date" id="dob" name="dob" required><br>
             <label for="passport_number">Номер паспорта:</label>
-            <input type="text" id="passport_number" name="passport_number"><br>
+            <input type="text" id="passport_number" name="passport_number" required><br>
             <label for="gender">Пол:</label>
-            <select id="gender" name="gender">
+            <select id="gender" name="gender" required>
                 <option value="male">Мужчина</option>
                 <option value="female">Женщина</option>
             </select><br>
             <label for="username">Логин:</label>
-            <input type="text" id="username" name="username"><br>
+            <input type="text" id="username" name="username" required><br>
             <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password"><br>
+            <input type="password" id="password" name="password" required><br>
             <label for="tariff">Выберите тариф:</label>
-            <select id="tariff" name="tariff">
+            <select id="tariff" name="tariff" required>
                 {% for tariff in tariffs %}
                 <option value="{{ tariff.id }}">{{ tariff.name }} - {{ tariff.price }}</option>
                 {% endfor %}

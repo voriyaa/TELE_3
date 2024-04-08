@@ -9,15 +9,39 @@
 <body>
     <div class="container">
         <h1>Добро пожаловать, {{ username }}!</h1>
-        <h2>Возможности:</h2>
-        <ul>
-            <li><a href="#">Создать Тариф</a></li>
-            <li><a href="#">Поменять Тариф</a></li>
-            <li><a href="#">Список Тарифов</a></li>
-        </ul>
-        <form action="/" method="GET">
-            <button type="submit">Выйти с аккаунта</button>
-        </form>
+        <div class="buttons">
+            <ul>
+                <li><a href="#" onclick="openModal()">Создать Тариф</a></li>
+                <li><a href="#">Поменять Тариф</a></li>
+                <li><a href="#">Список Тарифов</a></li>
+            </ul>
+            <form action="/" method="GET">
+                <button type="submit">Выйти с аккаунта</button>
+            </form>
+        </div>
     </div>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Создать Тариф</h3>
+            <form id="create-tariff-form">
+                <label for="gb">Сколько GB:</label>
+                <input type="text" id="gb" name="gb" required><br>
+                <label for="minutes">Сколько минут:</label>
+                <input type="text" id="minutes" name="minutes" required><br>
+                <label for="price_per_gb">Цена за 1 GB:</label>
+                <input type="text" id="price_per_gb" name="price_per_gb" required><br>
+                <label for="price_per_minute">Цена за 1 минуту:</label>
+                <input type="text" id="price_per_minute" name="price_per_minute" required><br>
+                <label for="total_price">Общий прайс:</label>
+                <input type="text" id="total_price" name="total_price" required><br>
+                <button type="submit">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/scripts/create_tariff_modal_script.js"></script>
 </body>
 </html>
