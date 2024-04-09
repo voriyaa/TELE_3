@@ -1,7 +1,9 @@
 import os
 from flask import Flask, session, render_template, request, redirect, url_for, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request, decode_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request, \
+    decode_token
 from functools import wraps
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -114,12 +116,11 @@ def user_register():
 
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
-        dob = request.form.get("dob")
-        passport_number = request.form.get("passport_number")
-        gender = request.form.get("gender")
+        birth_date = request.form.get("birth_date")
+        passport_id = request.form.get("passport_id")
+        sex = request.form.get("sex")
         username = request.form.get("username")
         password = request.form.get("password")
-
         access_token = create_access_token(identity=username, additional_claims={"role": "user"})
         role = "user"
         return redirect(url_for('user_dashboard', username=username, jwt=access_token, role=role))
@@ -152,11 +153,13 @@ def admin_register():
 
         first_name = request.form.get("first_name")
         last_name = request.form.get("last_name")
-        dob = request.form.get("dob")
-        passport_number = request.form.get("passport_number")
-        gender = request.form.get("gender")
+        birth_date = request.form.get("birth_date")
+        passport_id = request.form.get("passport_id")
+        sex = request.form.get("sex")
+        phone_number = request.form.get("phone_number")
         username = request.form.get("username")
         password = request.form.get("password")
+
 
         access_token = create_access_token(identity=username, additional_claims={"role": "admin"})
         role = "admin"
@@ -173,4 +176,4 @@ def admin_dashboard(username):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
