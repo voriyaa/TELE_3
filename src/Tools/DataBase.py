@@ -49,6 +49,6 @@ class ControlDataBase:
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
 
-database = ControlDataBase("sqlite:///example.db")
+database = ControlDataBase("sqlite:///VORIS.db")
 database.create_tables()
 database.creat_session()
