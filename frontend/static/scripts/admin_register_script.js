@@ -26,7 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     // Проверяем статус ошибки
                     if (response.status === 409) {
-                        throw new Error('Пользователь с таким именем уже зарегистрирован');
+                        throw new Error('Пользователь с таким номером паспорта уже зарегистрирован');
+                    } else if (response.status === 410) {
+                        throw new Error('Пользователь с таким номером телефона уже зарегистрирован');
+                    } else if (response.status === 411) {
+                        throw new Error('Пользователь с таким логином уже зарегистрирован');
                     } else {
                         throw new Error('Ошибка при регистрации');
                     }
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log('Успешная регистрация:', data);
                 // Показываем встроенное уведомление об успешной регистрации
-                Notification.requestPermission().then(function(result) {
+                Notification.requestPermission().then(function (result) {
                     if (result === 'granted') {
                         new Notification('Регистрация успешно завершена');
                     }
