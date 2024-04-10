@@ -7,14 +7,23 @@ from src.Tools.MyHashFunc import HashFunction
 import os
 
 load_dotenv()
+
+
 class Authorization:
     @staticmethod
     def admin_login(username, password):
-        return database.find(AdminAccount, (
-        AdminAccount.get_username(AdminAccount) == username, AdminAccount.get_password(AdminAccount) == password))
+        if database.find(AdminAccount, (
+                AdminAccount.get_username(AdminAccount) == username,
+                AdminAccount.get_password(AdminAccount) == password)):
+            return database.get_object(AdminAccount, (
+                AdminAccount.get_username(AdminAccount) == username,
+                AdminAccount.get_password(AdminAccount) == password))
 
     @staticmethod
     def user_login(username, password):
-        return database.find(UserAccount, (
-            UserAccount.get_username(UserAccount) == username, UserAccount.get_password(UserAccount) == password))
-
+        if database.find(UserAccount, (
+                UserAccount.get_username(UserAccount) == username,
+                UserAccount.get_password(UserAccount) == password)):
+            return database.get_object(AdminAccount, (
+                UserAccount.get_username(AdminAccount) == username,
+                UserAccount.get_password(UserAccount) == password))

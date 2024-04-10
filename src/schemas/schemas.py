@@ -5,12 +5,13 @@ class AdminSchema(Schema):
     id = fields.Integer(dump_only=True)
     first_name = fields.String(required=True, validate=[
         validate.Length(max=250)])
+    last_name = fields.String(required=True, validate=[validate.Length(max=250)])
     birth_date = fields.String(required=True, validate=[
         validate.Length(max=250)])
     passport_id = fields.String(required=True, validate=[
         validate.Length(max=500)])
     sex = fields.String(required=True, validate=[
-        validate.Length(max=1)])
+        validate.Length(max=250)])
     username = fields.String(required=True, validate=[
         validate.Length(max=250)])
     password = fields.String(required=True, validate=[
