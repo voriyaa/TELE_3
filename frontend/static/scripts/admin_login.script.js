@@ -28,11 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log('Успешный вход:', data);
                 // Если регистрация прошла успешно, перенаправляем на страницу логина
-                window.location.href = "/admin/login";
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                window.location.href = "/admin/register";
+                window.location.href = "/admin/login";
                 // Добавьте обработку ошибки, например, вывод сообщения пользователю
             });
     });

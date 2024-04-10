@@ -21,20 +21,35 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify(jsonData)
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при регистрации');
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    // Проверяем статус ошибки
+                    if (response.status === 409) {
+                        throw new Error('Пользователь с таким именем уже зарегистрирован');
+                    } else {
+                        throw new Error('Ошибка при регистрации');
+                    }
                 }
-                return response.json();
             })
             .then(data => {
                 console.log('Успешная регистрация:', data);
+                // Показываем встроенное уведомление об успешной регистрации
+                Notification.requestPermission().then(function(result) {
+                    if (result === 'granted') {
+                        new Notification('Регистрация успешно завершена');
+                    }
+                });
                 // Если регистрация прошла успешно, перенаправляем на страницу логина
-                window.location.href = "/admin/login";
+                setTimeout(() => {
+                    window.location.href = "/admin/login";
+                }, 1000); // Перенаправление через 3 секунды
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                window.location.href = "/admin/register";
                 // Добавьте обработку ошибки, например, вывод сообщения пользователю
+                alert(error.message); // Отображаем сообщение об ошибке пользователю
+                window.location.href = "/admin/register";
             });
     });
 });
