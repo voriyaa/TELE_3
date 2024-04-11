@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const value = document.getElementById('value').value;
 
         // Выполнение дополнительных действий с получателем и количеством GB
-        fetch(`http://93.175.7.10:5000/user/share_gb/2`, {
+        fetch(`http://93.175.7.10:5000/user/share_gb/${username}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
@@ -48,19 +48,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
         }).then(response => {
             if (!response.ok) {
-                throw new Error('Неправильно введено количество гигабайт');
+                if (response.status === 409) {
+                    throw new Error('Пользователя с таким номером телефона не существует');
+                } else if (response.status === 410) {
+                    throw new Error('Не хватает средств для перевода');
+                }
             }
-            return response.json();
         })
             .then(data => {
-                console.log('Успешная покупка:', data);
-                window.location.href = `/user/${username}/dashboard?jwt=${data['access_token']}`;
+                console.log('Успешный перевод:', data);
             })
             .catch(error => {
                 console.error('Ошибка:', error);
                 // Добавьте обработку ошибки, например, вывод сообщения пользователю
                 alert(error.message); // Отображаем сообщение об ошибке пользователю
-                window.location.href = `/user/${username}/dashboard?jwt=${data['access_token']}`;
             });
     });
 });

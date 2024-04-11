@@ -1,40 +1,67 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Получаем доступ к модальному окну "Поделиться минутами" и кнопке, открывающей его
-    const shareMinutesModal = document.getElementById('share-minutes-modal');
-    const shareMinutesButton = document.getElementById('share-minutes-button');
-    const closeMinutesModalButton = document.getElementById('close-minutes-modal-button');
+document.addEventListener('DOMContentLoaded', function () {
+    // Получаем username из URL
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const username = parts[2] // Предполагается, что username находится во второй части пути
 
-    // Открытие модального окна при клике на кнопку "Поделиться минутами"
-    shareMinutesButton.addEventListener('click', function() {
-        shareMinutesModal.style.display = 'flex';
+    // Получаем доступ к модальному окну "Поделиться ГБ" и кнопке, открывающей его
+    const shareMINModal = document.getElementById('share-minutes-modal');
+    const shareMINButton = document.getElementById('share-minutes-button');
+    const closeMINModalButton = document.getElementById('close-minutes-modal-button');
+
+    // Открытие модального окна при клике на кнопку "Поделиться ГБ"
+    shareMINButton.addEventListener('click', function () {
+        shareMINModal.style.display = 'flex';
     });
 
     // Закрытие модального окна при клике на кнопку "закрыть" или на область вне окна
-    closeMinutesModalButton.addEventListener('click', function() {
-        shareMinutesModal.style.display = 'none';
+    closeMINModalButton.addEventListener('click', function () {
+        shareMINModal.style.display = 'none';
     });
 
-    window.addEventListener('click', function(event) {
-        if (event.target === shareMinutesModal) {
-            shareMinutesModal.style.display = 'none';
+    window.addEventListener('click', function (event) {
+        if (event.target === shareMINModal) {
+            shareMINModal.style.display = 'none';
         }
     });
 
     // Обработка отправки формы
-    const shareMinutesForm = document.getElementById('share-minutes-form');
+    const shareMINForm = document.getElementById('share-minutes-form');
 
-    shareMinutesForm.addEventListener('submit', function(event) {
+    shareMINForm.addEventListener('submit', function (event) {
         event.preventDefault(); // Предотвращаем отправку формы по умолчанию
 
         // Получаем данные из формы
-        const recipient = document.getElementById('minutes-recipient').value;
-        const minutesAmount = document.getElementById('minutes-to-share').value;
+        const phone_number = document.getElementById('phone_number_min').value;
+        const value = document.getElementById('value_min').value;
 
-        // Выполнение дополнительных действий с получателем и количеством минут
-        console.log('Recipient:', recipient);
-        console.log('Minutes Amount:', minutesAmount);
-
-        // Скрыть модальное окно после отправки формы
-        shareMinutesModal.style.display = 'none';
+        // Выполнение дополнительных действий с получателем и количеством GB
+        fetch(`http://93.175.7.10:5000/user/share_minute/${username}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
+            },
+            body: JSON.stringify(
+                {
+                    phone_number,
+                    value
+                })
+        }).then(response => {
+            if (!response.ok) {
+                if (response.status === 409) {
+                    throw new Error('Пользователя с таким номером телефона не существует');
+                } else if (response.status === 410) {
+                    throw new Error('Не хватает средств для перевода');
+                }
+            }
+        })
+            .then(data => {
+                console.log('Успешный перевод:', data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                // Добавьте обработку ошибки, например, вывод сообщения пользователю
+                alert(error.message); // Отображаем сообщение об ошибке пользователю
+            });
     });
 });

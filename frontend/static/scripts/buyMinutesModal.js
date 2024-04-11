@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const username = parts[2] // Предполагается, что username находится во второй части пути
+
     const buyMinutesModal = document.getElementById('buy-minutes-modal');
     const buyMinutesButton = document.getElementById('buy-minutes-button');
     const closeMinutesModalButton = document.getElementById('close-buy-minutes-modal-button');
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const minutesAmount = document.getElementById('minutes-amount').value;
         //Todo поменять ссыль
-        fetch('http://93.175.7.10:5000/url', {
+        fetch('http://93.175.7.10:5000/user/login/buy_minute/${username}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
@@ -38,13 +42,11 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(data => {
                 console.log('Успешная покупка:', data);
-                window.location.href = `/user/${minutesAmount['username']}/dashboard?jwt=${data['access_token']}`;
             })
             .catch(error => {
                 console.error('Ошибка:', error);
                 // Добавьте обработку ошибки, например, вывод сообщения пользователю
                 alert(error.message); // Отображаем сообщение об ошибке пользователю
-                window.location.href = `/user/${minutesAmount['username']}/dashboard?jwt=${data['access_token']}`;
             });
     });
     buyMinutesModal.style.display = 'none';

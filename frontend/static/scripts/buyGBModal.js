@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const path = window.location.pathname;
+    const parts = path.split('/');
+    const username = parts[2] // Предполагается, что username находится во второй части пути
+
     const buyGBModal = document.getElementById('buy-gb-modal');
     const buyGBButton = document.getElementById('buy-gb-button');
     const closeGBModalButton = document.getElementById('close-buy-gb-modal-button');
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log(gbAmount)
         //Todo поменять ссыль
-        fetch('http://93.175.7.10:5000/url', {
+        fetch('http://93.175.7.10:5000/user/buyGB/${username}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
@@ -40,13 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(data => {
                 console.log('Успешная покупка:', data);
-                window.location.href = `/user/${gbAmount['username']}/dashboard?jwt=${data['access_token']}`;
             })
             .catch(error => {
                 console.error('Ошибка:', error);
                 // Добавьте обработку ошибки, например, вывод сообщения пользователю
                 alert(error.message); // Отображаем сообщение об ошибке пользователю
-                window.location.href = `/user/${gbAmount['username']}/dashboard?jwt=${data['access_token']}`;
             });
     });
 
