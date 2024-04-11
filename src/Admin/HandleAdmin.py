@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from src.Admin.AdminAccount import AdminAccount, Tariff
-from src.Constants.Constants import AdminConstants
 from src.Authorization.Authorization import database
-from src.Tools.GetInfo import GetInfo
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 from src.Tools.MyHashFunc import sha256
@@ -37,7 +35,9 @@ class HandleAdmin(AdminAccount):
     @staticmethod
     def update_tariffs(tariff_id, **kwargs):
         tariff = database.get_object(Tariff, (Tariff.id == tariff_id, True))
-        AdminAccount.change_tariff(**kwargs)
+        if tariff is None:
+            return
+        AdminAccount.change_tariff(tariff, **kwargs)
 
     @staticmethod
     def get_token(admin, expire_time=24):
@@ -50,3 +50,8 @@ class HandleAdmin(AdminAccount):
     def get_list_of_tariffs():
         list_of_tariff = database.query(Tariff)
         return list_of_tariff
+
+    @staticmethod
+    def get_tariff_by_id(tariff_id):
+        tariff = database.get_object(Tariff, (Tariff.id == tariff_id, True))
+        return tariff

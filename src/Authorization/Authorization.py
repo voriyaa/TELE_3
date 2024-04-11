@@ -24,6 +24,6 @@ class Authorization:
         if database.find(UserAccount, (
                 UserAccount.get_username(UserAccount) == username,
                 UserAccount.get_password(UserAccount) == password)):
-            return database.get_object(AdminAccount, (
-                UserAccount.get_username(AdminAccount) == username,
+            return database.get_object(UserAccount, (
+                UserAccount.get_username(UserAccount) == username,
                 UserAccount.get_password(UserAccount) == password))

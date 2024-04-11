@@ -51,14 +51,31 @@ def get_list_of_tariff():
     return HandleAdmin.get_list_of_tariffs()
 
 
-@adm.route('/list_tariff/<int:tariff_id>', methods=['PUT'])
+@adm.route('/edit_tariff/<int:tariff_id>', methods=['POST'])
 # @jwt_required()
 @use_kwargs(TariffSchema)
 def edit_tariffs(tariff_id, **kwargs):
-    HandleAdmin.update_tariffs(tariff_id, **kwargs)
+    print(tariff_id)
+    data = request.json
+    print(data)
+    print(type(data['gb']))
+    if HandleAdmin.update_tariffs(tariff_id, **kwargs) is None:
+
+        return {'error': 'good'}, 403
+    #HandleAdmin.create_new_tariff(**data)
+    return {'message': 'good'}
 
 
-@adm.route('/login/create_tariif', methods=['POST'])
+@adm.route('/list_tariff/<int:tariff_id>', methods=['GET'])
+@marshal_with(TariffSchema)
+def get_tariffs(tariff_id):
+    tariff = HandleAdmin.get_tariff(tariff_id)
+    if tariff is None:
+        return {"error": "No such Tariff"}, 405
+    return tariff, 201
+
+
+@adm.route('/login/create_tariff', methods=['POST'])
 # @jwt_required()
 @use_kwargs(TariffSchema)
 def create_tariffs(**kwargs):

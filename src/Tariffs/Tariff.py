@@ -8,40 +8,40 @@ class Tariff(Base):
 
     def __init__(self, cost_one_gb: int, cost_one_minute: int,
                  price: int, gb: int = 0, minute: int = 0, ) -> None:
-        self.__cost_one_gb = cost_one_gb
-        self.__cost_one_minute = cost_one_minute
-        self.__gb = gb
-        self.__minute = minute
-        self.__price = price
+        self.cost_one_gb = cost_one_gb
+        self.cost_one_minute = cost_one_minute
+        self.gb = gb
+        self.minute = minute
+        self.price = price
 
     def change_tariff(self, cost_one_gb: int, cost_one_minute: int,
                       price: int, gb: int = 0, minute: int = 0) -> None:
-        self.__cost_one_gb = cost_one_gb
-        self.__cost_one_minute = cost_one_minute
-        self.__gb = gb
-        self.__minute = minute
-        self.__price = price
+        self.cost_one_gb = cost_one_gb
+        self.cost_one_minute = cost_one_minute
+        self.gb = gb
+        self.minute = minute
+        self.price = price
 
     def get_cost_one_gb(self) -> int:
-        return self.__cost_one_gb
+        return self.cost_one_gb
 
     def get_cost_one_minute(self) -> int:
-        return self.__cost_one_minute
+        return self.cost_one_minute
 
     def get_gb(self):
-        return self.__gb
+        return self.gb
 
     def get_minutes(self):
-        return self.__minute
+        return self.minute
 
     def get_price(self):
-        return self.__price
+        return self.price
 
 
     __tablename__ = 'tariff'
-    __cost_one_gb = Column(Integer, unique=False, nullable=True)
-    __cost_one_minute = Column(Integer, unique=False, nullable=True)
-    __gb = Column(Integer, unique=False, nullable=True)
-    __minute = Column(Integer, unique=False, nullable=True)
-    __price = Column(Integer, unique=False, nullable=True)
+    cost_one_gb = Column(Integer, unique=False, nullable=True)
+    cost_one_minute = Column(Integer, unique=False, nullable=True)
+    gb = Column(Integer, unique=False, nullable=True)
+    minute = Column(Integer, unique=False, nullable=True)
+    price = Column(Integer, unique=False, nullable=True)
 

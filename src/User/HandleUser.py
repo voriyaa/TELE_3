@@ -1,49 +1,49 @@
-from src.User.UserAccount import UserAccount
-from src.Constants.Constants import UserConstants
+from src.User.UserAccount import UserAccount, Tariff
 from src.Authorization.Authorization import database
-from src.User.UserAccount import Tariff
-from src.Tools.GetCorrectValue import GetCorrectValue
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
+from src.Tools.MyHashFunc import sha256
 
 
 class HandleUser(UserAccount):
+    @staticmethod
+    def get_token(user, expire_time=24):
+        expire_delta = timedelta(expire_time)
+        token = create_access_token(
+            identity=user.get_username(), expires_delta=expire_delta, additional_claims={'role': 'user'})
+        return token
 
     @staticmethod
-    def handle_user_actions(user):
-        while True:
-            variant = GetCorrectValue.get_number(min_value=0,
-                                                 max_value=8,
-                                                 first_out=UserConstants.SELECT_OPTION_OF_USER,
-                                                 second_out=UserConstants.SELECT_VALID_OPTION_OF_USER)
-            actions = {
-                1: lambda: HandleUser.show_user_details(user),
-                2: lambda: HandleUser.share_gb_with_friend(user),
-                3: lambda: HandleUser.share_minute_with_friend(user),
-                4: lambda: HandleUser.deposit_money(user),
-                5: lambda: HandleUser.change_tariff(user),
-                6: lambda: HandleUser.handle_buy_gb(user),
-                7: lambda: HandleUser.handle_buy_minute(user),
-                8: lambda: HandleUser.user_pay_tariff(user),
-            }
-            if variant == 0:
-                return
-            actions[variant]()
+    def create_user_account(**kwargs):
+        tariff = database.get_object(Tariff, (Tariff.id == kwargs['tariff_id'], True))
+        kwargs.pop('tariff_id')
+        kwargs['main_tariff'] = tariff
+        print(kwargs)
+        user = UserAccount(**kwargs)
+        database.insert(user)
+        return HandleUser.get_token(user)
 
     @staticmethod
-    def show_user_details(user):
-        print(f"Остаток: {user.get_gb()}гб. | {user.get_minutes()}мин. | {user.get_balance()}руб.\n"
-              f"Мой тариф: {user.get_tariff().get_gb()}гб. | {user.get_tariff().get_minutes()}мин. |"
-              f" {user.get_tariff().get_cost_one_gb()}руб/гб. | {user.get_tariff().get_cost_one_minute()}руб/мин.")
+    def show_user_details(username):
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
+        return user
 
     @staticmethod
-    def share_gb_with_friend(user):
-        HandleUser.__share_with_friend(user.share_gb, UserConstants.ENTER_SEND_GB)
+    def share_gb_with_friend(username, phone_number, value):
+        user = database.get_object(UserAccount, (UserAccount.get_password(UserAccount) == username, True))
+        if user is None:
+            return None
+        HandleUser.__share_with_friend(user.share_gb, phone_number, value)
 
     @staticmethod
-    def share_minute_with_friend(user):
-        HandleUser.__share_with_friend(user.share_minute, UserConstants.ENTER_SEND_MINUTE)
+    def share_minute_with_friend(username, phone_number, value):
+        user = database.get_object(UserAccount, (UserAccount.get_password(UserAccount) == username, True))
+        if user is None:
+            return None
+        HandleUser.__share_with_friend(user.share_minute, phone_number, value)
 
     @staticmethod
-    def deposit_money(user):
+    def deposit_money(username, value):
         amount = GetCorrectValue.get_number(min_value=1,
                                             max_value=10000,
                                             first_out=UserConstants.ENTER_AMOUNT,
@@ -87,18 +87,9 @@ class HandleUser(UserAccount):
                 f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
 
     @staticmethod
-    def __share_with_friend(share_function, message):
-        phone_number = input(UserConstants.ENTER_FRIEND_PHONE_NUMBER)
-        while not database.find(UserAccount, (UserAccount.get_phone_number(UserAccount) == phone_number, True)):
-            phone_number = input(UserConstants.ENTER_FRIEND_PHONE_NUMBER)
+    def __share_with_friend(share_function, phone_number, value):
         owner_of_number = database.get_object(UserAccount, (
             UserAccount.get_phone_number(UserAccount) == phone_number, True))
-
-        value = GetCorrectValue.get_number(min_value=0,
-                                           max_value=99999,
-                                           first_out=message,
-                                           second_out=UserConstants.ERROR)
-
         share_function(owner_of_number, value)
         database.insert(owner_of_number)
 
@@ -109,3 +100,11 @@ class HandleUser(UserAccount):
                                            second_out=UserConstants.ENTER_VALID_VALUE)
         print(buy_function(value))
         database.insert(user)
+
+    @staticmethod
+    def is_user(methods, attribute):
+        getter = {'username': UserAccount.get_username,
+                  'passport_id': UserAccount.get_passport_id,
+                  'phone_number': UserAccount.get_phone_number
+                  }
+        return database.find(UserAccount, (getter[methods](UserAccount) == attribute, True))

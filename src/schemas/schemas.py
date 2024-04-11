@@ -26,10 +26,12 @@ class UserSchema(Schema):
         validate.Length(max=250)])
     birth_date = fields.String(required=True, validate=[
         validate.Length(max=250)])
+    last_name = fields.String(required=True, validate=[validate.Length(max=250)])
+
     passport_id = fields.String(required=True, validate=[
         validate.Length(max=500)])
     sex = fields.String(required=True, validate=[
-        validate.Length(max=1)])
+        validate.Length(max=250)])
     username = fields.String(required=True, validate=[
         validate.Length(max=250)])
     password = fields.String(required=True, validate=[
@@ -51,3 +53,9 @@ class TariffSchema(Schema):
 class AuthSchema(Schema):
     access_token = fields.String(dump_only=True)
     message = fields.String(dump_only=True)
+
+
+class ShareSchema(Schema):
+    phone_number = fields.String(required=True, validate=[
+        validate.Length(max=250)])
+    value = fields.Integer(required=True)
