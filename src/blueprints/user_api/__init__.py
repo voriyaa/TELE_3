@@ -2,7 +2,7 @@
 from flask import Blueprint, request
 from flask_apispec import use_kwargs, marshal_with
 from flask_jwt_extended import decode_token
-from src.schemas.schemas import UserSchema, TariffSchema, AuthSchema, ShareSchema
+from src.schemas.schemas import UserSchema, TariffSchema, AuthSchema, ShareSchema, DataSchema
 from src.Authorization.Authorization import Authorization as Auth
 from src.User.HandleUser import HandleUser
 
@@ -20,7 +20,7 @@ def protected():
 
 
 @user.route('/register', methods=['POST'])
-#@marshal_with(AuthSchema)
+# @marshal_with(AuthSchema)
 @use_kwargs(UserSchema)
 def user_register(**kwargs):
     if HandleUser.is_user('username', kwargs['username']):
@@ -31,6 +31,7 @@ def user_register(**kwargs):
         return {"error": "User not found"}, 410
     HandleUser.create_user_account(**kwargs)
     return {'message': 'good'}, 200
+
 
 @user.route('/login', methods=['POST'])
 @marshal_with(AuthSchema)
@@ -43,9 +44,9 @@ def user_login(**kwargs):
     return {'access_token': token}
 
 
-@user.route('/data_of_users/', methods=['GET'])
+@user.route('/data_of_users', methods=['POST'])
 @use_kwargs(UserSchema(only=['username']))
-@marshal_with(UserSchema)
+@marshal_with(DataSchema)
 def data_of_users(username):
     my_user = HandleUser.show_user_details(username)
     return my_user
@@ -53,21 +54,27 @@ def data_of_users(username):
 
 @user.route('/share_gb/<string:username>', methods=['POST'])
 @use_kwargs(ShareSchema)
-def share_gb(**kwargs):
-    res = HandleUser.share_gb_with_friend(**kwargs)
+def share_gb(username, **kwargs):
+    res = HandleUser.share_gb_with_friend(username, **kwargs)
     if res is None:
         return {"error": "There is no user with this phone_number"}, 409
-    return 200
+    if not res:
+        return {"error": "Not enough gb"}, 410
+    return {'message': 'good'}, 200
 
 
 @user.route('/share_minute/<string:username>', methods=['POST'])
 @use_kwargs(ShareSchema)
-def share_minute(**kwargs):
-    res = HandleUser.share_minute_with_friend(**kwargs)
+def share_minute(username, **kwargs):
+    res = HandleUser.share_minute_with_friend(username, **kwargs)
     if res is None:
         return {"error": "There is no user with this phone_number"}, 409
-    return 200
+    if not res:
+        return {"error": "Not enough gb"}, 410
+    return {'message': 'good'}, 200
+
+
 """
 @user.route('/buy_gb/<string:username>', methods=["POST"])
-@use_kwargs({})
+@use_kwargs({f})
 """

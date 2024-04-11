@@ -38,6 +38,7 @@ class HandleAdmin(AdminAccount):
         if tariff is None:
             return
         AdminAccount.change_tariff(tariff, **kwargs)
+        return True
 
     @staticmethod
     def get_token(admin, expire_time=24):

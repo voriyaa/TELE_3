@@ -10,30 +10,30 @@ class BaseUser(Base):
 
     def __init__(self, first_name: str, last_name: str,
                  birth_date: str, passport_id: str, sex: str) -> None:
-        self.__first_name = first_name
-        self.__last_name = last_name
-        self.__birth_date = birth_date
-        self.__passport_id = passport_id
-        self.__sex = sex
+        self.first_name = first_name
+        self.last_name = last_name
+        self.birth_date = birth_date
+        self.passport_id = passport_id
+        self.sex = sex
 
     def get_first_name(self) -> str:
-        return self.__first_name
+        return self.first_name
 
     def get_last_name(self) -> str:
-        return self.__last_name
+        return self.last_name
 
     def get_birth_data(self) -> str:
-        return self.__birth_date
+        return self.birth_date
 
     def get_passport_id(self) -> str:
-        return self.__passport_id
+        return self.passport_id
 
     def get_sex(self) -> str:
-        return self.__sex
+        return self.sex
 
     __abstract__ = True
-    __first_name = Column(String(50), unique=False)
-    __last_name = Column(String(50), unique=False)
-    __birth_date = Column(String(15), unique=False)
-    __passport_id = Column(String(15), unique=True, nullable=False)
-    __sex = Column(String(1), unique=False)
+    first_name = Column(String(50), unique=False)
+    last_name = Column(String(50), unique=False)
+    birth_date = Column(String(15), unique=False)
+    passport_id = Column(String(15), unique=True, nullable=False)
+    sex = Column(String(1), unique=False)

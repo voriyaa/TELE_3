@@ -38,7 +38,11 @@ class UserSchema(Schema):
         validate.Length(max=250)])
     phone_number = fields.String(required=True, validate=[
         validate.Length(max=250)])
+
     tariff_id = fields.Integer(required=True)
+    gb = fields.Integer(required=False)
+    minutes = fields.Integer(required=False)
+    balance = fields.Integer(required=False)
 
 
 class TariffSchema(Schema):
@@ -59,3 +63,13 @@ class ShareSchema(Schema):
     phone_number = fields.String(required=True, validate=[
         validate.Length(max=250)])
     value = fields.Integer(required=True)
+
+class DataSchema(Schema):
+    gb = fields.Integer(required=False)
+    user_minutes = fields.Integer(required=False)
+    balance = fields.Integer(required=False)
+    cost_one_gb = fields.Integer(required=True)
+    cost_one_minute = fields.Integer(required=True)
+    user_gbs = fields.Integer(required=True)
+    minute = fields.Integer(required=True)
+    price = fields.Integer(required=True)

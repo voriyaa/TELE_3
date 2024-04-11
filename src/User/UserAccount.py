@@ -6,48 +6,47 @@ from src.Tariffs.Tariff import Tariff
 
 
 class UserAccount(BaseUser):
-
     id = Column(Integer, primary_key=True)
     tariff_id = Column(Integer, ForeignKey('tariff.id'))
 
     def __init__(self, first_name: str, last_name: str, birth_date: str,
-                 passport_id: int, sex: str, username: str, password: str,
-                 phone_number: str, main_tariff: Tariff) -> None:
+                 passport_id: str, sex: str, username: str, password: str,
+                 phone_number: str, main_tariff: Tariff, gb=0, minutes=0, balance=0) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
-        self.__username = username
-        self.__password = password
-        self.__phone_number = phone_number
-        self.__gb = 0
-        self.__minutes = 0
-        self.__balance = 0
-        self.__main_tariff = main_tariff
+        self.username = username
+        self.password = password
+        self.phone_number = phone_number
+        self.gb = 0
+        self.minutes = 0
+        self.balance = 0
+        self.main_tariff = main_tariff
 
     def get_username(self) -> str:
-        return self.__username
+        return self.username
 
-    def get_password(self) ->str:
-        return self.__password
+    def get_password(self) -> str:
+        return self.password
 
     def get_phone_number(self) -> str:
-        return self.__phone_number
+        return self.phone_number
 
     def get_gb(self) -> int:
-        return self.__gb
+        return self.gb
 
     def set_gb(self, value: int) -> None:
-        self.__gb = value
+        self.gb = value
 
     def get_minutes(self) -> int:
-        return self.__minutes
+        return self.minutes
 
     def set_minutes(self, value: int) -> None:
-        self.__minutes = value
+        self.minutes = value
 
     def get_balance(self) -> int:
-        return self.__balance
+        return self.balance
 
     def set_balance(self, value: int) -> None:
-        self.__balance = value
+        self.balance = value
 
     def share_gb(self, other, value: int) -> str:
         if self.get_gb() >= value:
@@ -69,7 +68,7 @@ class UserAccount(BaseUser):
         self.set_balance(self.get_balance() + money)
 
     def get_tariff(self) -> Tariff:
-        return self.__main_tariff
+        return self.main_tariff
 
     def pay_tariff(self):
         if self.get_tariff().get_price() >= self.get_balance():
@@ -80,7 +79,7 @@ class UserAccount(BaseUser):
         return "Успешно!"
 
     def set_tariff(self, new_tariff: Tariff) -> None:
-        self.__main_tariff = new_tariff
+        self.main_tariff = new_tariff
 
     def buy_gb(self, value: int) -> str:
         if self.get_balance() >= self.get_tariff().get_cost_one_gb() * value:
@@ -99,15 +98,13 @@ class UserAccount(BaseUser):
             return "Недостаточно денег на балансе"
 
     def change_number(self, new_number: str) -> None:
-        self.__phone_number = new_number
+        self.phone_number = new_number
 
-
-    __username = Column(String(1000), unique=True)
-    __password = Column(String(1000), unique=False)
-    __phone_number = Column(String(15), unique=True)
-    __gb = Column(Integer, unique=False, nullable=True)
-    __minutes = Column(Integer, unique=False, nullable=True)
-    __balance = Column(Integer, unique=False, nullable=True)
-    __main_tariff = relationship("Tariff")
+    username = Column(String(1000), unique=True)
+    password = Column(String(1000), unique=False)
+    phone_number = Column(String(15), unique=True)
+    gb = Column(Integer, unique=False)
+    minutes = Column(Integer, unique=False)
+    balance = Column(Integer, unique=False)
+    main_tariff = relationship("Tariff")
     __tablename__ = 'user_account'
-

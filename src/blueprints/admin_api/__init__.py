@@ -55,14 +55,9 @@ def get_list_of_tariff():
 # @jwt_required()
 @use_kwargs(TariffSchema)
 def edit_tariffs(tariff_id, **kwargs):
-    print(tariff_id)
     data = request.json
-    print(data)
-    print(type(data['gb']))
     if HandleAdmin.update_tariffs(tariff_id, **kwargs) is None:
-
         return {'error': 'good'}, 403
-    #HandleAdmin.create_new_tariff(**data)
     return {'message': 'good'}
 
 
