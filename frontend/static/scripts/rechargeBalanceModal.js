@@ -32,7 +32,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // Выполнение дополнительных действий с суммой для пополнения баланса
         console.log('Amount to Recharge:', amount);
 
+         fetch('http://93.175.7.10:5000/url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
+            },
+            body: JSON.stringify(gbAmount)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Неправильно введено количество гигабайт');
+            }
+            return response.json();
+        })
+            .then(data => {
+                console.log('Успешная покупка:', data);
+                window.location.href = `/user/${gbAmount['username']}/dashboard?jwt=${data['access_token']}`;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                // Добавьте обработку ошибки, например, вывод сообщения пользователю
+                alert(error.message); // Отображаем сообщение об ошибке пользователю
+                window.location.href = `/user/${gbAmount['username']}/dashboard?jwt=${data['access_token']}`;
+            });
+    });
         // Скрыть модальное окно после отправки формы
         rechargeBalanceModal.style.display = 'none';
-    });
 });
