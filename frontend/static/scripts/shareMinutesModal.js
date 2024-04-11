@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log('Успешный перевод:', data);
                 shareMINModal.style.display = 'none';
-                new Notification('Перевод успешно завершен');
+                alert('Перевод успешно завершен!');
             })
             .catch(error => {
                 console.error('Ошибка:', error);
