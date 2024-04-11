@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Получаем username из URL
     const path = window.location.pathname;
     const parts = path.split('/');
-    const username = parts[2] // Предполагается, что username находится во второй части пути
+    const username = parts[2]; // Предполагается, что username находится во второй части пути
 
     // Получаем доступ к модальному окну "Поделиться ГБ" и кнопке, открывающей его
     const shareGBModal = document.getElementById('share-gb-modal');
