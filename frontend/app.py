@@ -107,9 +107,6 @@ def user_login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        access_token = create_access_token(identity=username, additional_claims={"role": "user"})
-        role = "user"
-        return redirect(url_for('user_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('user_login.html')
 
@@ -125,9 +122,6 @@ def user_register():
         sex = request.form.get("sex")
         username = request.form.get("username")
         password = request.form.get("password")
-        access_token = create_access_token(identity=username, additional_claims={"role": "user"})
-        role = "user"
-        return redirect(url_for('user_dashboard', username=username, jwt=access_token, role=role))
     else:
         return render_template('user_register.html', tariffs=tariffs)
 
