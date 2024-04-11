@@ -53,7 +53,7 @@ def data_of_users(username):
 
 
 @user.route('/share_gb/<string:username>', methods=['POST'])
-@use_kwargs(ShareSchema)
+@use_kwargs(ShareSchema(only=['phone_number', 'value']))
 def share_gb(username, **kwargs):
     res = HandleUser.share_gb_with_friend(username, **kwargs)
     if res is None:
@@ -64,7 +64,7 @@ def share_gb(username, **kwargs):
 
 
 @user.route('/share_minute/<string:username>', methods=['POST'])
-@use_kwargs(ShareSchema)
+@use_kwargs(ShareSchema(only=['phone_number', 'value']))
 def share_minute(username, **kwargs):
     res = HandleUser.share_minute_with_friend(username, **kwargs)
     if res is None:
@@ -74,7 +74,54 @@ def share_minute(username, **kwargs):
     return {'message': 'good'}, 200
 
 
-"""
 @user.route('/buy_gb/<string:username>', methods=["POST"])
-@use_kwargs({f})
+@use_kwargs(ShareSchema(only=['value']))
+def buy_gb(username, value):
+    res = HandleUser.handle_buy_gb(username, value)
+    if not res:
+        return {"error": "Not enough money"}, 406
+    return {'message': 'Successed'}, 200
+
+
+@user.route('/buy_minute/<string:username>', methods=["POST"])
+@use_kwargs(ShareSchema(only=['value']))
+def buy_minute(username, value):
+    res = HandleUser.handle_buy_minute(username, value)
+    if not res:
+        return {"error": "Not enough money"}, 406
+    return {'message': 'Successed'}, 200
+
+
+@user.route('/deposit/<string:username>', methods=["POST"])
+@use_kwargs(ShareSchema(only=['value']))
+def deposit(username, value):
+    HandleUser.deposit_money(username, value)
+    return {'message': 'Successed'}, 200
+
+
 """
+@user.route('/change_tariff/<string:username>', methods=["POST"])
+@use_kwargs(ShareSchema(only=['value']))
+def change_tariff(username, ):
+    HandleUser.change_tariff(username, value)
+    return {'message': 'Successed'}, 200
+"""
+
+
+@user.route('/pay_tariff/<string:username>', methods=["POST"])
+def pay_tariff(username):
+    res = HandleUser.user_pay_tariff(username)
+    if not res:
+        return {"error": "Not enough money"}, 406
+    return {'message': 'Successed'}, 200
+
+
+@user.route('/change_tariff/<string:username>', methods=["POST"])
+@use_kwargs(ShareSchema(only=['tariff_id']))
+def change_tariff(username, tariff_id):
+    res = HandleUser.change_tariff(username, tariff_id)
+    if res:
+        return {"error": "Not such tariff"}, 406
+    return {'message': 'Successed'}, 200
+
+

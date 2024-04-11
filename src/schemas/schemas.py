@@ -63,6 +63,7 @@ class ShareSchema(Schema):
     phone_number = fields.String(required=True, validate=[
         validate.Length(max=250)])
     value = fields.Integer(required=True)
+    tariff_id = fields.Integer()
 
 class DataSchema(Schema):
     gb = fields.Integer(required=False)

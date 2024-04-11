@@ -38,7 +38,7 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def share_gb_with_friend(username, phone_number, value):
-        user = database.get_object(UserAccount, (UserAccount.get_password(UserAccount) == username, True))
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
         if user is None:
             return None
         if user.get_gb() <= value:
@@ -50,7 +50,7 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def share_minute_with_friend(username, phone_number, value):
-        user = database.get_object(UserAccount, (UserAccount.get_password(UserAccount) == username, True))
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
         if user is None:
             return None
         if user.get_minutes() <= value:
@@ -62,38 +62,37 @@ class HandleUser(UserAccount):
 
     @staticmethod
     def deposit_money(username, value):
-        amount = GetCorrectValue.get_number(min_value=1,
-                                            max_value=10000,
-                                            first_out=UserConstants.ENTER_AMOUNT,
-                                            second_out=UserConstants.ENTER_VALID_AMOUNT)
-        user.deposit(amount)
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
+        user.deposit(value)
         database.insert(user)
 
     @staticmethod
-    def change_tariff(user):
-        list_of_tariff = database.query(Tariff)
-        HandleUser.display_tariffs(list_of_tariff)
-
-        get_id = GetCorrectValue.get_number(max_value=10000,
-                                            first_out=UserConstants.SELECT_TARIFF,
-                                            second_out=UserConstants.CHOOSE_VALID_OPTION_OF_SERVICES)
-
-        tariff = database.get_object(Tariff, (Tariff.id == get_id, True))
+    def change_tariff(username, tariff_id):
+        tariff = database.get_object(Tariff, (Tariff.id == tariff_id, True))
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
+        if tariff is None:
+            return True
         user.set_tariff(tariff)
         database.insert(user)
+        return False
 
     @staticmethod
-    def handle_buy_gb(user):
-        HandleUser.__handle_buy_traffic(user, user.buy_gb, UserConstants.ENTER_VALUE_GB, "руб/гб")
+    def handle_buy_gb(username, value):
+        return HandleUser.__handle_buy_traffic(username, value, 'buy_gb')
 
     @staticmethod
-    def handle_buy_minute(user):
-        HandleUser.__handle_buy_traffic(user, user.buy_minute, UserConstants.ENTER_VALUE_MINUTE, "руб/мин")
+    def handle_buy_minute(username, value):
+        return HandleUser.__handle_buy_traffic(username, value, 'buy_min')
 
     @staticmethod
-    def user_pay_tariff(user):
-        print(user.pay_tariff())
-        database.insert(user)
+    def user_pay_tariff(username):
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
+        if user is None:
+            return None
+        res = user.pay_tariff()
+        if res:
+            database.insert(user)
+        return res
 
     @staticmethod
     def display_tariffs(tariffs):
@@ -115,12 +114,16 @@ class HandleUser(UserAccount):
         return True
 
     @staticmethod
-    def __handle_buy_traffic(user, buy_function, input_message, output_message):
-        value = GetCorrectValue.get_number(first_out=f"{input_message}"
-                                                     f" {user.get_tariff().get_cost_one_gb()}{output_message}.?: ",
-                                           second_out=UserConstants.ENTER_VALID_VALUE)
-        print(buy_function(value))
-        database.insert(user)
+    def __handle_buy_traffic(username, value, buy_func_key):
+        user = database.get_object(UserAccount, (UserAccount.get_username(UserAccount) == username, True))
+        buy_func = {
+            'buy_gb': user.buy_gb,
+            'buy_min': user.buy_minute
+        }
+        res = buy_func[buy_func_key](value)
+        if res:
+            database.insert(user)
+        return res
 
     @staticmethod
     def is_user(methods, attribute):
