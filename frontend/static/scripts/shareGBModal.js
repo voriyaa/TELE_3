@@ -56,7 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(data => {
-                console.log('Успешный перевод:', data);
+                console.log('Успешный перевод:');
+                shareGBModal.style.display = 'none';
+                new Notification('Перевод успешно завершен');
             })
             .catch(error => {
                 console.error('Ошибка:', error);
