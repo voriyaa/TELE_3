@@ -22,7 +22,7 @@ document.getElementById('create-tariff-form').addEventListener('submit', functio
     });
 
     // Отправляем данные на сервер
-    fetch('http://93.175.7.10:5000/api/login/create_tariif', {
+    fetch('http://93.175.7.10:5000/api/login/create_tariff', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ document.getElementById('create-tariff-form').addEventListener('submit', functio
         }
         // После успешного создания тарифа закрываем модальное окно
         closeModal();
-         alert('Успешно!');
+        alert('Успешно!');
     })
     .catch(error => {
         console.error('Ошибка:', error);
