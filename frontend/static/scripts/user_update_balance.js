@@ -1,3 +1,0 @@
-function userUpdBalance() {
-    fetch('/', {})
-}

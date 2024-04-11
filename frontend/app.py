@@ -22,9 +22,10 @@ ACCESS_CODE = "12345"
 
 # Ваша база данных тарифов
 tariffs = [
-    {"name": "Тариф 1", "price": 100},
-    {"name": "Тариф 2", "price": 200},
-    {"name": "Тариф 3", "price": 300}
+    {},
+    {"tariff_id": "1", "name": "Тариф 1", "price": 100},
+    {"tariff_id": "2", "name": "Тариф 2", "price": 200},
+    {"tariff_id": "3", "name": "Тариф 3", "price": 300}
 ]
 
 
