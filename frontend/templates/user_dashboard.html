@@ -9,7 +9,7 @@
 <body>
     <h1>Добрый день, {{ username }}!</h1>
     <ul>
-        <li><a href="#">Мой профиль</a></li>
+        <li><a href="#" onclick="openProfileModal()">Мой профиль</a></li>
         <li><a href="#" id="share-gb-button">Поделиться ГБ</a></li>
         <li><a href="#" id="share-minutes-button">Поделиться минутами</a></li>
         <li><a href="#" id="recharge-balance-button">Пополнить баланс</a></li>
@@ -22,6 +22,15 @@
         <button type="submit" class="logout-button">Выйти с аккаунта</button>
     </form>
 
+    <!-- Модальное окно для информации о пользователе -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <div id="profile-modal-content">
+                <!-- Здесь будет отображаться информация о пользователе -->
+            </div>
+        </div>
+    </div>
     <!-- Модальное окно для поделиться ГБ -->
     <div id="share-gb-modal" class="modal">
         <div class="modal-content">
@@ -91,6 +100,7 @@
     </div>
 
     <!-- Подключение скриптов -->
+    <script src="/static/scripts/user_my_profile_script.js"></script>
     <script src="/static/scripts/shareGBModal.js"></script>
     <script src="/static/scripts/shareMinutesModal.js"></script>
     <script src="/static/scripts/rechargeBalanceModal.js"></script>
