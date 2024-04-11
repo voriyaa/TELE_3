@@ -16,6 +16,7 @@
         <div class="buttons">
             <ul>
                 <li><a href="#" onclick="openModal()">Создать Тариф</a></li>
+                <li><a href="#" onclick="openChangeTariffModal()">Изменить Тариф</a></li>
                 <li><a href="#" onclick="openTariffList()">Список Тарифов</a></li>
             </ul>
             <form action="/" method="GET">
@@ -31,15 +32,15 @@
             <h3>Создать Тариф</h3>
             <form id="create-tariff-form">
                 <label for="gb">Сколько GB:</label>
-                <input type="text" id="gb" name="gb" required><br>
+                <input type="number" id="gb" name="gb" required min="0" step="1"><br>
                 <label for="minute">Сколько минут:</label>
-                <input type="text" id="minute" name="minute" required><br>
+                <input type="number" id="minute" name="minute" required min="0" step="1"><br>
                 <label for="cost_one_gb">Цена за 1 GB:</label>
-                <input type="text" id="cost_one_gb" name="cost_one_gb" required><br>
+                <input type="number" id="cost_one_gb" name="cost_one_gb" required min="0" step="0.01"><br>
                 <label for="cost_one_minute">Цена за 1 минуту:</label>
-                <input type="text" id="cost_one_minute" name="cost_one_minute" required><br>
+                <input type="number" id="cost_one_minute" name="cost_one_minute" required min="0" step="0.01"><br>
                 <label for="price">Общий прайс:</label>
-                <input type="text" id="price" name="price" required><br>
+                <input type="number" id="price" name="price" required min="0" step="0.01"><br>
                 <button type="submit">Создать</button>
             </form>
         </div>
@@ -66,8 +67,31 @@
         </div>
     </div>
 
+    <div id="change-tariff-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeChangeTariffModal()">&times;</span>
+            <h3>Изменить Тариф</h3>
+            <form id="change-tariff-form">
+                <label for="change-tariff-id">ID Тарифа:</label>
+                <input type="number" id="change-tariff-id" name="id" required min="0" step="1"><br>
+                <label for="gb">Новое количество GB:</label>
+                <input type="number" id="change-gb" name="gb" required min="0" step="1"><br>
+                <label for="minute">Новое количество минут:</label>
+                <input type="number" id="change-minute" name="minute" required min="0" step="1"><br>
+                <label for="cost_one_gb">Новая цена за 1 GB:</label>
+                <input type="number" id="change-cost_one_gb" name="cost_one_gb" required min="0" step="0.01"><br>
+                <label for="cost_one_minute">Новая цена за 1 минуту:</label>
+                <input type="number" id="change-cost_one_minute" name="cost_one_minute" required min="0" step="0.01"><br>
+                <label for="price">Новый общий прайс:</label>
+                <input type="number" id="change-price" name="price" required min="0" step="0.01"><br>
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Подключение внешнего JavaScript файла -->
     <script src="/static/scripts/create_tariff_modal_script.js"></script>
+    <script src="/static/scripts/change_tariff_modal_script.js"></script>
     <script src="/static/scripts/tariff_list_modal_script.js"></script>
 </body>
 </html>

@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         for (const [key, value] of formData.entries()) {
             jsonData[key] = value;
         }
-        console.log(jsonData)
-
         fetch('http://93.175.7.10:5000/api/login', {
             method: 'POST',
             headers: {
