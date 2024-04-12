@@ -3,6 +3,7 @@ from sqlalchemy import ForeignKey
 from src.BaseUser.BaseUser import BaseUser, Column, String, Integer
 from sqlalchemy.orm import relationship
 from src.Tariffs.Tariff import Tariff
+from src.Tools.MyHashFunc import HashFunction
 
 
 class UserAccount(BaseUser):
@@ -14,7 +15,7 @@ class UserAccount(BaseUser):
                  phone_number: str, main_tariff: Tariff, gb=0, minutes=0, balance=0) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.username = username
-        self.password = password
+        self.password = HashFunction.sha256_str(password)
         self.phone_number = phone_number
         self.gb = 0
         self.minutes = 0

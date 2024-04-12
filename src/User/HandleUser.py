@@ -2,7 +2,6 @@ from src.User.UserAccount import UserAccount, Tariff
 from src.Authorization.Authorization import database
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
-from src.Tools.MyHashFunc import sha256
 
 
 class HandleUser(UserAccount):
