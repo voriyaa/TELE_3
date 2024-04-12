@@ -70,7 +70,7 @@ def share_minute(username, **kwargs):
     if res is None:
         return {"error": "There is no user with this phone_number"}, 409
     if not res:
-        return {"error": "Not enough gb"}, 410
+        return {"error": "Not enough minute"}, 410
     return {'message': 'good'}, 200
 
 
