@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
     const parts = path.split('/');
-    const username = parts[2] // Предполагается, что username находится во второй части пути
+    const username = parts[2]; // Добавлена точка с запятой
+
+    if (!username) {
+        console.error('Username not found in URL path');
+        return;
+    }
 
     const buyGBModal = document.getElementById('buy-gb-modal');
     const buyGBButton = document.getElementById('buy-gb-button');
@@ -28,30 +33,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const gbAmount = document.getElementById('gb-amount').value;
 
-        console.log(gbAmount)
-        //Todo поменять ссыль
-        fetch('http://93.175.7.10:5000/user/buyGB/${username}', {
+        console.log(gbAmount);
+        fetch(`http://93.175.7.10:5000/user/buy_gb/${username}`, { // Добавлены фигурные скобки {}
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(gbAmount)
+            body: JSON.stringify({ value: gbAmount }) // Объект должен содержать ключевое значение
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Неправильно введено количество гигабайт');
             }
             return response.json();
         })
-            .then(data => {
-                console.log('Успешная покупка:', data);
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                // Добавьте обработку ошибки, например, вывод сообщения пользователю
-                alert(error.message); // Отображаем сообщение об ошибке пользователю
-            });
+        .then(data => {
+            console.log('Успешная покупка:', data);
+            buyGBModal.style.display = 'none';
+            alert('Успешная покупка!');
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert(error.message);
+        });
     });
 
     buyGBModal.style.display = 'none';
-})
-;
+});

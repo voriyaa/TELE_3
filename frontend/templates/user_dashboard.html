@@ -40,7 +40,7 @@
                 <label for="phone_number">Номер получателя:</label>
                 <input type="text" id="phone_number" name="phone_number" required><br>
                 <label for="value">Сколько GB отправить:</label>
-                <input type="text" id="value" name="value" required><br>
+                <input type="number" id="value" name="value" min="1" step="1" required><br>
                 <button type="submit">Поделиться</button>
             </form>
         </div>
@@ -55,7 +55,7 @@
                 <label for="phone_number">Номер получателя:</label>
                 <input type="text" id="phone_number_min" name="phone_number" required><br>
                 <label for="value">Сколько минут отправить:</label>
-                <input type="text" id="value_min" name="value" required><br>
+                <input type="number" id="value_min" name="value" min="1" step="1" required><br>
                 <button type="submit">Поделиться</button>
             </form>
         </div>
@@ -68,7 +68,7 @@
             <h3>Пополнить баланс</h3>
             <form id="recharge-balance-form">
                 <label for="amount">Сумма в рублях:</label>
-                <input type="text" id="amount" name="amount" required><br>
+                <input type="number" id="amount" name="amount" min="1" step="1" required><br>
                 <button type="submit">Пополнить</button>
             </form>
         </div>
@@ -79,8 +79,8 @@
             <span class="close" id="close-buy-gb-modal-button">&times;</span>
             <h3>Купить ГБ</h3>
             <form id="buy-gb-form">
-                <label for="gb-amount">Сколько GB купить:</label>
-                <input type="text" id="gb-amount" name="gb-amount" required><br>
+                <label for="value">Сколько GB купить:</label>
+                <input type="number" id="gb-amount" name="value" min="1" step="1" required><br>
                 <button type="submit">Купить</button>
             </form>
         </div>
@@ -92,8 +92,8 @@
             <span class="close" id="close-buy-minutes-modal-button">&times;</span>
             <h3>Купить минуты</h3>
             <form id="buy-minutes-form">
-                <label for="minutes-amount">Сколько минут купить:</label>
-                <input type="text" id="minutes-amount" name="minutes-amount" required><br>
+                <label for="value">Сколько минут купить:</label>
+                <input type="number" id="minutes-amount" name="value" min="1" step="1" required><br>
                 <button type="submit">Купить</button>
             </form>
         </div>

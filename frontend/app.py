@@ -15,8 +15,6 @@ app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['JWT_BLACKLIST_ENABLED'] = True
 jwt = JWTManager(app)
 
-base_url = "http://localhost:2000"
-
 # Код доступа
 ACCESS_CODE = "12345"
 

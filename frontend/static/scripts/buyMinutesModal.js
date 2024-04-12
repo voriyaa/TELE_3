@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
     const parts = path.split('/');
-    const username = parts[2] // Предполагается, что username находится во второй части пути
+    const username = parts[2]; // Предполагается, что username находится во второй части пути
 
     const buyMinutesModal = document.getElementById('buy-minutes-modal');
     const buyMinutesButton = document.getElementById('buy-minutes-button');
@@ -27,13 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
 
         const minutesAmount = document.getElementById('minutes-amount').value;
-        //Todo поменять ссыль
-        fetch('http://93.175.7.10:5000/user/login/buy_minute/${username}', {
+        fetch(`http://93.175.7.10:5000/user/buy_minute/${username}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
             },
-            body: JSON.stringify(minutesAmount)
+            body: JSON.stringify({value: minutesAmount})
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Неправильно введено количество гигабайт');
@@ -42,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(data => {
                 console.log('Успешная покупка:', data);
+                buyMinutesModal.style.display = 'none';
+                alert('Успешная покупка!');
             })
             .catch(error => {
                 console.error('Ошибка:', error);
