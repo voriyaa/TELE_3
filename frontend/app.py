@@ -2,12 +2,14 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from functools import wraps
 import requests
+from src.Constants import Config
+from src.Tools.MyHashFunc import HashFunction
 
 
 app = Flask(__name__)
 
 # Код доступа
-ACCESS_CODE = "12345"
+ACCESS_CODE = Config.SECRET_KEY
 
 
 def extract_jwt_from_query_param():
@@ -75,7 +77,7 @@ def admin_access():
     error = None
     if request.method == "POST":
         access_code = request.form.get("access_code")
-        if access_code == ACCESS_CODE:
+        if HashFunction.sha256_str(access_code) == ACCESS_CODE:
             return redirect(url_for('admin_login'))
         else:
             error = "Неверный код доступа"
