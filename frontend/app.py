@@ -105,7 +105,7 @@ def user_register():
         username = request.form.get("username")
         password = request.form.get("password")
     else:
-        return render_template('user_register.html', tariffs=tariffs)
+        return render_template('user_register.html')
 
 
 @app.route("/user/<username>/dashboard", methods=["POST", "GET"])

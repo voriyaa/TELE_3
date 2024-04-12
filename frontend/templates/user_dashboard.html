@@ -14,10 +14,10 @@
         <li><a href="#" id="share-minutes-button">Поделиться минутами</a></li>
         <li><a href="#" id="recharge-balance-button">Пополнить баланс</a></li>
         <li><a href="#" onclick="openTariffList()">Список тарифов</a></li>
-        <li><a href="#">Поменять тариф</a></li>
+        <li><a href="#" onclick="openChangeTariffModal()">Изменить тариф</a></li>
         <li><a href="#" id="buy-gb-button">Купить ГБ</a></li>
         <li><a href="#" id="buy-minutes-button">Купить минуты</a></li>
-        <li><a href="#">Оплатить тариф</a></li>
+        <li><a href="#" id="pay-tariff-button">Оплатить тариф</a></li>
     </ul>
     <form action="/" method="GET">
         <button type="submit" class="logout-button">Выйти с аккаунта</button>
@@ -65,16 +65,17 @@
 
     <!-- Модальное окно для пополнения баланса -->
     <div id="recharge-balance-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-recharge-balance-button">&times;</span>
-            <h3>Пополнить баланс</h3>
-            <form id="recharge-balance-form">
-                <label for="amount">Сумма в рублях:</label>
-                <input type="number" id="amount" name="amount" min="1" step="1" required><br>
-                <button type="submit">Пополнить</button>
-            </form>
-        </div>
+    <div class="modal-content">
+        <span class="close" id="close-recharge-balance-button">&times;</span>
+        <h3>Пополнить баланс</h3>
+        <form id="recharge-balance-form">
+            <label for="amount">Сумма в рублях:</label>
+            <input type="number" id="value_recharge" name="value" min="1" step="1" required><br>
+            <button type="submit">Пополнить</button>
+        </form>
     </div>
+</div>
+
 
     <!-- Модальное окно для покупки ГБ -->
     <div id="buy-gb-modal" class="modal">
@@ -122,7 +123,19 @@
             </table>
         </div>
     </div>
-
+    <!-- Модальное окно для изменения тарифа -->
+    <div id="change-tariff-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeChangeTariffModal()">&times;</span>
+            <h3>Изменить тариф</h3>
+            <form id="change-tariff-form">
+                <label for="tariff-id">Номер тарифа:</label>
+                <input type="number" id="tariff-id" name="id" min="1" step="1" required><br>
+                <!-- Добавьте другие поля для изменения тарифа, если необходимо -->
+                <button type="submit">Изменить</button>
+            </form>
+        </div>
+    </div>
     <!-- Подключение скриптов -->
     <script src="/static/scripts/user_my_profile_script.js"></script>
     <script src="/static/scripts/shareGBModal.js"></script>
@@ -131,5 +144,10 @@
     <script src="/static/scripts/buyGBModal.js"></script>
     <script src="/static/scripts/buyMinutesModal.js"></script>
     <script src="/static/scripts/tariff_list_modal_script.js"></script>
+    <script src="/static/scripts/user_pay_tariff.js"></script>
+    <script src="/static/scripts/user_change_tariff.js"></script>
+
+
+
 </body>
 </html>
