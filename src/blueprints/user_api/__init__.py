@@ -99,15 +99,6 @@ def deposit(username, value):
     return {'message': 'Successed'}, 200
 
 
-"""
-@user.route('/change_tariff/<string:username>', methods=["POST"])
-@use_kwargs(ShareSchema(only=['value']))
-def change_tariff(username, ):
-    HandleUser.change_tariff(username, value)
-    return {'message': 'Successed'}, 200
-"""
-
-
 @user.route('/pay_tariff/<string:username>', methods=["POST"])
 def pay_tariff(username):
     res = HandleUser.user_pay_tariff(username)
