@@ -1,12 +1,6 @@
 from src.BaseUser.BaseUser import BaseUser, Column, String, Integer
 from src.Tariffs.Tariff import Tariff
-from hashlib import sha256
-
-
-def sha256_str(item):
-    return sha256(str(item).encode()).hexdigest()
-
-
+from src.Tools.MyHashFunc import HashFunction
 class AdminAccount(BaseUser):
     id = Column(Integer, primary_key=True)
 
@@ -14,7 +8,7 @@ class AdminAccount(BaseUser):
                  username: str, password: str, phone_number: str) -> None:
         super().__init__(first_name, last_name, birth_date, passport_id, sex)
         self.__username = username
-        self.__password = password
+        self.__password = HashFunction.sha256_str(password)
         self.__phone_number = phone_number
 
     def get_username(self) -> str:

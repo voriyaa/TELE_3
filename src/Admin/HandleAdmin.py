@@ -1,49 +1,59 @@
 # -*- coding: utf-8 -*-
 from src.Admin.AdminAccount import AdminAccount, Tariff
 from src.Authorization.Authorization import database
-from src.Tools.GetInfo import GetInfo
-from src.Tools.GetCorrectValue import GetCorrectValue
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
+from src.Tools.MyHashFunc import sha256
 
 
 class HandleAdmin(AdminAccount):
+    @staticmethod
+    def create_admin_account(**kwargs):
+        admin = AdminAccount(**kwargs)
+        database.insert(admin)
+        return HandleAdmin.get_token(admin)
 
     @staticmethod
-    def create_new_tariff(admin):
-        info = GetInfo.info_tariff()
+    def get_admin(username, password):
+        admin = database.get_object(AdminAccount, (AdminAccount.get_username(AdminAccount) == username,
+                                                   AdminAccount.get_password(AdminAccount) == sha256(password)))
+        return admin
 
-        new_tariff = admin.create_tariff(info['cost_one_gb'], info['cost_one_minute'],
-                                         info['gb'], info['minute'], info['price'])
+    @staticmethod
+    def is_admin(methods, attribute):
+        getter = {'username': AdminAccount.get_username,
+                  'passport_id': AdminAccount.get_passport_id,
+                  'phone_number': AdminAccount.get_phone_number
+                  }
+        return database.find(AdminAccount, (getter[methods](AdminAccount) == attribute, True))
+
+    @staticmethod
+    def create_new_tariff(**kwargs):
+        new_tariff = AdminAccount.create_tariff(**kwargs)
 
         database.insert(new_tariff)
 
     @staticmethod
-    def update_existing_tariff(admin):
-        list_of_tariff = database.query(Tariff)
-
-        option = input(AdminConstants.SELECT_SERVICE)
-        while not (
-                option.isdigit() and
-                list_of_tariff[0].id <= int(option) <= list_of_tariff[list_of_tariff.count() - 1].id
-        ):
-            option = input(AdminConstants.CHOOSE_VALID_OPTION_OF_SERVICES)
-        option = int(option)
-
-        info = GetInfo.info_tariff()
-
-        tariff = database.get_object(Tariff, (Tariff.id == option, True))
-        admin.change_tariff(tariff, info['gb'], info['minute'],
-                            info['cost_one_gb'], info['cost_one_minute'], info['price'])
-
-        database.insert(tariff)
-
+    def update_tariffs(tariff_id, **kwargs):
+        tariff = database.get_object(Tariff, (Tariff.id == tariff_id, True))
+        if tariff is None:
+            return
+        AdminAccount.change_tariff(tariff, **kwargs)
+        return True
 
     @staticmethod
-    def view_tariffs():
-        list_of_tariff = database.query(Tariff)
+    def get_token(admin, expire_time=24):
+        expire_delta = timedelta(expire_time)
+        token = create_access_token(
+            identity=admin.get_username(), expires_delta=expire_delta, additional_claims={'role': 'admin'})
+        return token
 
-        print(AdminConstants.LIST_SERVICES)
-        for elem in list_of_tariff:
-            print(
-                f"{elem.id}: {elem.get_gb()}ГБ. | {elem.get_minutes()}мин. |"
-                f" {elem.get_cost_one_gb()}руб/гб. "
-                f"| {elem.get_cost_one_minute()}руб/гб. | {elem.get_price()}руб.")
+    @staticmethod
+    def get_list_of_tariffs():
+        list_of_tariff = database.query(Tariff)
+        return list_of_tariff
+
+    @staticmethod
+    def get_tariff_by_id(tariff_id):
+        tariff = database.get_object(Tariff, (Tariff.id == tariff_id, True))
+        return tariff
