@@ -116,4 +116,33 @@ form button.logout-button:hover {
     }
 }
 
+/* Добавленные стили для таблицы тарифов у пользователя */
 
+#tariff-list-modal .modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#tariff-list-modal .modal-content th,
+#tariff-list-modal .modal-content td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff; /* Указываем белый фон для ячеек таблицы */
+    color: #333; /* Цвет текста */
+}
+
+#tariff-list-modal .modal-content th {
+    background-color: #007bff; /* Синий цвет фона для заголовков */
+    color: #fff; /* Белый цвет текста */
+}
+
+#tariff-list-modal .modal-content th:first-child,
+#tariff-list-modal .modal-content td:first-child {
+    border-top-left-radius: 10px;
+}
+
+#tariff-list-modal .modal-content th:last-child,
+#tariff-list-modal .modal-content td:last-child {
+    border-top-right-radius: 10px;
+}

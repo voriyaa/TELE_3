@@ -13,6 +13,7 @@
         <li><a href="#" id="share-gb-button">Поделиться ГБ</a></li>
         <li><a href="#" id="share-minutes-button">Поделиться минутами</a></li>
         <li><a href="#" id="recharge-balance-button">Пополнить баланс</a></li>
+        <li><a href="#" onclick="openTariffList()">Список тарифов</a></li>
         <li><a href="#">Поменять тариф</a></li>
         <li><a href="#" id="buy-gb-button">Купить ГБ</a></li>
         <li><a href="#" id="buy-minutes-button">Купить минуты</a></li>
@@ -31,6 +32,7 @@
             </div>
         </div>
     </div>
+
     <!-- Модальное окно для поделиться ГБ -->
     <div id="share-gb-modal" class="modal">
         <div class="modal-content">
@@ -73,6 +75,7 @@
             </form>
         </div>
     </div>
+
     <!-- Модальное окно для покупки ГБ -->
     <div id="buy-gb-modal" class="modal">
         <div class="modal-content">
@@ -99,6 +102,27 @@
         </div>
     </div>
 
+    <!-- Модальное окно для списка тарифов -->
+    <div id="tariff-list-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTariffListModal()">&times;</span>
+            <h3>Список Тарифов</h3>
+            <table id="tariff-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>GB</th>
+                        <th>Минуты</th>
+                        <th>Цена за 1 GB</th>
+                        <th>Цена за 1 минуту</th>
+                        <th>Общий прайс</th>
+                    </tr>
+                </thead>
+                <tbody id="tariff-list"></tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Подключение скриптов -->
     <script src="/static/scripts/user_my_profile_script.js"></script>
     <script src="/static/scripts/shareGBModal.js"></script>
@@ -106,5 +130,6 @@
     <script src="/static/scripts/rechargeBalanceModal.js"></script>
     <script src="/static/scripts/buyGBModal.js"></script>
     <script src="/static/scripts/buyMinutesModal.js"></script>
+    <script src="/static/scripts/tariff_list_modal_script.js"></script>
 </body>
 </html>
