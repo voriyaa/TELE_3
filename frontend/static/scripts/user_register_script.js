@@ -2,13 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const userRegistrationForm = document.getElementById('userRegistrationForm');
 
     userRegistrationForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+        event.preventDefault();
 
-        //const formData = new FormData(userRegistrationForm);
         const formData = new FormData(userRegistrationForm)
         const jsonData = {};
 
-        // Преобразование formData в JSON
         for (const [key, value] of formData.entries()) {
             jsonData[key] = value;
         }
@@ -19,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('http://93.175.7.10:5000/user/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonData)
         })
@@ -41,21 +39,18 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 console.log('Успешная регистрация:', data);
-                // Показываем встроенное уведомление об успешной регистрации
                 Notification.requestPermission().then(function (result) {
                     if (result === 'granted') {
                         new Notification('Регистрация успешно завершена');
                     }
                 });
-                // Если регистрация прошла успешно, перенаправляем на страницу логина
                 setTimeout(() => {
                     window.location.href = "/user/login";
-                }, 1000); // Перенаправление через 1 секунду
+                }, 1000);
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                // Добавьте обработку ошибки, например, вывод сообщения пользователю
-                alert(error.message); // Отображаем сообщение об ошибке пользователю
+                alert(error.message);
                 window.location.href = "/user/register";
             });
     });

@@ -1,24 +1,19 @@
-// Функция для открытия модального окна с информацией о пользователе
 function openProfileModal() {
     document.getElementById('profile-modal').style.display = 'block';
 }
 
-// Функция для закрытия модального окна с информацией о пользователе
 function closeProfileModal() {
     document.getElementById('profile-modal').style.display = 'none';
 }
 
-// Извлечение username из URL
 const path = window.location.pathname;
 const parts = path.split('/');
-const username = parts[2]; // Предполагается, что username находится во второй части пути
+const username = parts[2];
 
-// Создание объекта для отправки на сервер
 const requestData = {
     username: username
 };
 
-// Опции для запроса
 const options = {
     method: 'POST',
     headers: {
@@ -27,11 +22,9 @@ const options = {
     body: JSON.stringify(requestData)
 };
 
-// Отправка запроса на сервер
 fetch('http://93.175.7.10:5000/user/data_of_users', options)
     .then(response => response.json())
     .then(data => {
-        // Отображение информации о пользователе в модальном окне
         const profileModalContent = document.getElementById('profile-modal-content');
         profileModalContent.innerHTML = `
             <h2>Мой профиль</h2>

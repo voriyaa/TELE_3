@@ -2,22 +2,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const userLoginForm = document.getElementById('userLoginForm');
 
     userLoginForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+        event.preventDefault();
 
         const formData = new FormData(userLoginForm);
         const jsonData = {};
 
-        // Преобразование formData в JSON
         for (const [key, value] of formData.entries()) {
             jsonData[key] = value;
         }
         console.log(jsonData)
 
-        //TODO поменять ссыль
         fetch('http://93.175.7.10:5000/user/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonData)
         })
@@ -33,8 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                // Добавьте обработку ошибки, например, вывод сообщения пользователю
-                alert(error.message); // Отображаем сообщение об ошибке пользователю
+                alert(error.message);
                 window.location.href = "/user/login";
             });
     });

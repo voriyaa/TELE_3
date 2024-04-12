@@ -26,7 +26,6 @@ def jwt_required_from_query_param_admins(fn):
         if not token:
             return jsonify({"msg": "Missing JWT in query parameter"}), 401
         try:
-            # Отправляем запрос к серверу API для проверки токена
             response = requests.post('http://93.175.7.10:5000/api/check_token', json={'token': token})
             if response.status_code != 200:
                 return jsonify({"msg": "Invalid token"}), 401
@@ -50,7 +49,6 @@ def jwt_required_from_query_param_users(fn):
         if not token:
             return jsonify({"msg": "Missing JWT in query parameter"}), 401
         try:
-            # Отправляем запрос к серверу API для проверки токена
             response = requests.post('http://93.175.7.10:5000/api/check_token', json={'token': token})
             if response.status_code != 200:
                 return jsonify({"msg": "Invalid token"}), 401
@@ -122,7 +120,6 @@ def admin_login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        #СЮДА
     else:
         return render_template('admin_login.html')
 

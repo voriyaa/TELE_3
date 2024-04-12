@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const path = window.location.pathname;
     const parts = path.split('/');
-    const username = parts[2]; // Добавлена точка с запятой
+    const username = parts[2];
 
     if (!username) {
         console.error('Username not found in URL path');
@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const gbAmount = document.getElementById('gb-amount').value;
 
         console.log(gbAmount);
-        fetch(`http://93.175.7.10:5000/user/buy_gb/${username}`, { // Добавлены фигурные скобки {}
+        fetch(`http://93.175.7.10:5000/user/buy_gb/${username}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ value: gbAmount }) // Объект должен содержать ключевое значение
+            body: JSON.stringify({ value: gbAmount })
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Неправильно введено количество гигабайт');
