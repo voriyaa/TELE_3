@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, and_
 from src.BaseUser.BaseUser import Base
 from sqlalchemy.orm import sessionmaker
+from src.Constants import Config
 
 
 class ControlDataBase:
@@ -48,7 +49,7 @@ class ControlDataBase:
 
 
 # DATABASE_URL = 'postgresql://postgres:123@192.168.0.105:5432/test'
-
-database = ControlDataBase("sqlite:///VORIS.db")
+db_url = Config.DATABASE_URL
+database = ControlDataBase(db_url)
 database.create_tables()
 database.creat_session()
