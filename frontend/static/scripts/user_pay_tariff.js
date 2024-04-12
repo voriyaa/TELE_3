@@ -1,66 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userRegistrationForm = document.getElementById('userRegistrationForm');
+    const payTariffButton = document.getElementById('pay-tariff-button');
 
-    userRegistrationForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+    payTariffButton.addEventListener('click', function (event) {
+        event.preventDefault(); // Предотвращаем переход по ссылке по умолчанию
 
-        //const formData = new FormData(userRegistrationForm);
-        const formData = new FormData(userRegistrationForm)
-        const jsonData = {};
+        const path = window.location.pathname;
+        const parts = path.split('/');
+        const username = parts[2]; // Получаем имя пользователя из пути URL
 
-        // Преобразование formData в JSON
-        for (const [key, value] of formData.entries()) {
-            jsonData[key] = value;
-        }
-
-        jsonData['tariff_id'] = parseInt(document.getElementById('tariff_id').value);
-        console.log(jsonData)
-
-        fetch('http://93.175.7.10:5000/user/register', {
+        fetch(`http://93.175.7.10:5000/user/pay_tariff/${username}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Устанавливаем заголовок Content-Type
             },
-            body: JSON.stringify(jsonData)
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    // Проверяем статус ошибки
-                    if (response.status === 409) {
-                        throw new Error('Пользователь с таким номером паспорта уже зарегистрирован');
-                    } else if (response.status === 410) {
-                        throw new Error('Пользователь с таким номером телефона уже зарегистрирован');
-                    } else if (response.status === 411) {
-                        throw new Error('Пользователь с таким логином уже зарегистрирован');
-                    } else {
-                        throw new Error('Ошибка при регистрации');
-                    }
+                if (!response.ok) {
+                    throw new Error('Недостаточно средств на балансе');
                 }
+                return response.json(); // Возвращаем JSON-данные в следующий then()
             })
             .then(data => {
-                console.log('Успешная регистрация:', data);
-                // Показываем встроенное уведомление об успешной регистрации
-                Notification.requestPermission().then(function (result) {
-                    if (result === 'granted') {
-                        new Notification('Регистрация успешно завершена');
-                    }
-                });
-                // Если регистрация прошла успешно, перенаправляем на страницу логина
-                setTimeout(() => {
-                    window.location.href = "/user/login";
-                }, 1000); // Перенаправление через 1 секунду
+                console.log('Тариф успешно оплачен:', data);
+                alert('Тариф успешно оплачен');
             })
             .catch(error => {
-                console.error('Ошибка:', error);
-                // Добавьте обработку ошибки, например, вывод сообщения пользователю
-                alert(error.message); // Отображаем сообщение об ошибке пользователю
-                window.location.href = "/user/register";
+                console.error('Ошибка оплаты тарифа:', error);
+                alert('Произошла ошибка при оплате тарифа');
             });
     });
 });
 
 function goBack() {
-    window.location.href = "/user/login"
+    window.location.href = "/user/login";
 }
