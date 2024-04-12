@@ -18,6 +18,7 @@ class HandleAdmin(AdminAccount):
         admin = database.get_object(AdminAccount, (AdminAccount.get_username(AdminAccount) == username,
                                                    AdminAccount.get_password(AdminAccount) == sha256(password)))
         return admin
+
     @staticmethod
     def is_admin(methods, attribute):
         getter = {'username': AdminAccount.get_username,

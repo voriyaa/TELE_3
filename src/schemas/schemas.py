@@ -65,6 +65,7 @@ class ShareSchema(Schema):
     value = fields.Integer(required=True)
     tariff_id = fields.Integer()
 
+
 class DataSchema(Schema):
     gb = fields.Integer(required=False)
     user_minutes = fields.Integer(required=False)

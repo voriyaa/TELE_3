@@ -2,7 +2,7 @@
 from flask import Blueprint, request
 from flask_apispec import use_kwargs, marshal_with
 from flask_jwt_extended import decode_token
-from src.schemas.schemas import UserSchema, TariffSchema, AuthSchema, ShareSchema, DataSchema
+from src.schemas.schemas import UserSchema, AuthSchema, ShareSchema, DataSchema
 from src.Authorization.Authorization import Authorization as Auth
 from src.User.HandleUser import HandleUser
 
@@ -114,5 +114,3 @@ def change_tariff(username, tariff_id):
     if res:
         return {"error": "Not such tariff"}, 406
     return {'message': 'Successed'}, 200
-
-

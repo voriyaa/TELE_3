@@ -5,7 +5,6 @@ Base = declarative_base()
 
 
 class BaseUser(Base):
-
     id = Column(Integer, primary_key=True)
 
     def __init__(self, first_name: str, last_name: str,

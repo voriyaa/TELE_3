@@ -3,7 +3,6 @@ from src.BaseUser.BaseUser import Base
 
 
 class Tariff(Base):
-
     id = Column(Integer, primary_key=True)
 
     def __init__(self, cost_one_gb: int, cost_one_minute: int,
@@ -37,11 +36,9 @@ class Tariff(Base):
     def get_price(self):
         return self.price
 
-
     __tablename__ = 'tariff'
     cost_one_gb = Column(Integer, unique=False, nullable=True)
     cost_one_minute = Column(Integer, unique=False, nullable=True)
     gb = Column(Integer, unique=False, nullable=True)
     minute = Column(Integer, unique=False, nullable=True)
     price = Column(Integer, unique=False, nullable=True)
-
