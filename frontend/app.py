@@ -1,32 +1,13 @@
 import os
-from flask import Flask, session, render_template, request, redirect, url_for, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, verify_jwt_in_request, \
-    decode_token
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from functools import wraps
 import requests
 
-from flask_cors import CORS
 
 app = Flask(__name__)
 
-app.config['JWT_TOKEN_LOCATION'] = ['headers']
-app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
-app.config['SECRET_KEY'] = 'your_secret_key_here'
-app.config['JWT_BLACKLIST_ENABLED'] = True
-jwt = JWTManager(app)
-
-base_url = "http://localhost:2000"
-
 # Код доступа
 ACCESS_CODE = "12345"
-
-# Ваша база данных тарифов
-tariffs = [
-    {},
-    {"tariff_id": "1", "name": "Тариф 1", "price": 100},
-    {"tariff_id": "2", "name": "Тариф 2", "price": 200},
-    {"tariff_id": "3", "name": "Тариф 3", "price": 300}
-]
 
 
 def extract_jwt_from_query_param():
@@ -66,14 +47,15 @@ def jwt_required_from_query_param_users(fn):
         token = extract_jwt_from_query_param()
         if not token:
             return jsonify({"msg": "Missing JWT in query parameter"}), 401
-
         try:
-            decoded_token = decode_token(token)  # Декодируем токен
-            jwt_identity = decoded_token.get('sub')  # Получаем идентификатор пользователя из токена
-            jwt_role = decoded_token.get('role')  # Получаем роль пользователя из токена
-            if jwt_identity != kwargs['username']:
+            # Отправляем запрос к серверу API для проверки токена
+            response = requests.post('http://93.175.7.10:5000/api/check_token', json={'token': token})
+            if response.status_code != 200:
+                return jsonify({"msg": "Invalid token"}), 401
+            data = response.json()
+            if data['username'] != kwargs['username']:
                 return jsonify({"msg": "Invalid user for this token"}), 401
-            if jwt_role != 'user':  # Используем kwargs['role'] для проверки роли
+            if data['role'] != 'user':
                 return jsonify({"msg": "Insufficient role"}), 403
         except Exception as e:
             return jsonify({"msg": str(e)}), 401
@@ -155,6 +137,7 @@ def admin_register():
         phone_number = request.form.get("phone_number")
         username = request.form.get("username")
         password = request.form.get("password")
+
     else:
         return render_template('admin_register.html')
 
