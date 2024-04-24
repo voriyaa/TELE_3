@@ -11,10 +11,9 @@ app.config['JWT_SECRET_KEY'] = 'your_secret_key_here'
 JWTManager(app)
 CORS(app)
 
-# app.register_blueprint(primery_api)
 app.config.update({
     'APISPEC_SPEC': APISpec(
-        title='asfdsa',
+        title='Tele3Connection',
         version='v1',
         openapi_version='2.0',
         plugins=[MarshmallowPlugin()],
